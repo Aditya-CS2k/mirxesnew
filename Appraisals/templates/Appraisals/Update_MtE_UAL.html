@@ -1,0 +1,210 @@
+<!--Inherit HTML from parent class 'sidenav'-->
+
+<!--Load static is to load static files (HTML/CSS/Js)-->
+{%load static%}
+<!--To inform website version of HTML-->
+<!DOCTYPE html>
+<!--Inform website of language of HTML-->
+<html lang="en">
+<!--Header-->
+<head>
+    <!--HTML inheritance: overriding parent class title block(Django exclusive)-->
+    <title>{%block title%}Reject User Appraisal{%endblock%}</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+</head>
+<body>
+    {%block content%}
+    <!--HTML form, action on current page, use 'POST' method (secure)-->
+    <div class = "container col-6">
+        <br>
+        <div class = "card card-body">
+            <form action= "" method = "POST">
+                <div class="form-group">
+                    <!--Django Exclusive: CSRF token is a random, hard-to-guess string, prevent CSRF atk-->
+                    {%csrf_token%}
+                    
+                    <!--Generate form organised in paragraphs based on query on CreateCompetencies in GnC/views.py-->
+                    <h5>Reject Business Objectives, Behavioural Competencies and Skills?</h5>
+                    <br><br>
+
+<!--                    {{form.as_p}}-->
+                     <div class = "card card-table">
+            <div class = "card-header border-0">
+                <h5 class = "mb-0">Business Objectives</h5>
+            </div>
+
+            <div class = "card-body py-0">
+                <table class = "table fixed mb-0 pb-0">
+                    <thead>
+                        <tr>
+<!--                            <th style = "width: 150px;">Objective</th>-->
+                            <th colspan=2>Objectives</th>
+                            <th>Measures/Milestones</th>
+                            <th>Timing</th>
+                            <th>Progress</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% if object.goals_set.count == False %}
+                        <tr>
+                            <td colspan = "6">They do not have any Business Objectives currently.</td>
+                        </tr>
+                        {%else%}
+
+                        {% for goals in object.goals_set.all %}
+                        <tr>
+                            <td>{{goals.goal_category.name}}</td>
+                            <td>{{goals.summary}}</td>
+                            <td>{{goals.description}}</td>
+                            <td>{{goals.due}}</td>
+                            <td><button id = "seeMore" data-toggle="collapse" data-target="#collapse{{goals.id}}" class="accordion-toggle" type="button"><i class="fa fa-chevron-down"  alt = "See More"></i></button></td>
+
+                            <td>
+                                {%if goals.get_kpi_percentage < 0 %}
+                                No KPIs
+                                {%elif goals.get_kpi_percentage <= 99 %}
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: {{goals.get_kpi_percentage}}%;" aria-valuenow="{{goals.get_kpi_filtered_completed.count}}" aria-valuemin="0" aria-valuemax="{{goals.kpi_set.count}}">{{goals.get_kpi_percentage}}%</div>
+                                </div>
+                                {%else%}
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: {{goals.get_kpi_percentage}}%;" aria-valuenow="{{goals.get_kpi_filtered_completed.count}}" aria-valuemin="0" aria-valuemax="{{goals.kpi_set.count}}">{{goals.get_kpi_percentage}}%</div>
+                                </div>
+                                {%endif%}</td>
+                        </tr>
+
+
+                        <tr class="p">
+                                <td colspan="10" class="hiddenRow">
+                                    <div class="accordian-body collapse" id="collapse{{goals.id}}">
+                                        <br>
+                                        <span style = "margin-right: 5%; float: right; font-size:14px">Tracking Source/Documents: <strong>{{goals.metrics_Used}}</strong></span><br>
+
+                                        <br>
+                                        <table class = "KPItable">
+                                            <thead>
+                                                <tr>
+                                                    <th>KPI Description</th>
+                                                    <th>Due</th>
+                                                    <th>Progress</th>
+                                                    <th>Date Created</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {%if goals.kpi_set.all.count == False%}
+                                                <td colspan="4">Please add KPIs</td>
+                                                {%else%}
+                                                {%for kpi in goals.kpi_set.all%}
+                                                <tr>
+                                                    <td>{{kpi.description}}</td>
+                                                    <td>{{kpi.due}}</td>
+                                                    <td><form class="range-field my-4 w-50">
+                                                    <input type="range" min="0" max="100" />
+                                                    </form></td>
+                                                    <!--<td class="editable" data-id="{{kpi.id}}" data-type="progress">{{kpi.progress}}</td>-->
+                                                    <td>{{kpi.date_created}}</td>
+                                                </tr>
+                                                {%endfor%}
+                                                {%endif%}
+                                            </tbody>
+                                        </table>
+                                        <br>
+                                    </div>
+                                </td>
+                            </tr>
+                            {%endfor%}
+                            {%endif%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <br><br>
+
+        <div class = "card card-table">
+            <div class = "card-header border-0">
+                <h5 class = "mb-0">Behavioural Competencies</h5>
+            </div>
+
+            <div class = "card-body py-0">
+                <table class = "table fixed mb-0 pb-0">
+                    <thead>
+                        <tr>
+                            <th style = "width: 150px;">Category</th>
+                            <th>Behaviours</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if object.competencies_set.count == False %}
+                        <tr>
+                            <td colspan = "3">They do not have any Behavioural Competencies currently.</td>
+                        </tr>
+                        {%else%}
+
+                        {% for competencies in object.competencies_set.all%}
+                        <tr>
+                            <td>{{competencies.competency_category.name}}</td>
+                            <td>{{competencies.summary}}</td>
+                            <td>{{competencies.description}}</td>
+                        </tr>
+                        {%endfor%}
+                        {%endif%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <br><br>
+
+        <div class = "card card-table">
+            <div class = "card-header border-0">
+                <h5 class = "mb-0">Skills</h5>
+            </div>
+
+            <div class = "card-body py-0">
+                <table class = "table fixed mb-0 pb-0">
+                    <thead>
+                        <tr>
+                            <th style = "width: 150px;">Category</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if object.skills_set.count == False %}
+                        <tr>
+                            <td colspan = "2">They do not have any Skills currently.</td>
+                        </tr>
+                        {%else%}
+
+                        {%for skills in object.skills_set.all%}
+                        <tr>
+                            <td>{{skills.skill_category.name}}</td>
+                            <td>{{skills.description}}</td>
+                        </tr>
+                        {%endfor%}
+                        {%endif%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+			    {{form.as_p}}
+                 
+		                        <div class = "row justify-content-end m-0">
+                        <a href = "{% url 'user_homepage'%}" class = "btn btn-danger mr-2" type = "button">Cancel</a>
+                        <input class = "btn btn-primary" type = 'submit' value = "Submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {%endblock%}
+</body>
+</html>

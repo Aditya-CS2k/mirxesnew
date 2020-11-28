@@ -1,0 +1,408 @@
+<!--Inherit HTML from parent class 'sidenav'-->
+
+<!--Load static is to load static files (HTML/CSS/Js)-->
+{%load static%}
+<!--To inform website version of HTML-->
+<!DOCTYPE html>
+<!--Inform website of language of HTML-->
+<html lang="en">
+<!--Header-->
+<head>
+      <!--Meta to improve SEO--> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!--HTML inheritance: overriding parent class title block(Django exclusive)-->
+    <title>{%block title%}MiRXES Behaviours Blueprint{%endblock%}</title>
+</head>
+
+<script>
+	 function calculatePrice(myform){
+		 //Get selected data
+		 var elt = document.getElementById("memoryItem");
+		 var memory = elt.options[elt.selectedIndex].value;
+
+		 var elt = document.getElementById("hddItem");
+		 var hdd = elt.options[elt.selectedIndex].value;
+
+		 var elt = document.getElementById("networkItem");
+		 var network = elt.options[elt.selectedIndex].value;
+
+		 var elt = document.getElementById("hddItem1");
+		 var hdd1 = elt.options[elt.selectedIndex].value;
+
+		 var elt = document.getElementById("networkItem1");
+		 var network1 = elt.options[elt.selectedIndex].value;
+		 
+		 var elt = document.getElementById("serverItem");
+		 var server = elt.options[elt.selectedIndex].value;
+
+		 var elt = document.getElementById("ramItem");
+		 var ram = elt.options[elt.selectedIndex].value;
+
+		 var elt = document.getElementById("romItem");
+		 var rom = elt.options[elt.selectedIndex].value;
+		 
+		 var elt = document.getElementById("remItem");
+		 var rem = elt.options[elt.selectedIndex].value;
+
+		 var elt = document.getElementById("rimItem");
+		 var rim = elt.options[elt.selectedIndex].value;
+
+		 var elt = document.getElementById("reemItem");
+		 var reem = elt.options[elt.selectedIndex].value;
+
+	         var elt = document.getElementById("mamItem");
+		 var mam = elt.options[elt.selectedIndex].value;
+
+		 var elt = document.getElementById("momItem");
+		 var mom = elt.options[elt.selectedIndex].value;
+
+		 var elt  document.getElementById("momsItem");
+		 var moms = elt.options[elt.selectedIndex].value;
+
+		 var elt = document.getElementById("momiItem");
+		 var momi = elt.options[elt.selectedIndex].value;
+
+		 var elt = document.getElementById("momeItem");
+		 var mome = elt.options[elt.selectedIndex].value;
+
+			     //convert data to integers
+			     memory = parseInt(memory);
+			     hdd = parseInt(hdd);
+			     network = parseInt(network);
+			     hdd1 = parseInt(hdd1);
+			     network1 = parseInt(network1);
+			     server = parseInt(server);
+			     ram = parseInt(ram);
+			     rom = parseInt(rom);
+			     rem = parseInt(rem);
+			     rim = parseInt(rim);
+			     reem = parseInt(reem);
+		             mam = parseInt(mam);
+	       	             mom = parseInt(mom);
+		             moms = parseInt(moms);
+	                     momi = parseInt(momi);
+			     mome = parseInt(mome);
+			    /calculate total value
+			     vartotal = memory+hdd+network+hdd1+network1+server+ram+rom+rem+rim+reem+mam+mom+moms+momi+mome;
+
+			     //print value to  PicExtPrice
+			    document.getElementById("PicExtPrice").value=total;
+
+		   }
+	</script>
+<body>
+    {%block content%}
+    <!--HTML form, action on current page, use 'POST' method (secure)-->
+    <div class = "container col-6">
+        <br>
+        <div class = "card">
+            <div class = "card-header">
+                <h2>{%block header%}MiRXES Behaviours Blueprint{%endblock%}</h2>
+            </div>
+
+            <div class = "card-body">
+                <form action= "" method = "POST">
+                    <div class="form-group">
+                        <!--Django Exclusive: CSRF token is a random, hard-to-guess string, prevent CSRF atk-->
+                        {%csrf_token%}
+                        
+                        <!--Generate form organised in paragraphs based on query on CreateCompetencies in GnC/views.py-->
+			<FORM Name="myform">	 
+				<tr>1.Think Strategically</tr><br>				
+				<SELECT NAME="memoryItem" onChange="calculatePrice()" id="memoryItem">
+	 		<OPTION value="1">1-Major Improvement Needed</OPTION>	
+			<OPTION value="2">2-Needs Improvement</OPTION>
+			<OPTION value="3">3-Meets Expectation</OPTION>	
+			<OPTION value="4">4-Exceeds Expectations</OPTION>	
+			<OPTION value="5">5-Far Exceed Expectations</OPTION>	
+				</SELECT>
+			<br><br>
+			<tr>2.Drive Innovation</tr><br>
+			<SELECT NAME="hddItem" onChange="calculatePrice()" id="hddItem">	
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+			
+			</SELECT>
+			
+			<br><br>
+			
+			<tr>3.Customer Driven</tr><br>
+			
+			<SELECT NAME="networkItem" onChange="calculatePrice()" id="networkItem">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+
+
+			
+			<td>4.Can Do-Will Do</td><br>
+			
+			<SELECT NAME="hddItem1" onChange="calculatePrice()" id="hddItem1">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+			
+			<td>5.Lead with Integrity</td><br>
+			
+			<SELECT NAME="networkItem1" onChange="calculatePrice()" id="networkItem1">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+			
+			<td>6.Deliver Results</td><br>
+			
+			<SELECT NAME="serverItem" onChange="calculatePrice()" id="serverItem">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+
+
+			
+			<td>7.Connect</td><br>
+			
+			<SELECT NAME="ramItem" onChange="calculatePrice()" id="ramItem">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION alue="4">4-Exceeds Expectations</OPTION>	
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+			
+			<td>8.Learn</td><br>
+			
+			<SELECT NAME="romItem" onChange="calculatePrice()" id="romItem">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				
+				<OPTION value="5">5-Far Exceed Epectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+			
+			<td>9.Improve</td><br>
+			
+			<SELECT NAME="remItem" onChange="calculatePrice()" id="remItem">
+
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+		
+				<OPTION valu="2">2-Needs Iprovement</OPTION>
+		
+				<OPTION value="3">3-Meets Expectation</OPTION>
+		
+				<OPTION value="4">-xceeds Expectations</OPTION>
+		
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+		
+		</SELECT>
+		
+		<br><br>
+		
+		<td>10.Leadership</td><br>
+		
+		<SELECT NAME="rimItem" onChange="calculatePrice()" id="rimItem">
+		
+			<OPTION value="1">1-Major Improvement Needed</OPTION>
+			
+			<OPTION value="2">2-Needs Improvement</OPTION>
+			
+			<OPTION value="3">3-Meets Expectation</OPTION>
+			
+			<OPTION valu="4">4-Exceeds Expectations</OPTION>
+			
+			<OPTION value="5">5-Far Exceed Expectations</OPTION>
+			
+			</SELECT>
+			
+			<br><br>
+			
+			<td>Achievement of operational targets including leans</td><br>
+			
+			<SELECT NAME="reemItem" onChange="calculatePrice()" id="reemItem">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+			
+			<td>Achievement of financial targets including forecasting accuracy</td><br>
+			
+			<SELECT NAME="mamItem" onChange="calculatePrice()" id="mamItem">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+			
+			<td>People related issues including diversity</td><br>
+			
+			<SELECT NAME="momItem" onChange="calculatePrice()" id="momItem">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+			
+			<td>Implementation of PM(Project management)process</td><br>
+			
+			<SELECT NAME="momsItem" onChange="calculatePrice()" id="momsItem">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+			
+			<td>Progress to achieve operational best practice</td><br>
+			
+			<SELECT NAME="momiItem" onChange="calculatePrice()" id="momiItem">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+			
+			<td>Overall Performance vs Goals</td><br>
+			
+			<SELECT NAME="momeItem" onChange="calculatePrice()" id="momeItem">
+			
+				<OPTION value="1">1-Major Improvement Needed</OPTION>
+				
+				<OPTION value="2">2-Needs Improvement</OPTION>
+				<OPTION value="3">3-Meets Expectation</OPTION>
+				
+				<OPTION value="4">4-Exceeds Expectations</OPTION>
+				
+				<OPTION value="5">5-Far Exceed Expectations</OPTION>
+				
+			</SELECT>
+			
+			<br><br>
+			</FORM>
+
+			<button type="button" onclick="calculatePrice()">Calculate</button>
+
+			The new calculated price:<INPUT type="text" id="PicExtPrice" Size=8>
+
+                        <div class = "row justify-content-end m-0">
+                            <a href = "{%url 'user_homepage'%}" class = "btn btn-danger mr-2" type = "button" value = "Cancel">Cancel</a>
+                            <input class = "btn btn-primary" type = 'submit' value = "Submit">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+    </div>
+    {%endblock%}
+</body>
+</html>
