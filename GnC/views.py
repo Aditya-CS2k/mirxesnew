@@ -1,5 +1,5 @@
-from .forms import GoalsForm, DepartmentGoalsForm, CompetenciesForm, CreateGoalsForm, CreateCompetenciesForm, CreateKPIsForm, UpdateKPIsForm ,CreateDepartmentalGoalsForm, CreateDepartmentalCompetenciesForm, UpdatePOSTKPIsForm, UploadGoalsEvidence
-from .models import Goals, Competencies, goal_category, Departmental_Goals, KPI, competency_category, goal_comment, competency_comment, Departmental_Competencies
+from .forms import GoalsForm, DepartmentGoalsForm, CompetenciesForm, CreateGoalsForm, CreateCompetenciesForm, CreateKPIsForm, UpdateKPIsForm ,CreateDepartmentalGoalsForm, CreateDepartmentalCompetenciesForm, UpdatePOSTKPIsForm, UploadGoalsEvidence, CreateCommentForm, CreateMidYrCommentForm
+from .models import Goals, Competencies, goal_category, Departmental_Goals, KPI, competency_category, goal_comment, competency_comment, Departmental_Competencies, Comment_Box, Mid_Yr_Comment_Box
 from .decorators import allowed_users, redirect_users
 from Profile.models import Profile, Departments
 from Appraisals.models import Appraisal, User_Appraisal_List, Overall_Appraisal
@@ -15,7 +15,7 @@ from django.views.generic.edit import CreateView,  UpdateView
 from django.views.generic import DetailView, DeleteView
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ValidationError
-from django.contrib import messages 
+from django.contrib import messages
 
 from bootstrap_modal_forms.generic import BSModalCreateView
 
@@ -24,7 +24,7 @@ class ExtraContextMixin(object):
         context = super(ExtraContextMixin, self).get_context_data(**kwargs)
         context.update(self.extra())
         return context
-    
+
     def extra(self):
         return dict()
 
@@ -84,7 +84,7 @@ def Manager_GnC(request):
     #goals_counter = department_database.goals_set.all().count
 
     context ={
-        "goals_list":goals_database,        
+        "goals_list":goals_database,
         "competencies_list":competencies_database,
         "departmental_goals_list":manager_departmental_goals_database,
 
@@ -105,7 +105,7 @@ def HR_GnC(request):
 
     #2.Get departmental goals of user manager
     departmental_goals_database = Departmental_Goals.objects.filter(manager=userprofile.first_Reporting_Manager)
-    
+
     #User - Personal Goals:
     goals_database = request.user.profile.goals_set.all()
 
@@ -122,7 +122,7 @@ def HR_GnC(request):
         "Personal_departmental_goals_list": departmental_goals_database,
         "Personal_goals_list": goals_database,
         "Personal_competencies_list" : competencies_database,
-        "Company_department_list":company_department_database,  
+        "Company_department_list":company_department_database,
         "Company_user_list": company_user_database
     }
 
@@ -138,7 +138,7 @@ def HR_GnC(request):
 #        if form.is_valid:
 #           form.save()
 #           return redirect("../")
-#    
+#
 #    context = {'form':form}
 #    return render(request, 'GnC/HuNetM_CreateGoals.#html', context)
 
@@ -146,7 +146,7 @@ def HR_GnC(request):
 #CreateView
 @method_decorator(login_required(login_url='login'), name='dispatch')
 @method_decorator(allowed_users(allowed_roles=['Employee', 'Manager', 'HR', 'HR manager']), name='dispatch')
-class Create_Goals(BSModalCreateView): #class Create_Goals(CreateView): 
+class Create_Goals(BSModalCreateView): #class Create_Goals(CreateView):
     success_message = 'Success: Goal was created.'
     form_class = CreateGoalsForm
     success_url = reverse_lazy('user_homepage')
@@ -162,9 +162,9 @@ class Create_Goals(BSModalCreateView): #class Create_Goals(CreateView):
         field_1 = cleaned_data.get('weightage')
 
         if ((sum + int(field_1)>=101) or int(field_1)!=1):
-            #self.add_error(None, ValidationError("Weightage exceeded 100%"))         
+            #self.add_error(None, ValidationError("Weightage exceeded 100%"))
             raise ValidationError({'weightage': ('Maximum weightage of 100 in this appraisal exceeded')})
-        
+
         return cleaned_data
 
     def form_valid(self, form):
@@ -224,7 +224,7 @@ class Create_Departmental_Goals(CreateView):
         id = self.kwargs.get("pk")
         form.instance.appraisal = Overall_Appraisal.objects.get(id=id)
         #To automatically pass user profile into 'manager' field
-        form.instance.manager = self.request.user.profile 
+        form.instance.manager = self.request.user.profile
         form.instance.department = self.request.user.profile.department
         print(form.cleaned_data)
         return super(Create_Departmental_Goals, self).form_valid(form)
@@ -242,7 +242,7 @@ class Create_Departmental_Competencies(CreateView):
         form.instance.manager = self.request.user.profile
         form.instance.department = self.request.user.profile.department
         print(form.cleaned_data)
-        return super(Create_Departmental_Competencies, self).form_valid(form) 
+        return super(Create_Departmental_Competencies, self).form_valid(form)
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class Create_Goals_Comments(CreateView):
@@ -296,7 +296,7 @@ class Goals_View(DetailView):
         if self.request.user.is_authenticated:
             id = self.kwargs.get("pk")
             return Goals.objects.get(id=id)
-        
+
         else:
             return queryset.none()
 
@@ -511,7 +511,7 @@ def createGoals(request, *args, **kwargs):
     sum=0
     form_class = CreateGoalsForm
     form = form_class
-    
+
     for goal in appraisal_list:
         sum += int(goal.weightage)
 
@@ -525,8 +525,8 @@ def createGoals(request, *args, **kwargs):
                 messages.warning(request, 'Total Goal weightage exceeded 100%')
                 return HttpResponseRedirect(reverse('GnC:Create_User_Goals', args=(id,)))
             goal.save()
-            return HttpResponseRedirect(reverse('user_homepage')) 
-                
+            return HttpResponseRedirect(reverse('user_homepage'))
+
     context={'formset': form}
     return render(request, 'GnC/GnCCreateGoals.html', context)
 
@@ -535,14 +535,14 @@ def updateGoals(request, *args, **kwargs):
     id = kwargs.get('pk')
     user_appraisal_list = User_Appraisal_List.objects.get(id=id)
     appraisal_list = user_appraisal_list.goals_set.all()
-    
+
     _id = kwargs.get('mk')
     obj = get_object_or_404(Goals, id=_id)
 
     sum=0
     form_class = CreateGoalsForm
     form = form_class
-    
+
     for goal in appraisal_list:
         sum += int(goal.weightage)
     sum -= int(obj.weightage)
@@ -554,8 +554,8 @@ def updateGoals(request, *args, **kwargs):
             messages.warning(request, 'Total Goal weightage exceeded 100%')
             return HttpResponseRedirect(reverse('GnC:Update_User_Goals', args=(id, _id,)))
         goal.save()
-        return HttpResponseRedirect(reverse('user_homepage')) 
-                
+        return HttpResponseRedirect(reverse('user_homepage'))
+
     context={'formset': form}
     return render(request, 'GnC/GnCUpdateGoals.html', context)
 
@@ -577,9 +577,79 @@ def GoalsImageUpload(request, *args, **kwargs):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('user_homepage')) 
+            return HttpResponseRedirect(reverse('user_homepage'))
 
     context={
         'form': form
     }
     return render(request, 'GnC/GoalsImageUpload.html', context)
+
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+@method_decorator(allowed_users(allowed_roles=['Employee', 'Manager', 'HR', 'HR manager']), name='dispatch')
+class Create_Comment(CreateView):
+    form_class = CreateCommentForm
+    success_url = reverse_lazy('user_homepage')
+    template_name = 'GnC/HuNet_CreateComment.html'
+
+    def form_valid(self, form):
+        id = self.kwargs.get("pk")
+        form.instance.goal = Goals.objects.get(id=id)
+        form.instance.created_by = self.request.user.profile
+        # form.instance.progress = 'Not Started'
+        print(form.cleaned_data)
+        return super(Create_Comment, self).form_valid(form)
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class Update_Comment(UpdateView):
+    model = Comment_Box
+    form_class = CreateCommentForm
+    template_name = 'GnC/HuNet_CreateComment.html'
+    success_url = reverse_lazy('user_homepage')
+
+    def form_valid(self, form):
+        print(self.object)
+        if self.object.created_by == self.request.user.profile:
+
+            print(form.cleaned_data)
+
+            return super(Update_Comment, self).form_valid(form)
+        messages.warning(self.request, _("u can not edit this"))
+        return HttpResponseRedirect(reverse('user_homepage'))
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+@method_decorator(allowed_users(allowed_roles=['Employee', 'Manager', 'HR', 'HR manager']), name='dispatch')
+class Mid_Yr_Create_Comment(CreateView):
+    form_class = CreateMidYrCommentForm
+    success_url = reverse_lazy('user_homepage')
+    template_name = 'GnC/HuNet_CreateComment.html'
+
+
+    def form_valid(self, form):
+        id = self.kwargs.get("pk")
+        form.instance.goal = Goals.objects.get(id=id)
+        # print(self.request.user.id)
+        form.instance.created_by = self.request.user.profile
+        form.instance.user_id = self.request.user.id
+        # form.instance.appraisal = User_Appraisal_List.objects.get(id=id)
+        # form.instance.progress = 'Not Started'
+        print(form.cleaned_data)
+        return super(Mid_Yr_Create_Comment, self).form_valid(form)
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class Mid_Yr_Update_Comment(UpdateView):
+    model = Mid_Yr_Comment_Box
+    form_class = CreateMidYrCommentForm
+    template_name = 'GnC/HuNet_CreateComment.html'
+    success_url = reverse_lazy('user_homepage')
+
+    def form_valid(self, form):
+        print(self.object)
+        if self.object.created_by == self.request.user.profile:
+
+            print(form.cleaned_data)
+
+            return super(Mid_Yr_Update_Comment, self).form_valid(form)
+        messages.warning(self.request, _("u can not edit this"))
+        return HttpResponseRedirect(reverse('user_homepage'))
