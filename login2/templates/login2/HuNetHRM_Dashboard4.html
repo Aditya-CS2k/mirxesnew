@@ -1,5 +1,5 @@
 {%extends 'homepage.html'%}
-{% load static %} 
+{% load static %}
 
 <head>
     <title>{%block title%}Dashboard{%endblock%}</title>
@@ -13,12 +13,12 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
-    
+
+
     <!--font-->
     <link href="https://fonts.googleapis.com/css2?family=Hind:wght@600&display=swap" rel="stylesheet"> <!--hind-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> <!--open sans-->
-    
+
     <script>
         /*tabs*/
         function openCity(evt, cityName, classOfTabContent, classOfTabLink) {
@@ -42,7 +42,7 @@
         $('.accordion-toggle').click(function(){
             $('.hiddenRow').hide();
             $(this).next('tr').find('.hiddenRow').show();
-        }); 
+        });
 
         /*tooltips*/
         $(document).ready(function(){
@@ -67,7 +67,7 @@
 </head>
 
 <body>
-    {%block content%} 
+    {%block content%}
     <script src="{% static 'assets/js/bootstrap.js' %}"></script>
     <script src="{% static 'assets/js/jquery.js' %}"></script>
     <script src="{% static 'rest_framework/js/bootstrap.min.js' %}"></script>
@@ -106,13 +106,13 @@
         <br><br>
 
         <!--Primary tabs for main board-->
-        <div id = "dashboard4" class = "tab_dashboard"> 
+        <div id = "dashboard4" class = "tab_dashboard">
             <button class="tablinks2 active" onclick="openCity(event, 'user', 'dashboardcontent', 'tablinks2')">{{request.user.profile.name}}</button>
             <button class="tablinks2" onclick="openCity(event, 'peer', 'dashboardcontent', 'tablinks2')">Peer</button>
             <button class="tablinks2" onclick="openCity(event, 'departments', 'dashboardcontent', 'tablinks2')">Department</button>
             <button class="tablinks2" onclick="openCity(event, 'company', 'dashboardcontent', 'tablinks2')">Appraisal Status</button>
             <button style = "width: 20%" class="tablinks2" onclick="openCity(event, 'employee_management', 'dashboardcontent', 'tablinks2')">Employee Management</button>
-            <button class="tablinks2" onclick="openCity(event, 'records', 'dashboardcontent', 'tablinks2')">Records</button>    
+            <button class="tablinks2" onclick="openCity(event, 'records', 'dashboardcontent', 'tablinks2')">Records</button>
         </div>
 
         <br><br><br>
@@ -120,8 +120,8 @@
         <section class='dashboardcontent shadow-sm' id='user'>
 
             <br>
-            
-            {%if user_appraisal_list.count == 0 %}    
+
+            {%if user_appraisal_list.count == 0 %}
             <section class="appraisalcontent" id="appraisalnone">
                 There are no ongoing appraisals
             </section>
@@ -134,12 +134,12 @@
                     <div class = "choose-appraisal row justify-content-start p-4 align-items-center shadow"  style = "background: linear-gradient(45deg, #2952A4, #83a1c9); border-radius: 5px; color: white">
                         <div class="tab_appraisal">
                             <button type="button" data-toggle="dropdown" class="btn dropdown-toggle">Choose Appraisal</button>
-            
+
                             <div class = "dropdown-menu">
                                 {% if user_appraisal_list.count == 0 %}
                                     <a class="tablinks1 dropdown-item" onclick="openCity(event, 'appraisalnone', 'appraisalcontent', 'tablinks1')">Appraisal: None</a>
                                 {%else%}
-            
+
                                 {% for appraisal in user_appraisal_list %}
                                 <a class="tablinks1 dropdown-item" onclick="openCity(event, 'appraisal{{forloop.counter}}', 'appraisalcontent', 'tablinks1')">Appraisal {{appraisal.overall_appraisal.name}}</a>
                                 {%endfor%}
@@ -147,7 +147,7 @@
                             </div>
                         </div>
                         <h3 style = "font-size: 24px; font-weight: 600;"class = "my-auto ml-3">{{appraisal.overall_appraisal.name}} - {{appraisal.overall_appraisal.appraisal_category.name}}</h3>
-                    
+
 
                         <p class = "m-0 p-0 ml-auto">
                             {%if appraisal.overall_appraisal.status == 'Stage 1'%}<span class = "badge badge-pill badge-info">Goals Setting Stage</span>
@@ -182,9 +182,9 @@
                     <button id="slide-item-5" class="tablinks" onclick="openCity(event, 'goals{{forloop.counter}}', 'tabcontent{{forloop.counter}}', 'tablinks')"></button>
                     <div class="slider">
                         <div class="bar"></div>
-                    </div> 
+                    </div>
                 </div>
-                
+
                 <br>
                     <div class = "row justify-content-end" style = "margin: 0;">
                          {%if appraisal.overall_appraisal.status == 'Stage 1' and appraisal.status == 'Employee' %}
@@ -192,7 +192,7 @@
 
                     {%elif appraisal.overall_appraisal.status == 'Stage 1B' and appraisal.status == 'S1BEmployee'%}
                     <a href="{%url 'Appraisals:S1BEtS1BM_Appraisal' appraisal.id%}"><button class = "sendAppraisal btn mr-2" >Submit</button></a>
-                    
+
 
                     {%elif appraisal.overall_appraisal.status == 'Stage 1B' and appraisal.status == 'S1BReview'%}
                     <a href="{%url 'Appraisals:S1BRtS1BM_Appraisal' appraisal.id%}"><button class = "sendAppraisal btn mr-2" >Submit</button></a>
@@ -200,7 +200,7 @@
                     {%elif appraisal.overall_appraisal.status == 'Stage 2' and appraisal.status == 'S2Employee' and appraisal.completion == 'ECompleted' %}
                     <a href="{%url 'Appraisals:S2EtS2M_Appraisal' appraisal.id%}"><button class = "sendAppraisal btn mr-2" >Submit</button></a>
                     {%endif%}
-            
+
                      {% if appraisal.overall_appraisal.status == 'Stage 1' and appraisal.status == 'Employee' %}
                     <div class="btn-group dropdown">
                         <button type= "button" class= "addButton btn dropdown-toggle" data-toggle="dropdown">
@@ -216,7 +216,7 @@
 
                     </div>
                         </div>
-                        
+
                         {%elif appraisal.overall_appraisal.status == 'Stage 1B' and appraisal.status == 'S1BEmployee' or appraisal.overall_appraisal.status == 'Stage 1B' and appraisal.status == 'S1BReview' %}
                         <div class="btn-group dropdown">
                             <button type= "button" class= "addButton btn dropdown-toggle" data-toggle="dropdown">
@@ -246,7 +246,7 @@
                             <a class="dropdown-item" href = "{%url 'Appraisals:Update_AppraisalG' appraisal.id%}">Add Employee's Ratings</a>
                             </div>
                         </div>
-                        
+
                         {%else%}
                         <div class="btn-group dropdown">
                             <button type= "button" class= "addButton btn dropdown-toggle" data-toggle="dropdown">
@@ -262,10 +262,10 @@
                             </div>
                         </div>
                         {%endif%}
-                                              
+
                     </div>
-                    <br> 
-                
+                    <br>
+
                 <div id="goals{{forloop.counter}}" class="tabcontent{{forloop.counter}}" style = "display:block;">
                         <div class = "card card-table shadow-sm">
                             <div class = "card-header">
@@ -282,7 +282,7 @@
                                             <th style = "width: 25%;">Actions</th>
                                         </tr>
                                     </thead>
-                                    
+
                                     <tbody>
                                         {% if appraisal.overall_appraisal.departmental_goals_set.all.count == False %}
                                         <td colspan="5">Request your Manager/Supervisor to add Departmental Business Objectives</td>
@@ -294,7 +294,7 @@
                                             <td>{{goals.summary}}</td>
                                             <td>{{goals.due}}</td>
                                             <td><a href="{%url 'GnC:Detail_Departmental_Goals' goals.id %}" title = "See More Details"><i class="fa fa-ellipsis-h"></i></a></td>
-                                        </tr>  
+                                        </tr>
                                         {%endif%}
                                         {%endfor%}
                                         {%endif%}
@@ -320,7 +320,7 @@
                                             <th style = "width: 20%">Timing</th>
                                             <th style = "width: 10%">Weightage</th>
                                             <th style = "width: 15%">Progress</th>
-                                            <th colspan=4 style = "width: 25%;">Actions</th> 
+                                            <th colspan=4 style = "width: 25%;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -358,7 +358,7 @@
                                             {%endif%}
                                             <td><a title = "See More Details" href = "{%url 'GnC:Detail_Goals' goals.id %}"><i class="fa fa-ellipsis-h"></i></a></td>
                                         </tr>
-                                        
+
                                         <tr class="p">
                                             <td colspan="10" class="hiddenRow">
                                                 <div class="accordian-body collapse" id="collapse{{goals.id}}">
@@ -374,10 +374,10 @@
                                                             <a href="{% url 'GnC:Goals_ImageUpload' goals.id%}" title = "Upload Evidence"><i class="fa fa-upload" aria-hidden="true"></i></a>
                                                             {%endif%}
 
-                                                        </span> 
+                                                        </span>
                                                     </div>
                                                     <br><br>
-                                                    
+
                                                     <table class = "KPItable">
                                                         <thead>
                                                             <tr>
@@ -401,7 +401,7 @@
                                                                 <input id="number" type="range" min="0" max="100" onclick="getcube()"/>
                                                                 </form></td>
                                                                 <!--<td class="editable" data-id="{{kpi.id}}" data-type="progress">{{kpi.progress}}</td>-->
-                                                                
+
                                                                 {%if appraisal.overall_appraisal.status == 'Stage 1' and kpi.progress == 'Working' or appraisal.overall_appraisal.status == 'Stage 1B' and kpi.progress == 'Working' %}
                                                                 <td><a href="{% url 'GnC:Update_KPI_POST1' kpi.id%}" title = "Approve KPI"><i class="fa fa-check-circle" aria-hidden="true"></i></a></td>
                                                                 {%elif appraisal.overall_appraisal.status == 'Stage 1' and kpi.progress == 'Completed' or appraisal.overall_appraisal.status == 'Stage 1B' and kpi.progress == 'Completed' %}
@@ -423,9 +423,501 @@
                                                         </tbody>
                                                     </table>
                                                     <br>
-                                                </div> 
-                                            </td> 
+                                                </div>
+                                            </td>
                                         </tr>
+                                        <br>
+                                                  <tr>
+                                      {% if appraisal.overall_appraisal.status == 'Stage 1' or appraisal.overall_appraisal.status == 'Stage 1B'%}
+                                      {% if goals.comment_box_set.count == 0%}
+
+
+                                      <th>
+                                        <p>Goal Settings:Employee comments</p>
+                                           <table>
+                                              <tr>
+                                                  <td><a href="{%url 'GnC:Create_User_Comments' goals.id %}"><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+                                                  <td>
+                                                      <a >
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+
+                                      </th>
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30"></textarea>
+                                      </td>
+                                      <th>
+                                        <p>Goal Settings:Manager comments</p>
+                                           <table>
+                                              <tr>
+                                                  <td><a><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+                                                  <td>
+                                                      <a >
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+
+                                      </th>
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30"></textarea>
+                                      </td>
+
+
+
+
+                                      {% elif goals.comment_box_set.count == 1%}
+                                      {%for comment_box in goals.comment_box_set.all%}
+
+                                      <tr>
+
+                                      <th >
+                                          <p>Goal Settings:Employee comments</p>
+                                          <table>
+                                              <tr>
+                                              {% if comment_box.created_by ==  request.user.profile%}
+                                                  <td><a ><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+
+                                                  {%if appraisal.overall_appraisal.status == 'Stage 1'%}
+                                              <td>
+                                                      <a href="{%url 'GnC:Update_Comment' comment_box.id %}">
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+                                                {%else%}
+                                                <td>
+                                                      <a>
+                                                         <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+                                                {%endif%}
+
+                                              </tr>
+                                          </table>
+                                        </th>
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">{{comment_box.comment}}
+                                            </textarea>
+                                        </td>
+
+                                        {%else%}
+                                        <td><a href="{%url 'GnC:Create_User_Comments' goals.id %}"><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                        </a>
+                                          </td>
+                                          <td width="10%">
+                                        </td>
+
+                                        <td>
+                                          <a >
+                                                 <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                          </a>
+                                        </td>
+
+                                      </tr>
+                                    </table>
+
+                                </th>
+                                <td colspan="2">
+                                      <textarea id="w3review" name="w3review" rows="4" cols="30">
+
+                                      </textarea>
+                                </td>
+                                {%endif%}
+
+
+                                      <th >
+                                          <p>Goal Settings:Manager comments</p>
+                                           <table>
+                                              <tr>
+                                                  <td><a><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+                                                  <td>
+                                                      <a >
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+
+                                      </th>
+                                      {% if comment_box.created_by !=  request.user.profile%}
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">{{comment_box.comment}}
+
+                                            </textarea>
+                                      </td>
+                                      {%else%}
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">
+
+                                            </textarea>
+                                      </td>
+                                      {%endif%}
+                                      {%endfor%}
+
+                                      {% elif goals.comment_box_set.count == 2%}
+                                      {%for comment_box in goals.comment_box_set.all%}
+
+                                        {% if comment_box.created_by ==  request.user.profile%}
+                                        <th colspan ="2">
+                                          <p>Goal Settings:Employee comments</p>
+                                          <table>
+                                              <tr>
+
+                                                  <td><a ><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+
+                                                  {%if appraisal.overall_appraisal.status == 'Stage 1'%}
+                                              <td>
+                                                      <a href="{%url 'GnC:Update_Comment' comment_box.id %}">
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+                                                {%else%}
+                                                <td>
+                                                      <a>
+                                                         <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+                                                {%endif%}
+
+                                              </tr>
+                                          </table>
+                                        </th>
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">{{comment_box.comment}}
+                                            </textarea>
+                                        </td>
+                                        {%endif%}
+                                        {%endfor%}
+                                        {%for comment_box in goals.comment_box_set.all%}
+                                        {% if comment_box.created_by !=  request.user.profile%}
+
+                                      <th >
+                                          <p>Goal Settings:Manager comments</p>
+                                           <table>
+                                              <tr>
+                                                  <td><a><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+                                                  <td>
+                                                      <a >
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+
+                                      </th>
+
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">{{comment_box.comment}}
+
+                                            </textarea>
+                                      </td>
+
+                                      {%endif%}
+                                      {%endfor%}
+                                      </td>
+                                      </tr>
+
+                                      {%endif%}
+                                      <br>
+                                      {%endif%}
+
+
+                                      <tr>
+
+                                      {% if goals.mid_yr_comment_box_set.count == 0%}
+
+
+                                      <th>
+                                        <p>Mid year : Employee comments</p>
+                                           <table>
+                                              <tr>
+                                                  <td><a href="{%url 'GnC:Mid_Yr_Create_User_Comments' goals.id %}"><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+                                                  <td>
+                                                      <a >
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+
+                                      </th>
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30"></textarea>
+                                      </td>
+                                      <th>
+                                        <p>Mid Year : Manager comments</p>
+                                           <table>
+                                              <tr>
+                                                  <td><a><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+                                                  <td>
+                                                      <a >
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+
+                                      </th>
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30"></textarea>
+                                      </td>
+
+                                      {% elif goals.mid_yr_comment_box_set.count == 1%}
+                                      {%for mid_yr_comment_box in goals.mid_yr_comment_box_set.all%}
+
+                                      <tr>
+
+                                      <th >
+                                           <p>Mid Year : Employee comments</p>
+                                          <table>
+                                              <tr>
+                                              {% if mid_yr_comment_box.created_by ==  request.user.profile%}
+                                                  <td><a ><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+
+                                                  <td>
+                                                      <a href="{%url 'GnC:Mid_Yr_Update_Comment' mid_yr_comment_box.id %}">
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+                                        </th>
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">{{mid_yr_comment_box.comment}}
+                                            </textarea>
+                                        </td>
+
+                                        {%else%}
+                                        <td><a href="{%url 'GnC:Mid_Yr_Create_User_Comments' goals.id %}"><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                        </a>
+                                          </td>
+                                          <td width="10%">
+                                        </td>
+
+                                        <td>
+                                          <a >
+                                                 <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                          </a>
+                                        </td>
+
+                                      </tr>
+                                    </table>
+
+                                </th>
+                                <td colspan="2">
+                                      <textarea id="w3review" name="w3review" rows="4" cols="30">
+
+                                      </textarea>
+                                </td>
+                                {%endif%}
+
+
+                                      <th >
+                                          <p>Mid year : Manager comments</p>
+                                           <table>
+                                              <tr>
+                                                  <td><a><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+                                                  <td>
+                                                      <a >
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+
+                                      </th>
+                                      {% if mid_yr_comment_box.created_by !=  request.user.profile%}
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">{{mid_yr_comment_box.comment}}
+
+                                            </textarea>
+                                      </td>
+                                      {%else%}
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">
+
+                                            </textarea>
+                                      </td>
+                                      {%endif%}
+                                      {%endfor%}
+
+                                      {% elif goals.mid_yr_comment_box_set.count == 2%}
+                                      {%for mid_yr_comment_box in goals.mid_yr_comment_box_set.all%}
+
+                                        {% if mid_yr_comment_box.created_by ==  request.user.profile%}
+                                        <th >
+                                          <p>Mid year : Employee comments</p>
+                                          <table>
+                                              <tr>
+
+                                                  <td><a ><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+
+                                                  <td>
+                                                      <a href="{%url 'GnC:Mid_Yr_Update_Comment' mid_yr_comment_box.id %}">
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+                                        </th>
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">{{mid_yr_comment_box.comment}}
+                                            </textarea>
+                                        </td>
+                                        {%endif%}
+                                        {%endfor%}
+                                        {%for mid_yr_comment_box in goals.mid_yr_comment_box_set.all%}
+                                        {% if mid_yr_comment_box.created_by !=  request.user.profile%}
+
+                                      <th >
+                                          <p>Mid year : Manager comments</p>
+                                           <table>
+                                              <tr>
+                                                  <td><a><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+                                                  <td>
+                                                      <a >
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+
+                                      </th>
+
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">{{mid_yr_comment_box.comment}}
+
+                                            </textarea>
+                                      </td>
+
+                                      {%endif%}
+                                      {%endfor%}
+                                      </td>
+                                      </tr>
+
+                                      {%endif%}
+
+
+                                              </div>
+                                          </td>
+                                      </tr>
+                                       <tr>
+
+                                   <th >
+                                          <p>End year : Employee  comments</p>
+                                          <table>
+                                              <tr>
+
+                                                  <td><a ><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+
+                                                  <td>
+                                                      <a href="">
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+                                        </th>
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">
+                                            </textarea>
+                                        </td>
+
+
+                                      <th >
+                                          <p>End year : Manager comments</p>
+                                           <table>
+                                              <tr>
+                                                  <td><a><i class="fa fa-plus-square-o" title = "Add Comments"></i>
+                                                  </a>
+                                                  </td>
+                                                  <td width="10%">
+                                                  </td>
+                                                  <td>
+                                                      <a >
+                                                       <i class="fa fa-pencil-square-o" title = "Update comments"></i>
+                                                      </a>
+                                                  </td>
+
+                                              </tr>
+                                          </table>
+
+                                      </th>
+
+                                      <td colspan="2">
+                                            <textarea id="w3review" name="w3review" rows="4" cols="30">
+
+                                            </textarea>
+                                      </td>
+
+                              </tr>
                                         {%endfor%}
                                         {%endif%}
                                     </tbody>
@@ -438,7 +930,7 @@
                                 <h6>Manager/Supervisor Comments: </h6>
                                 {{appraisal.goals_settingM_rejection}}
                             </div>
-    
+
                             {%elif appraisal.overall_appraisal.status == 'Stage 1B' and appraisal.status == 'S1BReview' and appraisal.mid_yearM_rejection != 'NIL'%}
                             <div class = "card comment-card card-body col-5 shadow-sm">
                                 <h6>Manager/Supervisor Comments: </h6>
@@ -458,14 +950,14 @@
                             <div class = "card-body p-0">
                                 <table class = "table mb-0 pb-0">
                                     <thead class = "thead-light">
-                                        <tr> 
+                                        <tr>
                                             <th style = "width: 15%;">Department</th>
                                             <th style = "width: 25%;">Category</th>
                                             <th style = "width: 30%;">Core Values Competency</th>
                                             <th style = "width: 25%;">Description</th>
                                         </tr>
                                     </thead>
-                                    
+
                                     <tbody>
                                         {% if appraisal.overall_appraisal.departmental_competencies_set.count == 0 %}
                                         <td colspan="4">Request your Manager/Supervisor to add Departmental MiRXES Behaviours Blueprint</td>
@@ -537,7 +1029,7 @@
                                 <h6>Manager/Supervisor Comments: </h6>
                                 {{appraisal.goals_settingM_rejection}}
                             </div>
-    
+
                             {%elif appraisal.overall_appraisal.status == 'Stage 1B' and appraisal.status == 'S1BReview' and appraisal.mid_yearM_rejection != 'NIL'%}
                             <div class = "card comment-card card-body col-5 shadow-sm">
                                 <h6>Manager/Supervisor Comments: </h6>
@@ -549,7 +1041,7 @@
                     </div>
 
                 <div id="skills{{forloop.counter}}" class="tabcontent{{forloop.counter}}" style ="display:none;">
-                        
+
                         <div class = "card card-table shadow-sm">
                             <div class = "card-header">
                                 <h5 class = "mb-0">{{request.user.profile.name}}'s Skills</h5>
@@ -558,7 +1050,7 @@
                             <div class = "card-body p-0">
                                 <table class = "table mb-0 pb-0">
                                     <thead class = "thead-light">
-                                        <th style = "width: 25%;">Skill</th> 
+                                        <th style = "width: 25%;">Skill</th>
                                         <th style = "width: 50%;">Description</th>
                                         <th style = "width: 10%;">Weightage</th>
                                         <th colspan="3" style = "width: 15%;">Actions</th>
@@ -586,7 +1078,7 @@
                                 <h6>Manager/Supervisor Comments: </h6>
                                 {{appraisal.goals_settingM_rejection}}
                             </div>
-    
+
                             {%elif appraisal.overall_appraisal.status == 'Stage 1B' and appraisal.status == 'S1BReview' and appraisal.mid_yearM_rejection != 'NIL'%}
                             <div class = "card comment-card card-body col-5 shadow-sm">
                                 <h6>Manager/Supervisor Comments: </h6>
@@ -601,8 +1093,8 @@
                         <div class = "card card-table shadow-sm">
                             <div class = "card-header">
                                 <h5 class = "mb-0">Goals</h5>
-                            </div>  
-    
+                            </div>
+
                             <div class = "card-body p-0">
                                 <table class ="table fixed pb-0 mb-0">
                                     <thead class = "thead-light">
@@ -666,7 +1158,7 @@
                                                     <a href="{% url 'GnC:Goals_ImageUpload' goals.id%}" title = "Upload Evidence"><i class="fa fa-upload" aria-hidden="true"></i></a>
                                                     {%endif%}
 
-                                                </span> 
+                                                </span>
                                             </div>
                                             <br><br>
                                             <table class = "KPItable">
@@ -705,8 +1197,8 @@
                                                 </tbody>
                                             </table>
                                             <br>
-                                        </div> 
-                                    </td> 
+                                        </div>
+                                    </td>
                                 </tr>
                                 {%endfor%}
                                 {%endif%}
@@ -772,7 +1264,7 @@
                             </div>
                         </div>
                         <!--end of testing card table-->
-                        
+
                         <br><br>
 
                     <div class = "card card-table shadow-sm">
@@ -823,7 +1315,7 @@
                                     </tr>
                                     {%endfor%}
                                     {%endif%}
-                                    
+
                                     </tbody>
                                 </table>
                             </div>
@@ -861,12 +1353,12 @@
                         </div>
                         {%endif%}
                     </div>
-                    
+
                 </section>
                 {%endfor%}
                 {%endif%}
             </section>
-        
+
         <section class="dashboardcontent" id="peer" style  = "display: none;">
             <table class = "table table-condensed">
                 <thead class = "thead-light">
@@ -884,7 +1376,7 @@
                     <tr>
                         <td>{{peerapps.appraisal.overall_appraisal.name}}</td>
                         <td>{{peerapps}}</td>
-                        
+
                         {%if peerapps.completion == 'Completed'%}
                         <td>Completed</td>
                         {%else%}
@@ -903,7 +1395,7 @@
                 </tbody>
             </table>
         </section>
-        
+
         <section class="dashboardcontent" id="departments" style  = "display: none;">
             <div>
                 <br>
@@ -911,10 +1403,10 @@
                     <button id="slide-item-4" class="tablinks5 active" onclick="openCity(event, 'departmentinfo_tab', 'primarytab', 'tablinks5')">Department Details</button>
                     <button id="slide-item-5" class="tablinks5" onclick="openCity(event, 'GCS_tab', 'primarytab', 'tablinks5')">Departmental Business Objectives and MiRXES Behaviours Blueprint </button>
                     <button id="slide-item-6" class="tablinks5" onclick="openCity(event, 'Appraisal_tab', 'primarytab', 'tablinks5')">Subordinate Appraisals</button>
-		    <button id="slide-item-6" class="tablinks5" onclick="openCity(event, 'Appraisal_tab', 'primarytab', 'tablinks5')"></button> 
+		    <button id="slide-item-6" class="tablinks5" onclick="openCity(event, 'Appraisal_tab', 'primarytab', 'tablinks5')"></button>
                     <div class="slider">
                         <div class="bar1"></div>
-                    </div> 
+                    </div>
                 </div>
                 <br>
                 <!--
@@ -923,7 +1415,7 @@
                     <button class="tablinks3" onclick="openCity(event, 'GCS_tab', 'primarytab', 'tablinks3')">Curated Department GCS</button>
                     <button class="tablinks3" onclick="openCity(event, 'Appraisal_tab', 'primarytab', 'tablinks3')">Subordinate Appraisal System</button>
                 </div>-->
- 
+
                 <!--testing bootstrap tabs-->
                 <!-- Nav tabs
                 <ul class="departmentInfo nav nav-tabs justify-content-center" id="myTab" role="tablist">
@@ -969,15 +1461,15 @@
                                             <td>{{profile.department}}</td>
                                             <td>{{profile.name}}</td>
                                             <td>{{profile.date_Of_Hire}}</td>
-                                            
-                                            
+
+
                                             {%with UALcounter=profile.user_appraisal_list_set.all%}
                                             <td style = "line-height: 10px;">{%for appraisal in UALcounter%}
-                                                <p>{{appraisal.overall_appraisal.name}} - 
+                                                <p>{{appraisal.overall_appraisal.name}} -
                                                     {%if appraisal.overall_appraisal.status == 'Stage 1' %} Goals Setting Stage
                                                     {%elif appraisal.overall_appraisal.status == 'Stage 1B' %} Mid-Year Review
                                                     {%elif appraisal.overall_appraisal.status == 'Stage 2'%} Year-End Review
-                                                    {%elif appraisal.overall_appraisal.status == 'Stage 3'%} Reports Stage 
+                                                    {%elif appraisal.overall_appraisal.status == 'Stage 3'%} Reports Stage
                                                     {%elif appraisal.overall_appraisal.status == 'Stage 4'%} Calibration Stage
                                                     {%elif appraisal.overall_appraisal.status == 'Stage 4'%} Over
                                                     {%else%} <strong>---</strong>
@@ -1079,31 +1571,31 @@
 
                         {% if department_GCS_database.count == False %}
                         There are no ongoing Appraisals undergoing Stage 1
-                        {%else%} 
+                        {%else%}
                         {%for overallappraisal in department_GCS_database%}
                         <div id='overallappraisal{{forloop.counter}}'  class='overallappraisalcontent' style = "display: none;">
-                            <div class = "choose-appraisal row justify-content-start p-4 align-items-center shadow"  style = "background: linear-gradient(45deg, #2952A4, #83a1c9); border-radius: 5px; color: white">         
+                            <div class = "choose-appraisal row justify-content-start p-4 align-items-center shadow"  style = "background: linear-gradient(45deg, #2952A4, #83a1c9); border-radius: 5px; color: white">
                                 {%if department_GCS_database.count == False%}
                                 {%else%}
                                 <div class = "GCStab">
                                     <button type="button" data-toggle="dropdown" class="btn dropdown-toggle">Choose Appraisal</button>
-                                    
+
                                     <div class = "dropdown-menu">
                                         {%for overallappraisal in department_GCS_database%}
                                         {% if forloop.first %}
                                         <a class="tablinks4 active active dropdown-item" onclick="openCity(event, 'overallappraisal{{forloop.counter}}', 'overallappraisalcontent', 'tablinks4')">{{overallappraisal.name}} - {{overallappraisal.appraisal_category.name}}</a>
-                                        {% else %}   
+                                        {% else %}
                                         <a class="tablinks4 dropdown-item" onclick="openCity(event, 'overallappraisal{{forloop.counter}}', 'overallappraisalcontent', 'tablinks4')">{{overallappraisal.name}} - {{overallappraisal.appraisal_category.name}}</a>
                                         {%endif%}
                                         {%endfor%}
                                     </div>
                                 </div>
-                                {%endif%} 
+                                {%endif%}
                                 <h3 style = "font-weight: 600; font-size: 24px;"class = "my-auto ml-3">Appraisal for {{overallappraisal}}</h3>
                             </div>
 
                             <br>
-                            
+
                             <div class = "btn-group dropdown">
                                 <button type = "button" class = "addButton btn dropdown-toggle" data-toggle = "dropdown">
                                     <span>Add </span><i class="fa fa-plus" aria-hidden="true"></i>
@@ -1116,7 +1608,7 @@
                                 </div>
                             </div>
 
-                            
+
                             <br><br>
 
                             <div class = "card card-table">
@@ -1144,7 +1636,7 @@
 
                                             {%for goals in overallappraisal.departmental_goals_set.all%}
                                             <tr>
-                           
+
                                                 <td>{{goals.summary}}</td>
                                                 <td>{{goals.description}}</td>
                                                 <td>{{goals.due}}</td>
@@ -1164,7 +1656,7 @@
                                 <div class = "card-header">
                                     <h5 class = "mb-0">MiRXES Behaviours Blueprint</h5>
                                 </div>
-                                
+
                                 <div class = "card-body p-0">
                                     <table class = "table mb-0 pb-0">
                                         <thead class = "thead-light">
@@ -1191,7 +1683,7 @@
                                                 <td><a href="{%url 'GnC:Delete_Departmental_Competencies' competencies.id%} "><i class="fa fa-trash-o" title="Delete"></i></a></td>
                                             </tr>
                                             {%endfor%}
-                                        </tbody>        
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -1224,7 +1716,7 @@
                             </li>
                         </ul>
                         <!--end of testing-->
-                        
+
                         <div class = "tab-content" id = "subAppraisalTabContent">
                             <div class="tab-pane fade show active" id="GCSApproval" role="tabpanel" aria-labelledby="GCSApproval-tab">
                              <!--<div class='secondarytab' id='GCSApproval'>-->
@@ -1272,7 +1764,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             <div class="tab-pane fade" id="MidYear" role="tabpanel" aria-labelledby="MidYear-tab">
                             <!--<div class='secondarytab' id='RatingApproval'>-->
                             <table class = "table table-condensed">
@@ -1307,7 +1799,7 @@
                                         {% elif user_appraisal.status == 'S1BReview'%}
                                         <td>Pending Employee's Review</td>
                                         {%endif%}
-                                        
+
                                         {%if user_appraisal.status == 'S1BEmployee'%}
                                         <!--<td></td>-->
                                         <td></td>
@@ -1374,11 +1866,11 @@
                                         <td>Pending Manager's Review</td>
                                         {%elif user_appraisal.completion == 'ReviewCompleted' %}
                                         <td>Submitted</td>
-                                            
+
                                         {%else%}
                                         <td>Incomplete</td>
                                         {%endif%}
-                                        
+
                                         {%if user_appraisal.status == 'S2Manager' and user_appraisal.completion == 'ECompleted' or user_appraisal.status == 'S2Manager' and user_appraisal.completion == 'MCompleted'%}
                                         <td><a href="{%url 'Appraisals:S2MtApp_Appraisal' user_appraisal.id%}"><i class="fa fa-check" aria-hidden="true" title="Approve"></i></a></td>
                                         <td><a href="{% url 'Appraisals:Update_AppraisalG_M' user_appraisal.id%}"><i class="fa fa-star-half-o" aria-hidden="true" title="Manager Rating"></i></a></td>
@@ -1521,8 +2013,8 @@
                 <!--</div>-->
             </div>
         </section>
-        
-        <section class="dashboardcontent" id="company" style = "display: none;">   
+
+        <section class="dashboardcontent" id="company" style = "display: none;">
             <section>
                 <br>
 
@@ -1543,12 +2035,12 @@
                     <button id="slide-item-4" class="tablinks5 active" onclick="openCity(event, 'appraisalboard', 'companyappraisal', 'tablinks5')">Overall Appraisal</button>
                     <button id="slide-item-5" class="tablinks5" onclick="openCity(event, 'UserAppraisalList', 'companyappraisal', 'tablinks5')">User Appraisals</button>
                     <button id="slide-item-6" class="tablinks5" onclick="openCity(event, 'Reports', 'companyappraisal', 'tablinks5')">Reports</button>
-                    
+
                     <div class="slider">
                         <div class="bar1"></div>
-                    </div> 
+                    </div>
                 </div>
-                
+
                 <!--<div class = "tab-content" id = "myTabContent1">-->
                     <!--<div class = "tab-pane fade show active" id = "appraisaloverview" role = "tabpanel" aria-labelledby="appraisaloverview-tab">-->
                     <div id='appraisalboard' class='companyappraisal' style = "display: block;">
@@ -1567,21 +2059,21 @@
                         <!--testing dynamic cards-->
                         <div class = "appraisalInfo">
                             <div class = "row col-11 mx-auto">
-                                
+
                                 <div class = "col-md-4">
 
-                                    <div class = "card">   
+                                    <div class = "card">
                                         <div class = "card-header"><b>Appraisal List:</b></div>
                                         <ul class= "list-group list-group-flush">
                                             {%for appraisal in company_appraisal_database2%}
-                                                {%if company_appraisal_database2 == 0%} 
+                                                {%if company_appraisal_database2 == 0%}
                                                     There is no ongoing appraisals. Please add a new appraisal.
                                                 {%else%}
                                                     {% if forloop.first %}
                                                         <li class="tablinks4 active active list-group-item list-group-item-action" onclick="openCity(event, 'OngoingAppraisal{{forloop.counter}}', 'companyappraisalstats', 'tablinks4')">{{appraisal.name}}</li>
-                                                    {% else %}   
+                                                    {% else %}
                                                         <li class="tablinks4 list-group-item list-group-item-action" onclick="openCity(event, 'OngoingAppraisal{{forloop.counter}}', 'companyappraisalstats', 'tablinks4')">{{appraisal.name}}</li>
-                                                    {% endif %} 
+                                                    {% endif %}
                                                 {%endif%}
                                             {%endfor%}
                                         </ul>
@@ -1589,20 +2081,20 @@
                                 </div>
                                 <br>
 
-                                {%for appraisal in company_appraisal_database2%}    
+                                {%for appraisal in company_appraisal_database2%}
                                 <div class='companyappraisalstats col-md-8' id='OngoingAppraisal{{forloop.counter}}' style = "display: none;">
                                     {%if company_appraisal_database2 == 0%}
                                     <!--test-->
                                     <div class="card shadow-sm">
                                         <div class="row no-gutters">
 
-                                            <div class="col-md-4 d-flex align-items-center justify-content-center"> 
+                                            <div class="col-md-4 d-flex align-items-center justify-content-center">
                                                 <div>
                                                     <h5>Employee Count</h5>
                                                     <h1>0</h1>
                                                 </div>
                                             </div>
-                                                    
+
                                             <div class="col-md-8 d-flex align-items-center justify-content-center">
                                                 <div class="card-body">
                                                     <div class="card-text">
@@ -1619,13 +2111,13 @@
                                     <div class="card shadow-sm">
                                         <div class="row no-gutters">
 
-                                            <div class="col-md-4 d-flex align-items-center justify-content-center"> 
+                                            <div class="col-md-4 d-flex align-items-center justify-content-center">
                                                 <div>
                                                     <h5>Employee Count</h5>
                                                     <h1>{%with counter=appraisal.user_appraisal_list_set.all%}{{counter.count}}{%endwith%}</h1>
                                                 </div>
                                             </div>
-                                                    
+
                                             <div class="col-md-8 d-flex align-items-center justify-content-center">
                                                 <div class="card-body">
                                                     <h5 class="card-title">{{appraisal.name}}</h5>
@@ -1643,9 +2135,9 @@
                                     {%endif%}
                                 </div>
                                 {%endfor%}
-                                
+
                             </div>
-                            
+
                         </div>
                         <!--<div>
                             <button class="tablinks3" onclick="openCity(event, 'OngoingAppraisals', 'companyappraisalinfo', 'tablinks3')">Ongoing Appraisals</button>
@@ -1702,13 +2194,13 @@
                                             <td><a href=""><i class="fa fa-bell-o centerIcons" aria-hidden="true" title = "Notify"></i></a></td>
                                             <td><a href="{%url 'Appraisals:Update_Overall_Appraisal' appraisal.id%}"><i class="fa fa-pencil-square-o centerIcons" title = "Reconfiguration"></i></a></td>
                                             <td><a href="{% url 'Appraisals:Delete_Overall_Appraisal' appraisal.id %}"><i class="fa fa-trash-o centerIcons" title = "Delete"></i></a></td>
-                                            
-                                            <!--<td>                         
+
+                                            <!--<td>
                                             <button type="button" id="delete-book" class="bs-modal btn-sm btn-danger" data-form-url="{% url 'Appraisals:Delete_Overall_Appraisal' appraisal.pk %}">
                                                 <span class="fa fa-trash"></span>
                                             </button>
                                             </td>-->
-                                        
+
 
                                         </tr>
                                         {%endfor%}
@@ -1731,7 +2223,7 @@
                                             <th style = "width: 15%">Settings</th>
                                         </tr>
                                     </thead>
-                                    <tbody> 
+                                    <tbody>
                                         {%if company_completed_appraisal_database.count == 0%}
                                         <tr>
                                             <td colspan = "7">There are no completed appraisals</td>
@@ -1782,12 +2274,12 @@
                                 </li>
                             </ul>
                             <!--end of testing-->
-                            
+
                             <div class = "tab-content" id = "subAppraisalTabContent">
                                 <div class="tab-pane fade show active" id="GCSApproval" role="tabpanel" aria-labelledby="GCSApproval-tab">
                                     <!--<div class='secondarytab' id='GCSApproval'>-->
                                     <table class = "table table-condensed">
-                                        <thead class = "thead-light"> 
+                                        <thead class = "thead-light">
                                             <tr>
                                                 <th style = "width: 15%;">Appraisal Name</th>
                                                 <th style = "width: 15%;">Employee</th>
@@ -1854,13 +2346,13 @@
                                         {%if user_appraisal.status == 'S1BEmployee' %}
                                         <td>Pending Employee's Inputs</td>
                                         {%elif user_appraisal.status == 'S1BManager'%}
-                                        <td>Pending Manager's Review</td>   
+                                        <td>Pending Manager's Review</td>
                                         {%else%}
                                         <td><i class="fa fa-check" aria-hidden="true" title="Completed" style = "color: rgb(1, 150, 1);"></i></td>
                                         {%endif%}
-                                        
+
                                         <td colspan = "2"><a href="{% url 'Appraisals:Update_MIDAppraisalG' user_appraisal.id%}"><i class="fa fa-calendar" aria-hidden="true" title = "Edit Mid-Year Appraisal"></i></a></td>
-                                        
+
                                     </tr>
                                     {%endfor%}
                                     {%endif%}
@@ -1908,7 +2400,7 @@
                                             <td>Pending Review</td>
                                             {%elif user_appraisal.completion == 'ReviewCompleted' %}
                                             <td>Completed</td>
-                                            
+
                                             {%else%}
                                             <td>Incomplete</td>
                                             {%endif%}
@@ -1921,7 +2413,7 @@
                                             <td></td>
                                             <td><a href="{% url 'Appraisals:HRDetail_User_Appraisal' user_appraisal.overall_appraisal.id user_appraisal.id%}"><i class="fa fa-ellipsis-h" title = "Details"></i></a></td>
                                             <td></td>
-                                            {%endif%}  
+                                            {%endif%}
                                         </tr>
                                         {%endfor%}
                                         {%endif%}
@@ -1988,7 +2480,7 @@
                                             {%else%}
                                             <td>Incomplete</td>
                                             {%endif%}
-                                            
+
                                             {%if user_appraisal.status == 'Approved'%}
                                             <td><a href="{%url 'Appraisals:ApptS2M_Appraisal' user_appraisal.id %}"><i class="fa fa-times-circle" aria-hidden="true" title="Send back to Manager"></i></a></td>
                                             <td><a href="{%url 'Appraisals:Update_AppraisalG_B' user_appraisal.id%}"><i class="fa fa-star-half-o" aria-hidden="true" title="Board Rating"></i></a></td>
@@ -1997,7 +2489,7 @@
                                             <td></td>
                                             <td><a href="{% url 'Appraisals:HRDetail_User_Appraisal' user_appraisal.overall_appraisal.id user_appraisal.id%}"><i class="fa fa-ellipsis-h" title = "Details"></i></a></td>
                                             <td></td>
-                                            {%endif%}  
+                                            {%endif%}
                                         </tr>
                                         {%endfor%}
                                         {%endif%}
@@ -2008,7 +2500,7 @@
                                 <div class="tab-pane fade" id="OverallLogs" role="tabpanel" aria-labelledby="OverallLogs-tab">
                                 <!--<div class='secondarytab' id='GCSApproval'>-->
                                     <table class = "table table-hover table-condensed">
-                                        <thead class = "thead-light"> 
+                                        <thead class = "thead-light">
                                             <tr>
                                                 <th style = "width: 15%">Appraisal Name</th>
                                                 <th style = "width: 15%">Employee</th>
@@ -2064,10 +2556,10 @@
                             <thead class = "thead-light">
                                 <tr>
                                     <th style = "width: 30%">Appraisal Name</th>
-                                    <th class = "text-left leftborder" style = "width: 55%">Report</th>        
+                                    <th class = "text-left leftborder" style = "width: 55%">Report</th>
                                     <th style = "width: 15%" colspan="2">Actions</th>
                                 </tr>
- 
+
                             </thead>
 
                             <tbody>
@@ -2104,12 +2596,12 @@
                                     <td><a href="{%url 'Appraisals:Comp_TRReport' overall_app.id%}"><i class="fa fa-ellipsis-h" title = "Details"></i></a></td>
                                 </tr>
 
-                                {% comment %} 
+                                {% comment %}
                                 <tr>
                                     <td class = "text-left">Calibration Report</td>
                                     <td><i class="fa fa-download" aria-hidden="true" title = "Download"></i></td>
                                     <td><a href=""><i class="fa fa-ellipsis-h" title = "Details"></i></a></td>
-                                </tr> 
+                                </tr>
                                 {% endcomment %}
                             </tbody>
                             {%endfor%}
@@ -2197,7 +2689,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>   
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     {%endblock%}
 
 </body>
