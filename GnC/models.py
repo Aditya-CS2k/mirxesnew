@@ -6,6 +6,8 @@ from Profile.models import Departments
 from Appraisals.models import Appraisal, Overall_Appraisal, User_Appraisal_List
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+from django.conf import settings
+
 
 class goal_comment(models.Model):
     goal = models.ForeignKey('Goals', blank=False, null=False, on_delete=models.CASCADE)
@@ -184,3 +186,27 @@ class Departmental_Competencies(models.Model):
 
     def __str__(self):
         return self.summary
+
+
+#######################
+class Comment_Box(models.Model):
+    goal = models.ForeignKey('Goals', blank = False, null = False, on_delete = models.CASCADE)
+    comment = models.TextField(blank = False, null = True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(Profile , blank = False, null = True, on_delete = models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank = False, null = True, on_delete = models.CASCADE)
+
+    def __str__(self):
+        return self.comment
+
+class Mid_Yr_Comment_Box(models.Model):
+    id = models.AutoField(primary_key=True)
+    goal = models.ForeignKey('Goals', blank = False, null = False, on_delete = models.CASCADE)
+    comment = models.TextField(blank = False, null = True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(Profile, blank = False, null = True, on_delete = models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank = False, null = True, on_delete = models.CASCADE)
+    appraisal = models.ForeignKey(User_Appraisal_List, blank = False, null = True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.comment
