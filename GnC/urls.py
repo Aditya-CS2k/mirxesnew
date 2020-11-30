@@ -8,7 +8,7 @@ urlpatterns = [
     path('user/', views.User_GnC, name = "User_GnC"),
     path('manager/', views.Manager_GnC, name = "Manager_GnC"),
     path('HR/', views.HR_GnC, name = "HR_GnC"),
-    
+
     path('allusers/<int:pk>/create_departmental_goals/', views.Create_Departmental_Goals.as_view(), name = "Create_Manager_Goals"),
     path('allusers/<int:pk>/create_departmental_competencies/', views.Create_Departmental_Competencies.as_view(), name="Create_Manager_Competencies"),
     path('allusers/<int:pk>/create_goals/', views.Create_Goals.as_view(), name ="Create_User_Goals1"),
@@ -44,5 +44,12 @@ urlpatterns = [
 
     path('allusers/<int:pk>/GoalsImage', views.GoalsImage, name='Goals_Image'),
     path('allusers/<int:pk>/UploadGoalsImage', views.GoalsImageUpload, name='Goals_ImageUpload'),
-]
 
+    path('allusers/<int:pk>/Create_Comment/', views.Create_Comment.as_view(), name = "Create_User_Comments"),
+    path('allusers/<int:pk>/Update_Comment/', views.Update_Comment.as_view(), name ='Update_Comment'),
+#     path('allusers/<int:pk>/Manager_Create_Comment/', views.Manager_Create_Comment.as_view(), name ='Manager_Create_Comment'),
+#     path('allusers/<int:pk>/Manager_Update_Comment/', views.Manager_Update_Comment.as_view(), name ='Manager_Update_Comment'),
+    path('allusers/<int:pk>/Mid_Yr_Create_Comment/', views.Mid_Yr_Create_Comment.as_view(), name = "Mid_Yr_Create_User_Comments"),
+    path('allusers/<int:pk>/Mid_Yr_Update_Comment/', views.Mid_Yr_Update_Comment.as_view(), name ='Mid_Yr_Update_Comment'),
+
+]
