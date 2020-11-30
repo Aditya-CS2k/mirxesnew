@@ -1,11 +1,11 @@
 from django.forms import Textarea, DateTimeField, DateField
 from django import forms
-from .models import Goals, Departmental_Goals, Competencies, KPI, Departmental_Competencies
+from .models import Goals, Departmental_Goals, Competencies, KPI, Departmental_Competencies, Comment_Box, Mid_Yr_Comment_Box
 from bootstrap_modal_forms.forms import BSModalModelForm
 
 class CreateGoalsForm(forms.ModelForm): #class CreateGoalsForm(forms.ModelForm):
     #metrics_evidence = forms.ImageField(label="")
-    class Meta: 
+    class Meta:
         model = Goals
         fields=['summary', 'description', 'metrics_Used', 'weightage', 'due']
         labels = {
@@ -43,12 +43,12 @@ class CreateGoalsForm(forms.ModelForm): #class CreateGoalsForm(forms.ModelForm):
             'weightage': forms.NumberInput(attrs={
                     'class': 'form-control',
                     'placeholder': 'Enter the weightage',
-                    'style': 'width: 50%' 
+                    'style': 'width: 50%'
                 }),
             'due': forms.DateTimeInput(
                 attrs={'class': 'form-control datetimepicker-input',
                         'data-target': '#datetimepicker1',
-                        'style': 'width: 50%'},  
+                        'style': 'width: 50%'},
                         format='%d/%m/%Y'),
             }
    # def __init__(self, *args, **kwargs):
@@ -58,7 +58,7 @@ class CreateGoalsForm(forms.ModelForm): #class CreateGoalsForm(forms.ModelForm):
 
 class UploadGoalsEvidence(forms.ModelForm): #class CreateGoalsForm(forms.ModelForm):
    # metrics_evidence = forms.ImageField()
-    class Meta: 
+    class Meta:
         model = Goals
         fields=['metrics_evidence']
         labels = {
@@ -219,7 +219,7 @@ class GoalsForm(forms.ModelForm):
     due = DateField(input_formats=['%d/%m/%Y'])
 
     class Meta:
-        model = Goals 
+        model = Goals
         fields= '__all__'
         labels = {
             "summary": "Objective",
@@ -246,7 +246,7 @@ class GoalsForm(forms.ModelForm):
                 'class': 'form-control datetimepicker-input',
                 'data-target': '#datetimepicker1'
             },  format='%d/%m/%Y'),
-            
+
             'user_rating': forms.Select(attrs={
                 'class': 'form-control'
             }),
@@ -293,9 +293,9 @@ class DepartmentGoalsForm(forms.ModelForm):
             'due': forms.DateInput(attrs={
                 'class': 'form-control'
             })
-        
+
          }
-        
+
 
 class CompetenciesForm(forms.ModelForm):
     class Meta:
@@ -326,4 +326,39 @@ class CompetenciesForm(forms.ModelForm):
             })
         }
 
-    
+
+
+
+class CreateCommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment_Box
+        fields=['comment']
+        labels = {
+            'comment': 'Add comment',
+        }
+        widgets = {
+            'comment': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Enter your comment',
+                    'style': 'max-height:500px;'
+            }),
+            }
+
+class CreateMidYrCommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Mid_Yr_Comment_Box
+        fields=['comment']
+        labels = {
+            'comment': 'Add comment',
+        }
+        widgets = {
+            'comment': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Enter your comment',
+                    'style': 'max-height:500px;'
+            }),
+            }
