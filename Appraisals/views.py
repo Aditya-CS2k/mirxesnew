@@ -2122,7 +2122,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from Profile.models import Profile, Departments
 from .models import Appraisal_Category, Overall_Appraisal, Rating_Scale, User_Appraisal_List, Appraisal, peerAppraisal, \
-    peerAppraisalQuestion
+    peerAppraisalQuestion, Behaviours_Blueprint
 from GnC.models import Goals, Competencies
 from Trainings.models import Skills, Career_Discussion
 # from .forms import CreateAppraisalForm, GoalsFormset, CompetenciesFormset
@@ -2133,7 +2133,7 @@ from .forms import AppGoalsForm, AppCompetenciesForm, peerAppraisalForm, MAppCom
     CreateOverallAppraisalForm_Stage3, CreateOverallAppraisalForm_Stage4, MidAppGoalsForm, MidAppGoalsForm_M, BAppForm, \
     UpdateUserAppRatingForm, UpdateManagerAppRatingForm, UpdateBoardAppRatingForm, AppraisalRejectionForm, \
     GoalsSettingRejectionForm, MidYearRejectionForm, CreateCareerDiscussionForm, CreateCareerDiscussionForm2, \
-    CreatePeerAppraisalForm, UpdatePeerAppraisalForm
+    CreatePeerAppraisalForm, UpdatePeerAppraisalForm, Behaviours_Blueprint_Form
 from django.contrib import messages
 
 from shapeshifter.views import MultiFormView, MultiModelFormView
@@ -2147,6 +2147,7 @@ from django.views.generic import DetailView, DeleteView
 from django.utils.decorators import method_decorator
 from django.forms.models import modelformset_factory, inlineformset_factory
 from bootstrap_modal_forms.generic import BSModalDeleteView
+
 
 
 def APPRAISAL_LAUNCHING_EMAIL(overall_appraisal):
@@ -2813,63 +2814,72 @@ def UpdateAppraisalG(request, *args, **kwargs):
 def UpdateAppraisalC(request, *args, **kwargs):
     id = kwargs.get('pk')
     selfappraisal = get_object_or_404(User_Appraisal_List, id=id)
-    sum = 0
-    weightage_count = 0
+    # sum = 0
+    # weightage_count = 0
 
-    CompetenciesFormset = modelformset_factory(Competencies, form=AppCompetenciesForm, extra=0)
-    queryset1 = Competencies.objects.filter(appraisal=selfappraisal, employee=selfappraisal.employee)
+    Behaviours_Blueprint_Formset = modelformset_factory(Behaviours_Blueprint, form=Behaviours_Blueprint_Form, extra = 0)
+    queryset1 = Behaviours_Blueprint.objects.filter(appraisal=selfappraisal, employee=selfappraisal.employee)
+    print(Behaviours_Blueprint_Formset)
 
     if request.method == 'POST' and 'send' in request.POST:
-        formset = CompetenciesFormset(request.POST or None, queryset=queryset1)
+        formset = Behaviours_Blueprint_Formset(request.POST or None, queryset = queryset1)
         if formset.is_valid():
             competencies = formset.save(commit=False)
             for competency in competencies:
+                # competency.employee = request.user.profile
+                # competency.appraisal = selfappraisal
+                # competency.created_by = self.request.user.id
                 competency.save()
             return HttpResponseRedirect(reverse('Appraisals:Update_AppraisalS', args=(id,)))
 
     elif request.method == 'POST' and 'calculate' in request.POST:
-        formset = CompetenciesFormset(request.POST or None, queryset=queryset1)
+        formset = Behaviours_Blueprint_Formset(request.POST or None, queryset = queryset1)
         if formset.is_valid():
             competencies = formset.save(commit=False)
             for competency in competencies:
+                competency.employee = request.user.profile
+                competency.appraisal = selfappraisal
+                user = User.objects.get(id=request.user.id)
+                competency.created_by = user
                 competency.save()
 
-            for competency in selfappraisal.competencies_set.all():
-                weightage_count += competency.weightage
-            for competency in selfappraisal.competencies_set.all():
-                sum += competency.user_rating * competency.weightage / weightage_count
-            avg = sum
-            sum = 0
-            weightage_count = 0
-
-            if avg >= 5:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Far Exceed Expectations')
-
-            elif avg >= 4:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Exceeds Expectations')
-
-            elif avg >= 3:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Meets Expectations')
-
-            elif avg >= 2:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Needs Improvement')
-
-            elif avg >= 1:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Major Improvement needed')
+            # for competency in selfappraisal.competencies_set.all():
+            #     weightage_count += competency.weightage
+            # for competency in selfappraisal.competencies_set.all():
+            #     sum += competency.user_rating * competency.weightage / weightage_count
+            # avg = sum
+            # sum = 0
+            # weightage_count = 0
+            #
+            # if avg >= 5:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Far Exceed Expectations')
+            #
+            # elif avg >= 4:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Exceeds Expectations')
+            #
+            # elif avg >= 3:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Meets Expectations')
+            #
+            # elif avg >= 2:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Needs Improvement')
+            #
+            # elif avg >= 1:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Major Improvement needed')
             return redirect('.')
 
     else:
-        formset = CompetenciesFormset(queryset=queryset1)
+        formset = Behaviours_Blueprint_Formset(queryset = queryset1)
 
     context = {
         "competencies_formset": formset,
         "employee_appraisal": selfappraisal
     }
+    context['form']= Behaviours_Blueprint_Form()
     return render(request, 'Appraisals/HuNet_UpdateC.html', context)
 
 
