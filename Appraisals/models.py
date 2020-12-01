@@ -2,14 +2,16 @@ from django.db import models
 from Profile.models import Profile
 from datetime import date
 from django.contrib.auth.models import Group, User, auth
+
 from django.core.validators import MaxValueValidator, MinValueValidator
- 
+
+from django.conf import settings
 # Create your models here.
 
 def GRADING_SYSTEM(x):
     if x>= 5:
         return 'Far Exceed Expectations'
-    
+
     elif x>= 4:
         return 'Exceeds Expectations'
 
@@ -123,10 +125,10 @@ def B_FINAL_GRADE(selfappraisal, overallappraisal):
 
 class Appraisal_Category(models.Model):
     name = models.CharField(max_length = 100)
-    
+
     def __str__(self):
         return self.name
-        
+
 class Overall_Appraisal(models.Model):
     STAGES_CHOICES = (
         ('Stage 1', 'Goals Setting'),
@@ -155,7 +157,7 @@ class Overall_Appraisal(models.Model):
 
     mid_year_start_date = models.DateField(default=date.today)
     mid_year_end_date = models.DateField(default=date.today)
-    
+
     end_year_start_date = models.DateField(default=date.today)
     appraisal_end_date = models.DateField(default=date.today)
     reports_end_date = models.DateField(default=date.today)
@@ -163,7 +165,7 @@ class Overall_Appraisal(models.Model):
 
     #Temporary no foreignkey
     rating_scale = models.CharField(max_length= 50, blank = False, null = True, choices=RATING_CHOICES, default='Denselight System')
-    
+
     status = models.CharField(max_length = 100, choices=STAGES_CHOICES, blank = False, null = True)
 
     def __str__(self):
@@ -185,7 +187,7 @@ class User_Appraisal_List(models.Model):
         (4, '4 - Exceeds Expectations'),
         (5, '5 - Far Exceed Expectations')
     ]
-    
+
     STATUS_CHOICE = (
         ('Employee', 'Employee'),
         ('Manager', 'Manager'),
@@ -194,7 +196,7 @@ class User_Appraisal_List(models.Model):
         ('S1BReview', 'S1BReview'),
         ('S2Employee', 'S2Employee'),
         ('S2Manager', 'S2Manager'),
-        ('Approved', 'Approved')    
+        ('Approved', 'Approved')
     )
 
     COMPLETION_CHOICE = (
@@ -217,8 +219,8 @@ class User_Appraisal_List(models.Model):
 
     status = models.CharField(max_length = 30, blank = False, null = False, choices=STATUS_CHOICE)
     appraisal_name = models.CharField(max_length = 50, blank = False, null = True)
-    appraisal_category = models.ForeignKey(Appraisal_Category, blank = False, null = True, on_delete= models.SET_NULL)  
-    
+    appraisal_category = models.ForeignKey(Appraisal_Category, blank = False, null = True, on_delete= models.SET_NULL)
+
     overall_board_comments = models.CharField(max_length=5000, blank = True, null = True, default = 'No Comments')
 
     start_date = models.DateField(null = True)
@@ -242,36 +244,36 @@ class User_Appraisal_List(models.Model):
     def __str__(self):
         return "{}:'s Appraisal".format(self.employee.name)
 
-    def get_final_grade_user(self):    
-        
+    def get_final_grade_user(self):
+
         final_score = FINAL_GRADE(self, self.overall_appraisal)
         grades = GRADING_SYSTEM(final_score)
         return grades
 
-    def get_final_grade_manager(self):    
-        
+    def get_final_grade_manager(self):
+
         final_score = M_FINAL_GRADE(self, self.overall_appraisal)
         grades = GRADING_SYSTEM(final_score)
         return grades
 
-    def get_final_grade_board(self):    
-        
+    def get_final_grade_board(self):
+
         final_score = B_FINAL_GRADE(self, self.overall_appraisal)
         grades = GRADING_SYSTEM(final_score)
         return grades
 
-    def get_final_score_user(self):    
-        
+    def get_final_score_user(self):
+
         final_score = FINAL_GRADE(self, self.overall_appraisal)
         return final_score
 
-    def get_final_score_manager(self):    
-        
+    def get_final_score_manager(self):
+
         final_score = M_FINAL_GRADE(self, self.overall_appraisal)
         return final_score
 
-    def get_final_score_board(self):    
-        
+    def get_final_score_board(self):
+
         final_score = B_FINAL_GRADE(self, self.overall_appraisal)
         return final_score
 
@@ -281,10 +283,10 @@ class User_Appraisal_List(models.Model):
     #     goals = self.goals_set.all()
     #     for goal in goals:
     #         weightage_check += goal.weightage
-        
+
     #     for goal in goals:
     #         avg_weightage += goal.user_rating * goal.weightage / weightage_check
-        
+
     #     if weightage_check > 100:
     #         return -1
     #     else:
@@ -297,7 +299,7 @@ class User_Appraisal_List(models.Model):
     #     for competency in competencies:
     #         weightage_check += competency.weightage
     #         avg_weightage += competency.user_rating * competency.weightage / weightage_check
-        
+
     #     if weightage_check > 100:
     #         return -1
     #     else:
@@ -310,7 +312,7 @@ class User_Appraisal_List(models.Model):
     #     for skill in skills:
     #         weightage_check += skill.weightage
     #         avg_weightage += skill.user_rating * skill.weightage / weightage_check
-        
+
     #     if weightage_check > 100:
     #         return -1
     #     else:
@@ -324,22 +326,22 @@ class User_Appraisal_List(models.Model):
     #     for goal in goals:
     #         sum += goal.user_rating
     #         count += 1
-        
+
     #     competencies = self.competencies_set.all()
     #     for competency in competencies:
     #         sum += competency.user_rating
     #         count += 1
-        
+
     #     skills = self.skills_set.all()
     #     for skill in skills:
     #         sum += skill.user_rating
     #         count+=1
-        
+
     #     if count >= 1:
     #         return float(sum/count)
     #     else:
     #         return -1
-    
+
     # def get_UAL_managerrating(self):
     #     sum = 0
     #     count = 0
@@ -347,19 +349,19 @@ class User_Appraisal_List(models.Model):
     #     for goal in goals:
     #         sum += goal.manager_rating
     #         count += 1
-        
+
     #     competencies = self.competencies_set.all()
     #     for competency in competencies:
     #         sum += competency.manager_rating
     #         count += 1
-        
+
     #     skills = self.skills_set.all()
     #     for skill in skills:
     #         sum += skill.manager_rating
     #         count+=1
-        
+
     #     return float(sum/count)
-    
+
     # def get_UAL_boardrating(self):
     #     sum = 0
     #     count = 0
@@ -367,17 +369,17 @@ class User_Appraisal_List(models.Model):
     #     for goal in goals:
     #         sum += goal.board_rating
     #         count += 1
-        
+
     #     competencies = self.competencies_set.all()
     #     for competency in competencies:
     #         sum += competency.board_rating
     #         count += 1
-        
+
     #     skills = self.skills_set.all()
     #     for skill in skills:
     #         sum += skill.board_rating
     #         count+=1
-        
+
     #     return int(sum/count)
 
 
@@ -424,7 +426,7 @@ class peerAppraisal(models.Model):
     completion = models.CharField(max_length=20, default = 'Uncompleted', blank = False, null = True, choices=COMPLETION_CHOICE)
     created_by = models.ForeignKey(Profile, blank = True, related_name="creatorPA", null = True, on_delete=models.CASCADE)
 
-    
+
     def __str__(self):
         return "{}'s Peer Appraisal".format(self.appraisal)
 
@@ -439,3 +441,35 @@ class peerAppraisalQuestion(models.Model):
     title = models.CharField(max_length=500, blank = True, null = True)
     answer = models.CharField(max_length=1000, blank = True, null = True)
     completed = models.CharField(max_length=20, default = 'Uncompleted', blank = False, null = True, choices=COMPLETION_CHOICE)
+
+
+################
+class Behaviours_Blueprint(models.Model):
+    RATING_CHOICES = [
+        (1, '1 - Major Improvement Needed'),
+        (2, '2 - Needs Improvement'),
+        (3, '3 - Meets Expectations'),
+        (4, '4 - Exceeds Expectations'),
+        (5, '5 - Far Exceed Expectations')
+    ]
+
+    id = models.AutoField(primary_key=True)
+    appraisal = models.ForeignKey(User_Appraisal_List, blank = False, null = True, on_delete=models.SET_NULL)
+    employee = models.ForeignKey(Profile, blank = False, null = True, on_delete=models.SET_NULL)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank = False, null = True, on_delete = models.CASCADE)
+    f1 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f2 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f3 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f4 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f5 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f6 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f7 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f8 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f9 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f10 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f11 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f12 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f13 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f14 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f15 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f16 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
