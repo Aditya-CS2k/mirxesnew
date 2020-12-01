@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import Textarea, DateTimeField, DateField
-from .models import peerAppraisal, peerAppraisalQuestion, Appraisal_Category, Overall_Appraisal, Rating_Scale
+from .models import peerAppraisal, peerAppraisalQuestion, Appraisal_Category, Overall_Appraisal, Rating_Scale, Behaviours_Blueprint
 from GnC.models import Goals, Competencies
 from Trainings.models import Skills, Career_Discussion
 from Appraisals.models import User_Appraisal_List
@@ -619,10 +619,10 @@ class AppGoalsForm(forms.ModelForm):
                 attrs={'class': 'form-control',
                        'style': 'width: 60%; height: 120px; font-size: 16px;'
                        }),
-            'MID_user_comments': forms.Textarea( 
+            'MID_user_comments': forms.Textarea(
                 attrs={'class': 'form-control',
                        'style': 'max-height: 150px; resize: none'
-                       }), 
+                       }),
             'MID_manager_comments': forms.Textarea(
                 attrs={'class': 'form-control',
                     'style': 'max-height: 150px; resize: none'
@@ -776,7 +776,7 @@ class MAppGoalsForm(forms.ModelForm):
             "user_comments": "Employee's Comments",
              "MID_user_comments": "Mid-Year Review Comments (Employee)",
             "MID_manager_comments": "Mid-Year Review Comments (Manager)",
-        }     
+        }
 
         widgets = {
             'summary': forms.TextInput(attrs={
@@ -1394,3 +1394,112 @@ class UpdateBoardAppRatingForm(forms.ModelForm):
                        'style': 'font-size: 16px; height: 120px; resize: none;'
                        }),
         }
+
+######
+class Behaviours_Blueprint_Form(forms.ModelForm):
+    class Meta:
+        model = Behaviours_Blueprint
+        fields = (
+        'id',
+        'f1',
+        'f2',
+        'f3',
+        'f4',
+        'f5',
+        'f6',
+        'f7',
+        'f8',
+        'f9',
+        'f10',
+        'f11',
+        'f12',
+        'f13',
+        'f14',
+        'f15',
+        'f16',
+        )
+        labels = {
+        'f1': 'Think Strategically ',
+        'f2': 'Drive Innovation',
+        'f3': 'Customer Driven',
+        'f4': 'Can Do – Will Do',
+        'f5': 'Lead with Integrity',
+        'f6': 'Deliver Results',
+        'f7': 'Connect',
+        'f8': 'Learn',
+        'f9': 'Improve',
+        'f10': 'Leadership',
+        'f11': 'Achievement of operational targets including lean',
+        'f12': 'Achievement of financial targets including forecasting accuracy',
+        'f13': 'People related issues including diversity ',
+        'f14': 'Implementation of PM (project management) processes',
+        'f15': 'Progress to achieve operational best practice',
+        'f16': 'Overall Performance vs Goals',
+        }
+        widgets = {
+                'f1': forms.Select(
+                attrs={'class': 'form-control',
+                        'style': 'width: 60%; font-size: 16px;'
+                }),
+                'f2': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f3': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f4': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f5': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f6': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f7': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f8': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f9': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f10': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f11': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f12': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f13': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f14': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f15': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f16': forms.Select(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+
+                }
