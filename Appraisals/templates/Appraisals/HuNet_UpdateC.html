@@ -51,23 +51,24 @@
                     <span>Recommendations by HR</span>
                     <span>Summary</span>
                 </div>
-                {%endblock%}
+
 
                 <br>
 
                 <!--HTML form, action on current page, use 'POST' method (secure)-->
                 <form action='' method = "POST" enctype= "multipart/form-data">
                     <!--Django Exclusive: CSRF token is a random, hard-to-guess string, prevent CSRF atk-->
-
-                    {%csrf_token%}
-                    {%block heading%}<h4 class = "heading"> Employee's Rating: MiRXES Behaviours </h4>{%endblock%}
-
-                    {%block rejectioncomments%}{%endblock%}
-
                     {{ competencies_formset.management_form }}
+                    {%csrf_token%}
+                    <h4 class = "heading"> Employee's Rating: MiRXES Behaviours </h4>
+
+
+
+
                         {% for form in competencies_formset %}
                         <div class = "card card-body form-card">
-                            {{form.as_p}}
+                            {{form|crispy}}
+                          
                         </div>
 
                         <br><br>
@@ -87,6 +88,7 @@
             </div>
         </div>
     </div>
+    {%endblock%}
     {%endblock%}
 </body>
 </html>
