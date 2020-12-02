@@ -2,7 +2,7 @@
 {%extends 'homepage.html'%}
 
 <!--Load static is to load static files (HTML/CSS/Js)-->
-{%load static%} 
+{%load static%}
 {% load crispy_forms_tags %}
 <!--To inform website version of HTML-->
 <!DOCTYPE html>
@@ -19,10 +19,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!--font--> 
+    <!--font-->
     <link href="https://fonts.googleapis.com/css2?family=Hind:wght@600&display=swap" rel="stylesheet"> <!--hind-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> <!--open sans-->
-    
+
     {%endblock%}
 </head>
 
@@ -34,7 +34,7 @@
         <div class = "card">
             <form action= "" method = "POST">
                 <div class="form-group">
-            
+
                     <div class = "card-body">
                         {%block bubbleurl%}
                         <div id="line"></div>
@@ -42,14 +42,14 @@
                             <a href="{% url 'Appraisals:Update_AppraisalG' user_app.id %}"><button type = "button" class = "btn">1</button></a>
                             <a href="{% url 'Appraisals:Update_AppraisalC' user_app.id %}"><button type = "button" class = "btn">2</button></a>
                             <a href="{% url 'Appraisals:Update_AppraisalCareer' user_app.id %}"><button type = "button" class = "btn">3</button></a>
-                            <a href="{% url 'Appraisals:Update_AppraisalS' user_app.id %}"><button type = "button" class = "btn">4</button></a>
-                            <a href="{% url 'Appraisals:Update_Appraisal' user_app.id %}"><button type = "button" class = "btn activebtn">5</button></a>
-                        </div> 
+
+                            <a href="{% url 'Appraisals:Update_Appraisal' user_app.id %}"><button type = "button" class = "btn activebtn">4</button></a>
+                        </div>
                         <div class = "row button-name-row justify-content-between m-0">
                             <span>Personal Business Objectives Rating</span>
                             <span>MiRXES Behaviours Blueprint Rating</span>
 			    <span>Performance Summary</span>
-			    <span>Recommendations by HR</span>
+			    
                             <span>Summary</span>
                         </div>
                         {%endblock%}
@@ -92,8 +92,8 @@
                         <table class = "table table-bordered text-center fixed">
                             <thead class = "thead-light">
                                 <th style = "width: 45%;">Goals</th>
-                                <th style = "width: 15%;">Employee's Rating</th>    
-                                <th style = "width: 40%;">Comments</th>                
+                                <th style = "width: 15%;">Employee's Rating</th>
+                                <th style = "width: 40%;">Comments</th>
                             </thead>
                             <tbody>
                                 {% for goal in user_app.goals_set.all %}
@@ -115,8 +115,8 @@
                         <table class = "table table-bordered text-center fixed">
                             <thead class = "thead-light">
                                 <th style = "width: 45%;">Core Values Competency</th>
-                                <th style = "width: 15%;">Employee's Rating</th>  
-                                <th style = "width: 40%;">Comments</th>                
+                                <th style = "width: 15%;">Employee's Rating</th>
+                                <th style = "width: 40%;">Comments</th>
                             </thead>
                             <tbody>
                                 {% for competency in user_app.competencies_set.all %}
@@ -132,14 +132,14 @@
                             </tbody>
                         </table>
                         {%endif%}
-                        
+
                         <br>
                         {% if user_app.skills_set.count > 0 %}
                         <table class = "table table-bordered text-center fixed pb-0 mb-0">
                             <thead class = "thead-light">
                                 <th style = "width: 45%;">Skills</th>
-                                <th style = "width: 15%;">Employee's Rating</th> 
-                                <th style = "width: 40%;">Comments</th>                 
+                                <th style = "width: 15%;">Employee's Rating</th>
+                                <th style = "width: 40%;">Comments</th>
                             </thead>
                             <tbody>
                                 {% for skills in user_app.skills_set.all %}
@@ -149,34 +149,38 @@
                                     <td>{{skills.user_comments}}</td>
                                 </tr>
                                 {%endfor%}
+
                                 <tr>
                                     <td colspan="3" rowspan="3">Average Score: {{skills_score}}<p>{{skills_weightage}}</p></td>
                                 </tr>
                             </tbody>
                         </table>
                         {%endif%}
+                        <form>
+                          {{behaviourform|crispy}}
+                        </form>
 
                         <div class = "row m-0">
 
                             <div class = "card score-card shadow-sm pt-0 mt-0 mr-5" style = "min-width: 200px">
                                 <div class = "card-body">
-                                    <p>Average Score</p> 
+                                    <p>Average Score</p>
                                     <i class="fa fa-line-chart" aria-hidden="true" style = "float: left; font-size: 36px"></i>
                                     <h3 style = "float: right">{{total_score}}</h3>
                                     <!-- {{total_weightage}} -->
                                 </div>
                             </div>
 
-    
+
                             <div class = "card score-card shadow-sm pt-0 mt-0" style = "min-width: 200px">
                                 <div class = "card-body">
-                                    <p>Average Grade</p> 
+                                    <p>Average Grade</p>
                                     <i class="fa fa-line-chart" aria-hidden="true" style = "float: left; font-size: 36px"></i>
                                     <h5 style = "float: right">{{user_app.get_final_grade_user}}</h5>
                                     <!-- {{total_weightage}} -->
                                 </div>
                             </div>
-  
+
                         </div>
                         {%endblock%}
 
@@ -199,6 +203,13 @@
         </div>
 
         <div class = "row" style = "height: 250px"></div>
+    </div>
+    <div> {%for i in query%}
+
+      {{i.f1}}
+
+
+      {%endfor%}
     </div>
     {%endblock%}
 </body>
