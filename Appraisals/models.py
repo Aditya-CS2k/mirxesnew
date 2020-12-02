@@ -473,3 +473,66 @@ class Behaviours_Blueprint(models.Model):
     f14 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
     f15 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
     f16 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+
+
+class Hr_Recom(models.Model):
+    LENGTH_CHOICES = [
+        (1, '1 month'),
+        (2, '2 months'),
+        (3, '3 months'),
+        (4, '4 months'),
+        (5, '5 months'),
+        (6, '6 months')
+    ]
+    id = models.AutoField(primary_key=True)
+    appraisal = models.ForeignKey(User_Appraisal_List, blank = False, null = True, on_delete=models.SET_NULL)
+    employee = models.ForeignKey(Profile, blank = False, null = True, on_delete=models.SET_NULL)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank = False, null = True, on_delete = models.CASCADE)
+    hr_comment = models.TextField(blank = False, null = True)
+    PIP_length = models.IntegerField(choices = LENGTH_CHOICES)
+    Date = models.DateTimeField()
+
+
+class Manager_Behaviours_Blueprint(models.Model):
+    RATING_CHOICES = [
+        (1, '1 - Major Improvement Needed'),
+        (2, '2 - Needs Improvement'),
+        (3, '3 - Meets Expectations'),
+        (4, '4 - Exceeds Expectations'),
+        (5, '5 - Far Exceed Expectations')
+    ]
+
+    id = models.AutoField(primary_key=True)
+    bb = models.ForeignKey(Behaviours_Blueprint, blank = False, null = True, on_delete=models.SET_NULL)
+    appraisal = models.ForeignKey(User_Appraisal_List, blank = False, null = True, on_delete=models.SET_NULL)
+    employee = models.ForeignKey(Profile, blank = False, null = True, on_delete=models.SET_NULL)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank = False, null = True, on_delete = models.CASCADE)
+    f1 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f2 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f3 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f4 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f5 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f6 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f7 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f8 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f9 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f10 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f11 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f12 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f13 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f14 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f15 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+    f16 = models.IntegerField(choices = RATING_CHOICES, blank = False, null = False, default = 1)
+
+
+class Manager_Career_Discussion(models.Model):
+    id = models.AutoField(primary_key=True)
+    appraisal = models.ForeignKey(User_Appraisal_List, blank = False, null = True, on_delete=models.SET_NULL)
+    employee = models.ForeignKey(Profile, blank = False, null = True, on_delete=models.SET_NULL)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank = False, null = True, on_delete = models.CASCADE)
+    Q1 = models.TextField(blank = False, null = True)
+    Q2 = models.TextField(blank = False, null = True)
+    Q3 = models.TextField(blank = False, null = True)
+    Q4 = models.TextField(blank = False, null = True)
+    Q5 = models.TextField(blank = False, null = True)
+    Date = models.DateTimeField(auto_now_add=True)
