@@ -51,20 +51,18 @@
                 </div>
                 {%endblock%}
 
+                <form method = "POST">
+                  {{ form|crispy }}
+                </form>
+
                 <br>
                 <form action='' method = "POST" enctype= "multipart/form-data">
                     <!--Django Exclusive: CSRF token is a random, hard-to-guess string, prevent CSRF atk-->
-
-                    {%csrf_token%}
-                    {%block heading%}<h4 class = "heading"> Employee's Rating: Recommendations by HR---Skills Assessment this page is not applicable to MiRXES Behaviours</h4>{%endblock%}
-
-                    {%if skills_count >= 1 %}
-                    <a href="{% url 'Trainings:hyperlink_training_list'%}" target="_blank" class = "btn btn-sm btn-info" role = "button">List of Available Trainings &nbsp; <i class="fa fa-external-link" aria-hidden="true"></i></button></a>
-                    {%endif%}
-                    {%block rejectioncomments%}
-                    {%endblock%}
-
                     {{ skills_formset.management_form }}
+                    {%csrf_token%}
+
+
+
                         {% for form in skills_formset %}
 
                         <div class = "card card-body form-card">
