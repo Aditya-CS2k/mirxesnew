@@ -2122,7 +2122,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from Profile.models import Profile, Departments
 from .models import Appraisal_Category, Overall_Appraisal, Rating_Scale, User_Appraisal_List, Appraisal, peerAppraisal, \
-    peerAppraisalQuestion, Behaviours_Blueprint
+    peerAppraisalQuestion, Behaviours_Blueprint, Hr_Recom, Manager_Behaviours_Blueprint, Manager_Career_Discussion
 from GnC.models import Goals, Competencies
 from Trainings.models import Skills, Career_Discussion
 # from .forms import CreateAppraisalForm, GoalsFormset, CompetenciesFormset
@@ -2132,8 +2132,8 @@ from .forms import AppGoalsForm, AppCompetenciesForm, peerAppraisalForm, MAppCom
     AppSkillsForm, MAppSkillsForm, BAppSkillsForm, TryingOutForm, CreateOverallAppraisalForm_Stage1, \
     CreateOverallAppraisalForm_Stage3, CreateOverallAppraisalForm_Stage4, MidAppGoalsForm, MidAppGoalsForm_M, BAppForm, \
     UpdateUserAppRatingForm, UpdateManagerAppRatingForm, UpdateBoardAppRatingForm, AppraisalRejectionForm, \
-    GoalsSettingRejectionForm, MidYearRejectionForm, CreateCareerDiscussionForm, CreateCareerDiscussionForm2, \
-    CreatePeerAppraisalForm, UpdatePeerAppraisalForm, Behaviours_Blueprint_Form
+    GoalsSettingRejectionForm, MidYearRejectionForm,  CreateCareerDiscussionForm2, \
+    CreatePeerAppraisalForm, UpdatePeerAppraisalForm, Behaviours_Blueprint_Form, Hr_Recom_Form, Behaviours_Blueprint_FillForm, Manager_Behaviours_Blueprint_Form, ManagerCareerDiscussionForm
 from django.contrib import messages
 
 from shapeshifter.views import MultiFormView, MultiModelFormView
@@ -2147,6 +2147,8 @@ from django.views.generic import DetailView, DeleteView
 from django.utils.decorators import method_decorator
 from django.forms.models import modelformset_factory, inlineformset_factory
 from bootstrap_modal_forms.generic import BSModalDeleteView
+
+from .models import Behaviours_Blueprint
 
 
 
@@ -2362,6 +2364,7 @@ class Update_Appraisal_Category(UpdateView):
     form_class = CreateAppraisalCategoryForm
     success_url = reverse_lazy('user_homepage')
     template_name = 'Appraisals/HuNet_CreateAppCat.html'
+    # query = Behaviours_Blueprint.objects.all
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -2817,31 +2820,35 @@ def UpdateAppraisalC(request, *args, **kwargs):
     # sum = 0
     # weightage_count = 0
 
-    Behaviours_Blueprint_Formset = modelformset_factory(Behaviours_Blueprint, form=Behaviours_Blueprint_Form, extra = 0)
-    queryset1 = Behaviours_Blueprint.objects.filter(appraisal=selfappraisal, employee=selfappraisal.employee)
-    print(Behaviours_Blueprint_Formset)
+    # Behaviours_Blueprint_Formset = modelformset_factory(Behaviours_Blueprint, form=Behaviours_Blueprint_Form, extra = 0)
+    # queryset1 = Behaviours_Blueprint.objects.filter(appraisal=selfappraisal, employee=selfappraisal.employee)
+    # print(Behaviours_Blueprint_Formset)
 
     if request.method == 'POST' and 'send' in request.POST:
-        formset = Behaviours_Blueprint_Formset(request.POST or None, queryset = queryset1)
-        if formset.is_valid():
-            competencies = formset.save(commit=False)
-            for competency in competencies:
-                # competency.employee = request.user.profile
-                # competency.appraisal = selfappraisal
-                # competency.created_by = self.request.user.id
-                competency.save()
-            return HttpResponseRedirect(reverse('Appraisals:Update_AppraisalS', args=(id,)))
+        form = Behaviours_Blueprint_Form(request.POST or None)
+        # formset = Behaviours_Blueprint_Formset(request.POST or None, queryset = queryset1)
+        if form.is_valid():
+            competency = form.save(commit=False)
+            #competency = form.save(commit=False)
+            # for competency in competencies:
+            competency.employee = request.user.profile
+            competency.appraisal = selfappraisal
+            user = User.objects.get(id=request.user.id)
+            competency.created_by = user
+            competency.save()
+            return HttpResponseRedirect(reverse('Appraisals:Update_AppraisalCareer', args=(id,)))
 
     elif request.method == 'POST' and 'calculate' in request.POST:
-        formset = Behaviours_Blueprint_Formset(request.POST or None, queryset = queryset1)
-        if formset.is_valid():
-            competencies = formset.save(commit=False)
-            for competency in competencies:
-                competency.employee = request.user.profile
-                competency.appraisal = selfappraisal
-                user = User.objects.get(id=request.user.id)
-                competency.created_by = user
-                competency.save()
+        form = Behaviours_Blueprint_Form(request.POST or None)
+        # formset = Behaviours_Blueprint_Formset(request.POST or None, queryset = queryset1)
+        if form.is_valid():
+            competency = form.save(commit=False)
+            # for competency in competencies:
+            competency.employee = request.user.profile
+            competency.appraisal = selfappraisal
+            user = User.objects.get(id=request.user.id)
+            competency.created_by = user
+            competency.save()
 
             # for competency in selfappraisal.competencies_set.all():
             #     weightage_count += competency.weightage
@@ -2873,21 +2880,30 @@ def UpdateAppraisalC(request, *args, **kwargs):
             return redirect('.')
 
     else:
-        formset = Behaviours_Blueprint_Formset(queryset = queryset1)
-
+        # formset = Behaviours_Blueprint_Formset(queryset = queryset1)
+        form = Behaviours_Blueprint_Form()
     context = {
-        "competencies_formset": formset,
+        # "competencies_formset": formset,
         "employee_appraisal": selfappraisal
     }
-    context['form']= Behaviours_Blueprint_Form()
+    context['form']= form
     return render(request, 'Appraisals/HuNet_UpdateC.html', context)
 
 
 @login_required(login_url='login')
 def Update_Appraisal(request, *args, **kwargs):
+
     id = kwargs.get('pk')
     selfappraisal = User_Appraisal_List.objects.get(id=id)
     overallappraisal = selfappraisal.overall_appraisal
+    # print(selfappraisal.id)
+    # print(overallappraisal)
+    query = Behaviours_Blueprint.objects.filter(appraisal = selfappraisal.id).filter(created_by = request.user.id)
+    q = query.first()
+    # print(query)
+    # print(q)
+
+    behaviourform = Behaviours_Blueprint_FillForm(instance = q)
 
     # Goals
     sum = 0
@@ -2946,6 +2962,8 @@ def Update_Appraisal(request, *args, **kwargs):
         'skills_weightage': avg3_grade,
         'total_weightage': totalavg_grade
     }
+    context['query'] = query
+    context['behaviourform'] = behaviourform
     return render(request, 'Appraisals/HuNet_UpdateUAL.html', context)
 
 
@@ -2965,7 +2983,10 @@ def createCareerDiscussion(request, *args, **kwargs):
         careerdiscussion.user_appraisal = user_appraisal_list
         careerdiscussion.save()
        # return redirect('../Update/')
-        return HttpResponseRedirect(reverse('Appraisals:Update_AppraisalS', args=(id,)))
+        return HttpResponseRedirect(reverse('Appraisals:Update_Appraisal', args=(id,)))
+
+    else:
+        form = CreateCareerDiscussionForm2()
 
     context = {
         'form': form,
@@ -2993,13 +3014,13 @@ def UpdateAppraisalS(request, *args, **kwargs):
     id = kwargs.get('pk')
     selfappraisal = get_object_or_404(User_Appraisal_List, id=id)
 
-    skills_count = selfappraisal.skills_set.count()
+    # skills_count = selfappraisal.skills_set.count()
 
-    SkillsFormset = modelformset_factory(Skills, form=AppSkillsForm, extra=0)
+    SkillsFormset = modelformset_factory(Hr_Recom, form=Hr_Recom_Form, extra=0)
     queryset1 = Skills.objects.filter(appraisal=selfappraisal, employee=selfappraisal.employee)
 
-    weightage_count = 0
-    sum = 0
+    # weightage_count = 0
+    # sum = 0
 
     if request.method == 'POST' and 'send' in request.POST:
         formset = SkillsFormset(request.POST or None, queryset=queryset1)
@@ -3017,33 +3038,33 @@ def UpdateAppraisalS(request, *args, **kwargs):
             skills = formset.save(commit=False)
             for skill in skills:
                 skill.save()
-            for skill in selfappraisal.skills_set.all():
-                weightage_count += skill.weightage
-            for skill in selfappraisal.skills_set.all():
-                sum += skill.user_rating * skill.weightage / weightage_count
-            avg = sum
-            sum = 0
-            weightage_count = 0
-
-            if avg >= 5:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Far Exceed Expectations')
-
-            elif avg >= 4:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Exceeds Expectations')
-
-            elif avg >= 3:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Meets Expectations')
-
-            elif avg >= 2:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Needs Improvement')
-
-            elif avg >= 1:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Major Improvement needed')
+            # for skill in selfappraisal.skills_set.all():
+            #     weightage_count += skill.weightage
+            # for skill in selfappraisal.skills_set.all():
+            #     sum += skill.user_rating * skill.weightage / weightage_count
+            # avg = sum
+            # sum = 0
+            # weightage_count = 0
+            #
+            # if avg >= 5:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Far Exceed Expectations')
+            #
+            # elif avg >= 4:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Exceeds Expectations')
+            #
+            # elif avg >= 3:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Meets Expectations')
+            #
+            # elif avg >= 2:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Needs Improvement')
+            #
+            # elif avg >= 1:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Major Improvement needed')
             return redirect('.')
 
 
@@ -3053,8 +3074,9 @@ def UpdateAppraisalS(request, *args, **kwargs):
     context = {
         "skills_formset": formset,
         "employee_appraisal": selfappraisal,
-        "skills_count": skills_count
+        # "skills_count": skills_count
     }
+    context['form'] = Hr_Recom_Form()
     return render(request, 'Appraisals/HuNet_UpdateS.html', context)
 
 
@@ -3129,32 +3151,48 @@ def UpdateAppraisalC_M(request, *args, **kwargs):
     selfappraisal = get_object_or_404(User_Appraisal_List, id=id)
     # sum = 0
     # weightage_count = 0
+    print(selfappraisal.employee.id)
+    query = Behaviours_Blueprint.objects.filter(appraisal = selfappraisal.id).filter(employee = selfappraisal.employee.id)
+    q = query.first()
+    behaviourform = Behaviours_Blueprint_FillForm(instance = q)
+    # print('-------------------')
+    # print(q.id)
+    # print('---------------')
+    # Behaviours_Blueprint_Formset = modelformset_factory(Behaviours_Blueprint, form=Behaviours_Blueprint_Form, extra = 0)
+    # queryset1 = Behaviours_Blueprint.objects.filter(appraisal=selfappraisal, employee=selfappraisal.employee)
 
-    Behaviours_Blueprint_Formset = modelformset_factory(Behaviours_Blueprint, form=Behaviours_Blueprint_Form, extra = 0)
-    queryset1 = Behaviours_Blueprint.objects.filter(appraisal=selfappraisal, employee=selfappraisal.employee)
-    print(Behaviours_Blueprint_Formset)
 
     if request.method == 'POST' and 'send' in request.POST:
-        formset = Behaviours_Blueprint_Formset(request.POST or None, queryset = queryset1)
-        if formset.is_valid():
-            competencies = formset.save(commit=False)
-            for competency in competencies:
-                # competency.employee = request.user.profile
-                # competency.appraisal = selfappraisal
-                # competency.created_by = self.request.user.id
-                competency.save()
-            return HttpResponseRedirect(reverse('Appraisals:Update_AppraisalS', args=(id,)))
+        form = Manager_Behaviours_Blueprint_Form(request.POST or None)
+        # formset = Behaviours_Blueprint_Formset(request.POST or None, queryset = queryset1)
+        if form.is_valid():
+            competency = form.save(commit=False)
+            #competency = form.save(commit=False)
+            # for competency in competencies:
+            bb = Behaviours_Blueprint.objects.get(id = q.id)
+            competency.bb = bb
+            competency.employee = request.user.profile
+            competency.appraisal = selfappraisal
+            user = User.objects.get(id=request.user.id)
+            competency.created_by = user
+            competency.save()
+            return HttpResponseRedirect(reverse('Appraisals:Update_AppraisalCareer_M', args=(id,)))
+
 
     elif request.method == 'POST' and 'calculate' in request.POST:
-        formset = Behaviours_Blueprint_Formset(request.POST or None, queryset = queryset1)
-        if formset.is_valid():
-            competencies = formset.save(commit=False)
-            for competency in competencies:
-                competency.employee = request.user.profile
-                competency.appraisal = selfappraisal
-                user = User.objects.get(id=request.user.id)
-                competency.created_by = user
-                competency.save()
+        form = Manager_Behaviours_Blueprint_Form(request.POST or None)
+        # formset = Behaviours_Blueprint_Formset(request.POST or None, queryset = queryset1)
+        if form.is_valid():
+            competency = form.save(commit=False)
+            #competency = form.save(commit=False)
+            # for competency in competencies:
+            competency.employee = request.user.profile
+            competency.appraisal = selfappraisal
+            user = User.objects.get(id=request.user.id)
+            competency.created_by = user
+            competency.save()
+
+
 
             # for competency in selfappraisal.competencies_set.all():
             #     weightage_count += competency.weightage
@@ -3186,13 +3224,16 @@ def UpdateAppraisalC_M(request, *args, **kwargs):
             return redirect('.')
 
     else:
-        formset = Behaviours_Blueprint_Formset(queryset = queryset1)
+        # formset = Behaviours_Blueprint_Formset(queryset = queryset1)
+        form = Manager_Behaviours_Blueprint_Form()
 
     context = {
-        "competencies_formset": formset,
+        # "competencies_formset": formset,
         "employee_appraisal": selfappraisal
     }
-    context['form']= Behaviours_Blueprint_Form()
+    context['query']= query
+    context['form']= form
+    context['behaviourform'] = behaviourform
     return render(request, 'Appraisals/HuNetM_UpdateC.html', context)
 
 
@@ -3201,68 +3242,81 @@ def UpdateAppraisalS_M(request, *args, **kwargs):
     id = kwargs.get('pk')
     selfappraisal = get_object_or_404(User_Appraisal_List, id=id)
 
-    skills_count = selfappraisal.skills_set.count()
+    # skills_count = selfappraisal.skills_set.count()
 
-    SkillsFormset = modelformset_factory(Skills, form=MAppSkillsForm, extra=0)
-    queryset1 = Skills.objects.filter(appraisal=selfappraisal, employee=selfappraisal.employee)
+    # SkillsFormset = modelformset_factory(Hr_Recom, form=Hr_Recom_Form, extra=0)
+    # queryset1 = Skills.objects.filter(appraisal=selfappraisal, employee=selfappraisal.employee)
 
-    sum = 0
-    weightage_count = 0
+    # sum = 0
+    # weightage_count = 0
 
     if request.method == 'POST' and 'send' in request.POST:
-        formset = SkillsFormset(request.POST or None, queryset=queryset1)
-        if formset.is_valid():
-            skills = formset.save(commit=False)
-            for skill in skills:
-                skill.save()
+        form = Hr_Recom_Form(request.POST or None)
+        # formset = SkillsFormset(request.POST or None, queryset=queryset1)
+        if form.is_valid():
+            skills = form.save(commit=False)
+            # for skill in skills:
+            #     skill.save()
+            skills.employee = request.user.profile
+            skills.appraisal = selfappraisal
+            user = User.objects.get(id=request.user.id)
+            skills.created_by = user
+            skills.save()
            # return HttpResponseRedirect(reverse('Appraisals:Update_AppraisalCareer_M', args=(id,)))
             return HttpResponseRedirect(reverse('Appraisals:Update_Appraisal_M', args=(id,)))
 
     elif request.method == 'POST' and 'calculate' in request.POST:
-        formset = SkillsFormset(request.POST or None, queryset=queryset1)
-        if formset.is_valid():
-            skills = formset.save(commit=False)
-            for skill in skills:
-                skill.save()
-
-            for skill in selfappraisal.skills_set.all():
-                weightage_count += skill.weightage
-            for skill in selfappraisal.skills_set.all():
-                sum += skill.manager_rating * skill.weightage / weightage_count
-            avg = sum
-            sum = 0
-            weightage_count = 0
-
-            if avg >= 5:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Far Exceed Expectations')
-
-            elif avg >= 4:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Exceeds Expectations')
-
-            elif avg >= 3:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Meets Expectations')
-
-            elif avg >= 2:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Needs Improvement')
-
-            elif avg >= 1:
-                messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
-                messages.info(request, 'Grade: Major Improvement needed')
+        form = Hr_Recom_Form(request.POST or None)
+        # formset = SkillsFormset(request.POST or None, queryset=queryset1)
+        if form.is_valid():
+            skills = form.save(commit=False)
+            # for skill in skills:
+            #     skill.save()
+            skills.employee = request.user.profile
+            skills.appraisal = selfappraisal
+            user = User.objects.get(id=request.user.id)
+            skills.created_by = user
+            skills.save()
+            # for skill in selfappraisal.skills_set.all():
+            #     weightage_count += skill.weightage
+            # for skill in selfappraisal.skills_set.all():
+            #     sum += skill.manager_rating * skill.weightage / weightage_count
+            # avg = sum
+            # sum = 0
+            # weightage_count = 0
+            #
+            # if avg >= 5:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Far Exceed Expectations')
+            #
+            # elif avg >= 4:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Exceeds Expectations')
+            #
+            # elif avg >= 3:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Meets Expectations')
+            #
+            # elif avg >= 2:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Needs Improvement')
+            #
+            # elif avg >= 1:
+            #     messages.info(request, 'Average Rating: ' + str(round(avg, 1)))
+            #     messages.info(request, 'Grade: Major Improvement needed')
             return redirect('.')
 
 
     else:
-        formset = SkillsFormset(queryset=queryset1)
+        # formset = SkillsFormset(queryset=queryset1)
+        form = Hr_Recom_Form()
 
     context = {
-        "skills_formset": formset,
+        # "skills_formset": formset,
         "employee_appraisal": selfappraisal,
-        "skills_count": skills_count
+        # "skills_count": skills_count
     }
+    context['form'] = form
     return render(request, 'Appraisals/HuNetM_UpdateS.html', context)
 
 
@@ -3271,20 +3325,31 @@ def UpdateAppraisalCareer_M(request, *args, **kwargs):
     id = kwargs.get('pk')
     user_appraisal_list = User_Appraisal_List.objects.get(id=id)
     overall_appraisal = user_appraisal_list.overall_appraisal
-    car_discussion = user_appraisal_list.career_discussion_set.order_by('-id')[0]
-
+    print('-------------------------')
+    car_discussion = user_appraisal_list.career_discussion_set
+    car =car_discussion.first()
+    # print('++++++++++++++++==')
+    # print(user_appraisal_list.id)
+    # print(car)
+    # print(car_discussion)
+    carform = ManagerCareerDiscussionForm(car)
     final_score = M_FINAL_GRADE(user_appraisal_list, overall_appraisal)
     final_grade = GRADING_SYSTEM(final_score)
 
-    form = CreateCareerDiscussionForm(request.POST or None, instance=car_discussion)
-    if form.is_valid():
-        careerdiscussion = form.save(commit=False)
-        careerdiscussion.employee = request.user.profile
-        careerdiscussion.user_appraisal = user_appraisal_list
-        careerdiscussion.save()
-        #return HttpResponseRedirect(reverse('Appraisals:Update_Appraisal_M', args=(id,)))
-        return HttpResponseRedirect(reverse('Appraisals:Update_AppraisalS_M', args=(id,)))
+    if request.method == 'POST':
+        form = ManagerCareerDiscussionForm(request.POST or None)
+        if form.is_valid():
+            careerdiscussion = form.save(commit=False)
+            careerdiscussion.employee = user_appraisal_list.employee.id
+            careerdiscussion.appraisal = user_appraisal_list
+            careerdiscussion.created_by = request.user.id
+            careerdiscussion.save()
+            return HttpResponseRedirect(reverse('Appraisals:Update_Appraisal_M', args=(id,)))
+    else:
+        form = ManagerCareerDiscussionForm()
+
     context = {
+        'carform': carform,
         'form': form,
         'grade': final_grade,
         'user_app': user_appraisal_list
@@ -3297,7 +3362,13 @@ def Update_Appraisal_M(request, *args, **kwargs):
     id = kwargs.get('pk')
     selfappraisal = User_Appraisal_List.objects.get(id=id)
     overallappraisal = selfappraisal.overall_appraisal
-
+    # print(selfappraisal.id)
+    # print(overallappraisal)
+    query = Manager_Behaviours_Blueprint.objects.filter(appraisal = selfappraisal.id).filter(created_by = request.user.id)
+    q = query.first()
+    # print(query)
+    # print(q)
+    behaviourform = Behaviours_Blueprint_FillForm(instance = q)
     # Goals
     sum = 0
     weightage_count = 0
@@ -3356,6 +3427,8 @@ def Update_Appraisal_M(request, *args, **kwargs):
         'total_weightage': totalavg_grade,
         'form': form
     }
+    context['query'] = query
+    context['behaviourform'] = behaviourform
     return render(request, 'Appraisals/HuNetM_UpdateUAL.html', context)
 
 
