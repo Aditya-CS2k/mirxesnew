@@ -1,21 +1,23 @@
 {%extends 'Appraisals/HuNet_UpdateUAL.html'%}
 {%load static%}
 
+{% load crispy_forms_tags %}
+
 {%block bubbleurl%}
     <div id="line"></div>
     <div class = "row button-row"  style = "margin: 0">
     <a href="{% url 'Appraisals:Update_AppraisalG_M' user_app.id %}"><button type = "button" class = "btn">1</button></a>
     <a href="{% url 'Appraisals:Update_AppraisalC_M' user_app.id %}"><button type = "button" class = "btn">2</button></a>
-    <a href="{% url 'Appraisals:Update_AppraisalS_M' user_app.id %}"><button type = "button" class = "btn">3</button></a>
-    <a href="{% url 'Appraisals:Update_AppraisalCareer_M' user_app.id %}"><button type = "button" class = "btn">4</button></a>
+    <a href="{% url 'Appraisals:Update_AppraisalCareer_M' user_app.id %}"><button type = "button" class = "btn">3</button></a>
+    <a href="{% url 'Appraisals:Update_AppraisalS_M' user_app.id %}"><button type = "button" class = "btn">4</button></a>
     <a href="{% url 'Appraisals:Update_Appraisal_M' user_app.id %}"><button type = "button" class = "btn activebtn">5</button></a>
-    </div> 
+    </div>
     <div class = "row button-name-row justify-content-between m-0">
-        <span>Goals Rating</span>
-        <span>Core Values Competencies Rating</span>
-        <span>Skills Rating</span>
-        <span>Career Discussion</span>
-        <span>Summary</span>
+      <span>Personal Business Objectives Rating</span>
+      <span>MiRXES Behaviours Blueprint Rating</span>
+       <span>Performance Summary</span>
+      <span>Recommendations by HR</span>
+      <span>Summary</span>
     </div>
 {%endblock%}
 
@@ -24,15 +26,15 @@
 <table class = "table table-bordered text-center fixed">
     <thead class = "thead-light">
         <th style = "border-bottom: none"></th>
-        <th colspan = "2">Self</th>    
+        <th colspan = "2">Self</th>
         <th colspan = "2">Supervisor/Manager</th>
     </thead>
     <thead class = "thead-light">
         <th style = "border-top: none">Goals</th>
-        <th>Rating</th>    
+        <th>Rating</th>
         <th>Comments</th>
-        <th>Rating</th>    
-        <th>Comments</th>                
+        <th>Rating</th>
+        <th>Comments</th>
     </thead>
 
     <tbody>
@@ -57,15 +59,15 @@
 <table class = "table table-bordered text-center fixed">
     <thead class = "thead-light">
         <th style = "border-bottom: none"></th>
-        <th colspan = "2">Self</th>    
+        <th colspan = "2">Self</th>
         <th colspan = "2">Supervisor/Manager</th>
     </thead>
     <thead class = "thead-light">
         <th style = "border-top: none">Competencies</th>
-        <th>Rating</th>    
+        <th>Rating</th>
         <th>Comments</th>
-        <th>Rating</th>    
-        <th>Comments</th>                
+        <th>Rating</th>
+        <th>Comments</th>
     </thead>
     <tbody>
         {% for competency in user_app.competencies_set.all %}
@@ -83,21 +85,21 @@
     </tbody>
 </table>
 {%endif%}
-                        
+
 <br>
 {% if user_app.skills_set.count > 0 %}
 <table class = "table table-bordered text-center fixed">
     <thead class = "thead-light">
         <th style = "border-bottom: none"></th>
-        <th colspan = "2">Self</th>    
+        <th colspan = "2">Self</th>
         <th colspan = "2">Supervisor/Manager</th>
     </thead>
     <thead class = "thead-light">
         <th style = "border-top: none">Skills</th>
-        <th>Rating</th>    
+        <th>Rating</th>
         <th>Comments</th>
-        <th>Rating</th>    
-        <th>Comments</th>                
+        <th>Rating</th>
+        <th>Comments</th>
     </thead>
     <tbody>
         {% for skills in user_app.skills_set.all %}
@@ -119,14 +121,14 @@
 <table class = "table table-bordered text-center fixed">
     <thead class = "thead-light">
         <th style = "border-bottom: none"></th>
-        <th style = "border-bottom: none"></th>  
+        <th style = "border-bottom: none"></th>
         <th class = "leftborder" style = "width: 70%"colspan = "2">Answer</th>
     </thead>
     <thead class = "thead-light">
         <th rowspan="2" style = "border-top: none;">Peer</th>
-        <th rowspan="2" style = "border-top: none;">Questions</th>    
+        <th rowspan="2" style = "border-top: none;">Questions</th>
         <th class = "leftborder">Strength</th>
-        <th class = "leftborder">Weakness/AOD</th>                   
+        <th class = "leftborder">Weakness/AOD</th>
     </thead>
 
     <tbody>
@@ -162,11 +164,13 @@
 
 <br><br>
 
+{{behaviourform|crispy}}
+
 <div class = "row m-0">
 
     <div class = "card score-card shadow-sm pt-0 mt-0 mr-5" style = "min-width: 200px">
         <div class = "card-body">
-            <p>Average Score</p> 
+            <p>Average Score</p>
             <i class="fa fa-line-chart" aria-hidden="true" style = "float: left; font-size: 36px"></i>
             <h3 style = "float: right">{{total_score}}</h3>
             <!-- {{total_weightage}} -->
@@ -176,7 +180,7 @@
 
     <div class = "card score-card shadow-sm pt-0 mt-0" style = "min-width: 200px">
         <div class = "card-body">
-            <p>Average Grade</p> 
+            <p>Average Grade</p>
             <i class="fa fa-line-chart" aria-hidden="true" style = "float: left; font-size: 36px"></i>
             <h5 style = "float: right">{{user_app.get_final_grade_user}}</h5>
             <!-- {{total_weightage}} -->
@@ -192,7 +196,7 @@
     Increment Recommendation (%):
     {{form.incrementRecommendation}}<br>
 
-    Bonus Recommendation (Fixed): 
+    Bonus Recommendation (Fixed):
     {{form.bonusRecommendation}}
 
     {%if user_app.recommendationComments != 'NIL' %}
