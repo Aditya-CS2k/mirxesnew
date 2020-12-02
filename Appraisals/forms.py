@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import Textarea, DateTimeField, DateField
-from .models import peerAppraisal, peerAppraisalQuestion, Appraisal_Category, Overall_Appraisal, Rating_Scale, Behaviours_Blueprint
+from .models import peerAppraisal, peerAppraisalQuestion, Appraisal_Category, Overall_Appraisal, Rating_Scale, Behaviours_Blueprint, Hr_Recom, Manager_Behaviours_Blueprint, Manager_Career_Discussion
 from GnC.models import Goals, Competencies
 from Trainings.models import Skills, Career_Discussion
 from Appraisals.models import User_Appraisal_List
@@ -8,6 +8,8 @@ from bootstrap_modal_forms.forms import BSModalModelForm
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Field, Row, Submit, Button, Column
+
+from django.utils.safestring import mark_safe
 
 
 # from .models import Appraisal
@@ -347,10 +349,10 @@ class CreateOverallAppraisalForm_Ref(forms.ModelForm):
         }
 
 
-class CreateCareerDiscussionForm(forms.ModelForm):
+class ManagerCareerDiscussionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
-        super(CreateCareerDiscussionForm, self).__init__(*args, **kwargs)
+        super(ManagerCareerDiscussionForm, self).__init__(*args, **kwargs)
         self.fields['Q1'].widget.attrs['readonly'] = True
         self.fields['Q2'].widget.attrs['readonly'] = True
         self.fields['Q3'].widget.attrs['readonly'] = True
@@ -358,7 +360,7 @@ class CreateCareerDiscussionForm(forms.ModelForm):
         self.fields['Q5'].widget.attrs['readonly'] = True
 
     class Meta:
-        model = Career_Discussion
+        model = Manager_Career_Discussion
         fields = (
             'Q1',
             'Q2',
@@ -1396,7 +1398,23 @@ class UpdateBoardAppRatingForm(forms.ModelForm):
         }
 
 ######
+# class HorizontalRadioRenderer(forms.RadioSelect.renderer):
+#   def render(self):
+#     return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
+class HorizontalRadioSelect(forms.RadioSelect):
+    template_name = 'Appraisals/HuNet_UpdateC.html'
+
+
 class Behaviours_Blueprint_Form(forms.ModelForm):
+    RATING_CHOICES = [
+        (1, '1 - Major Improvement Needed'),
+        (2, '2 - Needs Improvement'),
+        (3, '3 - Meets Expectations'),
+        (4, '4 - Exceeds Expectations'),
+        (5, '5 - Far Exceed Expectations')
+    ]
+    # f1 = forms.ChoiceField(widget=forms.RadioSelect(),choices=RATING_CHOICES)
+    # f2 = forms.ChoiceField(widget=forms.RadioSelect(),choices=RATING_CHOICES)
     class Meta:
         model = Behaviours_Blueprint
         fields = (
@@ -1418,6 +1436,10 @@ class Behaviours_Blueprint_Form(forms.ModelForm):
         'f15',
         'f16',
         )
+
+# widgets = {
+#             'validity': forms.RadioSelect(renderer=RadioCustomRenderer),
+#         }
         labels = {
         'f1': 'Think Strategically ',
         'f2': 'Drive Innovation',
@@ -1437,67 +1459,372 @@ class Behaviours_Blueprint_Form(forms.ModelForm):
         'f16': 'Overall Performance vs Goals',
         }
         widgets = {
-                'f1': forms.Select(
-                attrs={'class': 'form-control',
+                'f1': forms.RadioSelect(
+                attrs={'class': 'radio-inline',
                         'style': 'width: 60%; font-size: 16px;'
                 }),
-                'f2': forms.Select(
+                'f2': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+
+                        }),
+                'f3': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f3': forms.Select(
+                'f4': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f4': forms.Select(
+                'f5': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f5': forms.Select(
+                'f6': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f6': forms.Select(
+                'f7': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f7': forms.Select(
+                'f8': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f8': forms.Select(
+                'f9': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f9': forms.Select(
+                'f10': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f10': forms.Select(
+                'f11': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f11': forms.Select(
+                'f12': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f12': forms.Select(
+                'f13': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f13': forms.Select(
+                'f14': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f14': forms.Select(
+                'f15': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f15': forms.Select(
+                'f16': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
-                'f16': forms.Select(
+
+                }
+
+class Hr_Recom_Form(forms.ModelForm):
+    RATING_CHOICES = [
+        (1, '1 - Major Improvement Needed'),
+        (2, '2 - Needs Improvement'),
+        (3, '3 - Meets Expectations'),
+        (4, '4 - Exceeds Expectations'),
+        (5, '5 - Far Exceed Expectations')
+    ]
+
+    class Meta:
+        model = Hr_Recom
+        fields = (
+            'hr_comment',
+            'PIP_length',
+            'Date',
+        )
+        labels = {
+            'hr_comment': 'Recommendation Comments',
+            'PIP_length': 'Length of the PIP (max 3-6 months)',
+            'Date': 'Date'
+        }
+        widgets = {
+            'hr_comment': forms.Textarea(
+                attrs={'placeholder': 'Please provide reasons and, where appropriate, specify any areas of improvement required and how these will be monitored.',
+                        'class': 'form-control col-8',
+                       'style': 'font-size: 16px; height: 120px; resize: none;'
+                       }),
+            'PIP_length': forms.Select(
+                    attrs={'class': 'form-control',
+                            'style': 'width: 60%; font-size: 16px;'
+                    }),
+        }
+
+
+# class HorizontalRadioSelect(forms.RadioSelect):
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#
+#     css_style = 'style="display: inline-block; margin-right: 10px;"'
+#
+#     renderer.inner_html = '<li ' + css_style + '>{choice_value}{sub_widgets}</li>'
+
+
+class Behaviours_Blueprint_FillForm(forms.ModelForm):
+    RATING_CHOICES = [
+        (1, '1 - Major Improvement Needed'),
+        (2, '2 - Needs Improvement'),
+        (3, '3 - Meets Expectations'),
+        (4, '4 - Exceeds Expectations'),
+        (5, '5 - Far Exceed Expectations')
+    ]
+    # f1 = forms.ChoiceField(widget=forms.RadioSelect(),choices=RATING_CHOICES)
+    # f2 = forms.ChoiceField(widget=forms.RadioSelect(),choices=RATING_CHOICES)
+    class Meta:
+        model = Behaviours_Blueprint
+        fields = (
+        'id',
+        'f1',
+        'f2',
+        'f3',
+        'f4',
+        'f5',
+        'f6',
+        'f7',
+        'f8',
+        'f9',
+        'f10',
+        'f11',
+        'f12',
+        'f13',
+        'f14',
+        'f15',
+        'f16',
+        )
+
+# widgets = {
+#             'validity': forms.RadioSelect(renderer=RadioCustomRenderer),
+#         }
+        labels = {
+        'f1': 'Think Strategically ',
+        'f2': 'Drive Innovation',
+        'f3': 'Customer Driven',
+        'f4': 'Can Do – Will Do',
+        'f5': 'Lead with Integrity',
+        'f6': 'Deliver Results',
+        'f7': 'Connect',
+        'f8': 'Learn',
+        'f9': 'Improve',
+        'f10': 'Leadership',
+        'f11': 'Achievement of operational targets including lean',
+        'f12': 'Achievement of financial targets including forecasting accuracy',
+        'f13': 'People related issues including diversity ',
+        'f14': 'Implementation of PM (project management) processes',
+        'f15': 'Progress to achieve operational best practice',
+        'f16': 'Overall Performance vs Goals',
+        }
+        widgets = {
+                'f1': forms.RadioSelect(
+                attrs={'class': 'inline',
+                        'disabled':'disabled',
+                        'style': 'width: 60%; font-size: 16px;'
+                }),
+                'f2': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+
+                        }),
+                'f3': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f4': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f5': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f6': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f7': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f8': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f9': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f10': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f11': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f12': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f13': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f14': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f15': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f16': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                        'disabled':'disabled',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+
+                }
+
+class Manager_Behaviours_Blueprint_Form(forms.ModelForm):
+    RATING_CHOICES = [
+        (1, '1 - Major Improvement Needed'),
+        (2, '2 - Needs Improvement'),
+        (3, '3 - Meets Expectations'),
+        (4, '4 - Exceeds Expectations'),
+        (5, '5 - Far Exceed Expectations')
+    ]
+    # f1 = forms.ChoiceField(widget=forms.RadioSelect(),choices=RATING_CHOICES)
+    # f2 = forms.ChoiceField(widget=forms.RadioSelect(),choices=RATING_CHOICES)
+    class Meta:
+        model = Manager_Behaviours_Blueprint
+        fields = (
+        'id',
+        'f1',
+        'f2',
+        'f3',
+        'f4',
+        'f5',
+        'f6',
+        'f7',
+        'f8',
+        'f9',
+        'f10',
+        'f11',
+        'f12',
+        'f13',
+        'f14',
+        'f15',
+        'f16',
+        )
+
+# widgets = {
+#             'validity': forms.RadioSelect(renderer=RadioCustomRenderer),
+#         }
+        labels = {
+        'f1': 'Think Strategically ',
+        'f2': 'Drive Innovation',
+        'f3': 'Customer Driven',
+        'f4': 'Can Do – Will Do',
+        'f5': 'Lead with Integrity',
+        'f6': 'Deliver Results',
+        'f7': 'Connect',
+        'f8': 'Learn',
+        'f9': 'Improve',
+        'f10': 'Leadership',
+        'f11': 'Achievement of operational targets including lean',
+        'f12': 'Achievement of financial targets including forecasting accuracy',
+        'f13': 'People related issues including diversity ',
+        'f14': 'Implementation of PM (project management) processes',
+        'f15': 'Progress to achieve operational best practice',
+        'f16': 'Overall Performance vs Goals',
+        }
+        widgets = {
+                'f1': forms.RadioSelect(
+                attrs={'class': 'radio-inline',
+                        'style': 'width: 60%; font-size: 16px;'
+                }),
+                'f2': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+
+                        }),
+                'f3': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f4': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f5': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f6': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f7': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f8': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f9': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f10': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f11': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f12': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f13': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f14': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f15': forms.RadioSelect(
+                        attrs={'class': 'form-control',
+                                'style': 'width: 60%; font-size: 16px;'
+                        }),
+                'f16': forms.RadioSelect(
                         attrs={'class': 'form-control',
                                 'style': 'width: 60%; font-size: 16px;'
                         }),
