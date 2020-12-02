@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'denselight.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangobin',
+        'NAME': 'merxis',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost'
