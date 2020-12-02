@@ -8,7 +8,7 @@
         <a href="{% url 'Appraisals:Update_AppraisalCareer_M' user_app.id %}"><button type = "button" class = "btn activebtn">3</button></a>
     <a href="{% url 'Appraisals:Update_AppraisalS_M' user_app.id %}"><button type = "button" class = "btn">4</button></a>
         <a href="{% url 'Appraisals:Update_Appraisal_M' user_app.id %}"><button type = "button" class = "btn">5</button></a>
-    </div> 
+    </div>
     <div class = "row button-name-row justify-content-between m-0">
         <span>Personal Business Objectives Rating</span>
         <span>MiRXES Behaviours Blueprint Rating</span>
@@ -19,16 +19,9 @@
 {%endblock%}
 
 {%block careerquestions%}
-Summarize the employee's achievement against objectives
-{{form.Q1}} <br>
-Summary on Strengths
-{{form.Q2}} <br>
-Developmental Plan/ Needs(Actions and Timing)
-{{form.Q3}} <br>
-Potential next moves
-<p>The Purpose of the Performance Appraisal Summary is to aid in the assessment of your performance and the development of your career at MiRXES.It is not a promise or contract,expressed or implied, of continued employment or promotion</p>
-<p>Short Term: 0-2 years</p>
-{{form.Q4}} <br>
-Longer Term: 3-5 years
-{{form.Q5}}<br>
+<form>
+{{carform}}
+</form>
+
+
 {%endblock%}
