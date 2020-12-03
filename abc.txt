@@ -1,0 +1,94 @@
+    1  adduser Hunet
+    2  adduser Denselight_EPMP
+    3  adduser Hunet
+    4  adduser Hunet_pteltd
+    5  ssh root@134.122.84.112
+    6  adduser Hunet
+    7  adduser Hunet_pteltd
+    8  adduser hunet
+    9  usermod -aG sudo hunet
+   10  ufw app list
+   11  ufw allow OpenSSH
+   12  ufw enable
+   13  ufw status
+   14  ssh hunet@hunet@134.122.84.112
+   15  ssh hunet@134.122.84.112
+   16  su hunet
+   17  sudo -u postgres psql
+   18  su hunet
+   19  cd /home/hunet/Denselight_EPMP/Denselight_EPMP/
+   20  python manage.py migrate
+   21  python3 manage.py migrate
+   22  su hunet
+   23  cd /home/
+   24  ls
+   25  cd hunet/Denselight_EPMP/Denselight_EPMP/
+   26  ls
+   27  vi manage.py 
+   28  vi denselight/settings.py 
+   29  su hunet
+   30  cd /home/
+   31  ls
+   32  cd huner
+   33  cd hunet
+   34  ls
+   35  cd Denselight_EPMP
+   36  source .env/bin/activate 
+   37  ls
+   38  cd Denselight_EMPM
+   39  cd Denselight_EPMP
+   40  su hunet 
+   41  su hunet
+   42  su hunet
+   43  su hunet
+   44  su hunet 
+   45  su hunet
+   46  su hunet
+   47  cd /home/hunet/Denselight_EPMP/Denselight_EPMP/
+   48  su hunet
+   49  cd /home/hunet/Denselight_EPMP/Denselight_EPMP
+   50  su hunet
+   51  cd /home/hunet/Denselight_EPMP/Denselight_EPMP
+   52  su hunet
+   53  su hunet \
+   54  su hunet
+   55  cd home
+   56  su hunet
+   57  cd home
+   58  su hunet
+   59  su hunet 
+   60  cd home/hunet/Denselight_EPMP/Denselight_EPMP
+   61  cd home/hunet/Denselight_EPMP/Denselight_EPMP/
+   62  cd /home/hunet/Denselight_EPMP/Denselight_EPMP/
+   63  su hunet
+   64  su hunet 
+   65  su hunet
+   66  su hunet 
+   67  su hunet
+   68  su hunet 
+   69  su hunet
+   70  su hunet 
+   71  su hunet
+   72  su hunet 
+   73  su hunet
+   74  su hunet
+   75  server {
+   76  su hunet
+   77  cd /home/hunet/Denselight_EPMP/Denselight_EPMP/
+   78  su hunet
+   79  sudo vi Appraisals/templates/Appraisals/HuNet_DetailUserAppraisal.html
+   80  su hunet
+   81  git pull
+   82  find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+   83  find . -path "*/migrations/*.pyc"  -delete
+   84  python manage.py makemigrations
+   85  source env/bin/activate
+   86  python manage.py makemigrations
+   87  pip install django==3.1.3
+   88  python manage.py makemigrations
+   89  python manage.py migrate
+   90  python manage.py collectstatic
+   91  sudo systemctl restart nginx
+   92  sudo systemctl restart gunicorn
+   93  history
+   94  history >>abc.txt

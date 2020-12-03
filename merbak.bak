@@ -1,0 +1,4847 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.5 (Ubuntu 12.5-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.5 (Ubuntu 12.5-0ubuntu0.20.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: Appraisals_appraisal; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Appraisals_appraisal" (
+    id integer NOT NULL,
+    status character varying(30) NOT NULL,
+    created_by_id integer,
+    employee_list_id integer,
+    manager_id integer,
+    rating_scale_id integer,
+    user_id integer
+);
+
+
+ALTER TABLE public."Appraisals_appraisal" OWNER TO postgres;
+
+--
+-- Name: Appraisals_appraisal_category; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Appraisals_appraisal_category" (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public."Appraisals_appraisal_category" OWNER TO postgres;
+
+--
+-- Name: Appraisals_appraisal_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Appraisals_appraisal_category_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Appraisals_appraisal_category_id_seq" OWNER TO postgres;
+
+--
+-- Name: Appraisals_appraisal_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Appraisals_appraisal_category_id_seq" OWNED BY public."Appraisals_appraisal_category".id;
+
+
+--
+-- Name: Appraisals_appraisal_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Appraisals_appraisal_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Appraisals_appraisal_id_seq" OWNER TO postgres;
+
+--
+-- Name: Appraisals_appraisal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Appraisals_appraisal_id_seq" OWNED BY public."Appraisals_appraisal".id;
+
+
+--
+-- Name: Appraisals_overall_appraisal; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Appraisals_overall_appraisal" (
+    id integer NOT NULL,
+    name character varying(50),
+    goal_weightage integer,
+    competency_weightage integer,
+    skill_weightage integer,
+    start_date date NOT NULL,
+    goals_setting_end_date date NOT NULL,
+    mid_year_start_date date NOT NULL,
+    mid_year_end_date date NOT NULL,
+    end_year_start_date date NOT NULL,
+    appraisal_end_date date NOT NULL,
+    reports_end_date date NOT NULL,
+    calibration_end_date date NOT NULL,
+    rating_scale character varying(50),
+    status character varying(100),
+    appraisal_category_id integer
+);
+
+
+ALTER TABLE public."Appraisals_overall_appraisal" OWNER TO postgres;
+
+--
+-- Name: Appraisals_overall_appraisal_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Appraisals_overall_appraisal_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Appraisals_overall_appraisal_id_seq" OWNER TO postgres;
+
+--
+-- Name: Appraisals_overall_appraisal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Appraisals_overall_appraisal_id_seq" OWNED BY public."Appraisals_overall_appraisal".id;
+
+
+--
+-- Name: Appraisals_peerappraisal; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Appraisals_peerappraisal" (
+    id integer NOT NULL,
+    title1 character varying(200) NOT NULL,
+    strength1 character varying(3000),
+    weaknessdevelopment1 character varying(3000),
+    title2 character varying(200) NOT NULL,
+    strength2 character varying(3000),
+    weaknessdevelopment2 character varying(3000),
+    title3 character varying(200) NOT NULL,
+    strength3 character varying(3000),
+    weaknessdevelopment3 character varying(3000),
+    completion character varying(20),
+    appraisal_id integer,
+    created_by_id integer,
+    manager_id integer,
+    viewer_id integer
+);
+
+
+ALTER TABLE public."Appraisals_peerappraisal" OWNER TO postgres;
+
+--
+-- Name: Appraisals_peerappraisal_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Appraisals_peerappraisal_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Appraisals_peerappraisal_id_seq" OWNER TO postgres;
+
+--
+-- Name: Appraisals_peerappraisal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Appraisals_peerappraisal_id_seq" OWNED BY public."Appraisals_peerappraisal".id;
+
+
+--
+-- Name: Appraisals_peerappraisalquestion; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Appraisals_peerappraisalquestion" (
+    id integer NOT NULL,
+    title character varying(200),
+    answer character varying(1000),
+    completed character varying(20),
+    appraisal_id integer
+);
+
+
+ALTER TABLE public."Appraisals_peerappraisalquestion" OWNER TO postgres;
+
+--
+-- Name: Appraisals_peerappraisalquestion_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Appraisals_peerappraisalquestion_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Appraisals_peerappraisalquestion_id_seq" OWNER TO postgres;
+
+--
+-- Name: Appraisals_peerappraisalquestion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Appraisals_peerappraisalquestion_id_seq" OWNED BY public."Appraisals_peerappraisalquestion".id;
+
+
+--
+-- Name: Appraisals_rating_scale; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Appraisals_rating_scale" (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL,
+    description character varying(5000) NOT NULL,
+    limiter integer NOT NULL
+);
+
+
+ALTER TABLE public."Appraisals_rating_scale" OWNER TO postgres;
+
+--
+-- Name: Appraisals_rating_scale_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Appraisals_rating_scale_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Appraisals_rating_scale_id_seq" OWNER TO postgres;
+
+--
+-- Name: Appraisals_rating_scale_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Appraisals_rating_scale_id_seq" OWNED BY public."Appraisals_rating_scale".id;
+
+
+--
+-- Name: Appraisals_user_appraisal_list; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Appraisals_user_appraisal_list" (
+    id integer NOT NULL,
+    status character varying(30) NOT NULL,
+    appraisal_name character varying(50),
+    overall_board_comments character varying(5000),
+    start_date date,
+    end_date date,
+    completion character varying(50),
+    "goals_settingM_rejection" character varying(3000) NOT NULL,
+    "appraisalHR_rejection" character varying(3000) NOT NULL,
+    mid_year_completion character varying(15) NOT NULL,
+    final_employee_rating integer,
+    final_manager_rating integer,
+    final_board_rating integer,
+    appraisal_category_id integer,
+    employee_id integer,
+    manager_id integer,
+    overall_appraisal_id integer,
+    "mid_yearM_rejection" character varying(3000) NOT NULL,
+    "bonusRecommendation" character varying(1000) NOT NULL,
+    "incrementRecommendation" integer NOT NULL,
+    "recommendationComments" character varying(1000) NOT NULL
+);
+
+
+ALTER TABLE public."Appraisals_user_appraisal_list" OWNER TO postgres;
+
+--
+-- Name: Appraisals_user_appraisal_list_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Appraisals_user_appraisal_list_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Appraisals_user_appraisal_list_id_seq" OWNER TO postgres;
+
+--
+-- Name: Appraisals_user_appraisal_list_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Appraisals_user_appraisal_list_id_seq" OWNED BY public."Appraisals_user_appraisal_list".id;
+
+
+--
+-- Name: GnC_competencies; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."GnC_competencies" (
+    id integer NOT NULL,
+    summary text,
+    description text,
+    weightage integer NOT NULL,
+    user_rating integer NOT NULL,
+    manager_rating integer NOT NULL,
+    board_rating integer NOT NULL,
+    user_comments character varying(2000) NOT NULL,
+    manager_comments character varying(2000) NOT NULL,
+    board_comments character varying(2000) NOT NULL,
+    appraisal_id integer,
+    competency_category_id integer,
+    employee_id integer
+);
+
+
+ALTER TABLE public."GnC_competencies" OWNER TO postgres;
+
+--
+-- Name: GnC_competencies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."GnC_competencies_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."GnC_competencies_id_seq" OWNER TO postgres;
+
+--
+-- Name: GnC_competencies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."GnC_competencies_id_seq" OWNED BY public."GnC_competencies".id;
+
+
+--
+-- Name: GnC_competency_category; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."GnC_competency_category" (
+    id integer NOT NULL,
+    name character varying(1000),
+    description text
+);
+
+
+ALTER TABLE public."GnC_competency_category" OWNER TO postgres;
+
+--
+-- Name: GnC_competency_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."GnC_competency_category_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."GnC_competency_category_id_seq" OWNER TO postgres;
+
+--
+-- Name: GnC_competency_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."GnC_competency_category_id_seq" OWNED BY public."GnC_competency_category".id;
+
+
+--
+-- Name: GnC_competency_comment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."GnC_competency_comment" (
+    id integer NOT NULL,
+    comments text,
+    created_on timestamp with time zone NOT NULL,
+    competency_id integer NOT NULL,
+    created_by_id integer
+);
+
+
+ALTER TABLE public."GnC_competency_comment" OWNER TO postgres;
+
+--
+-- Name: GnC_competency_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."GnC_competency_comment_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."GnC_competency_comment_id_seq" OWNER TO postgres;
+
+--
+-- Name: GnC_competency_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."GnC_competency_comment_id_seq" OWNED BY public."GnC_competency_comment".id;
+
+
+--
+-- Name: GnC_departmental_competencies; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."GnC_departmental_competencies" (
+    id integer NOT NULL,
+    summary text,
+    description text,
+    appraisal_id integer,
+    competency_category_id integer,
+    department_id integer,
+    manager_id integer
+);
+
+
+ALTER TABLE public."GnC_departmental_competencies" OWNER TO postgres;
+
+--
+-- Name: GnC_departmental_competencies_comment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."GnC_departmental_competencies_comment" (
+    id integer NOT NULL,
+    comments text,
+    created_on timestamp with time zone NOT NULL,
+    created_by_id integer,
+    departmental_competencies_id integer NOT NULL
+);
+
+
+ALTER TABLE public."GnC_departmental_competencies_comment" OWNER TO postgres;
+
+--
+-- Name: GnC_departmental_competencies_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."GnC_departmental_competencies_comment_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."GnC_departmental_competencies_comment_id_seq" OWNER TO postgres;
+
+--
+-- Name: GnC_departmental_competencies_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."GnC_departmental_competencies_comment_id_seq" OWNED BY public."GnC_departmental_competencies_comment".id;
+
+
+--
+-- Name: GnC_departmental_competencies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."GnC_departmental_competencies_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."GnC_departmental_competencies_id_seq" OWNER TO postgres;
+
+--
+-- Name: GnC_departmental_competencies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."GnC_departmental_competencies_id_seq" OWNED BY public."GnC_departmental_competencies".id;
+
+
+--
+-- Name: GnC_departmental_goal_comment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."GnC_departmental_goal_comment" (
+    id integer NOT NULL,
+    comments text,
+    created_on timestamp with time zone NOT NULL,
+    created_by_id integer,
+    departmental_goal_id integer NOT NULL
+);
+
+
+ALTER TABLE public."GnC_departmental_goal_comment" OWNER TO postgres;
+
+--
+-- Name: GnC_departmental_goal_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."GnC_departmental_goal_comment_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."GnC_departmental_goal_comment_id_seq" OWNER TO postgres;
+
+--
+-- Name: GnC_departmental_goal_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."GnC_departmental_goal_comment_id_seq" OWNED BY public."GnC_departmental_goal_comment".id;
+
+
+--
+-- Name: GnC_departmental_goals; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."GnC_departmental_goals" (
+    id integer NOT NULL,
+    summary text,
+    description text,
+    due date NOT NULL,
+    appraisal_id integer,
+    department_id integer,
+    goal_category_id integer,
+    manager_id integer
+);
+
+
+ALTER TABLE public."GnC_departmental_goals" OWNER TO postgres;
+
+--
+-- Name: GnC_departmental_goals_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."GnC_departmental_goals_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."GnC_departmental_goals_id_seq" OWNER TO postgres;
+
+--
+-- Name: GnC_departmental_goals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."GnC_departmental_goals_id_seq" OWNED BY public."GnC_departmental_goals".id;
+
+
+--
+-- Name: GnC_goal_category; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."GnC_goal_category" (
+    id integer NOT NULL,
+    name character varying(70) NOT NULL
+);
+
+
+ALTER TABLE public."GnC_goal_category" OWNER TO postgres;
+
+--
+-- Name: GnC_goal_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."GnC_goal_category_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."GnC_goal_category_id_seq" OWNER TO postgres;
+
+--
+-- Name: GnC_goal_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."GnC_goal_category_id_seq" OWNED BY public."GnC_goal_category".id;
+
+
+--
+-- Name: GnC_goal_comment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."GnC_goal_comment" (
+    id integer NOT NULL,
+    comments text,
+    created_on timestamp with time zone NOT NULL,
+    created_by_id integer,
+    goal_id integer NOT NULL
+);
+
+
+ALTER TABLE public."GnC_goal_comment" OWNER TO postgres;
+
+--
+-- Name: GnC_goal_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."GnC_goal_comment_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."GnC_goal_comment_id_seq" OWNER TO postgres;
+
+--
+-- Name: GnC_goal_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."GnC_goal_comment_id_seq" OWNED BY public."GnC_goal_comment".id;
+
+
+--
+-- Name: GnC_goals; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."GnC_goals" (
+    id integer NOT NULL,
+    summary text,
+    description text,
+    due date NOT NULL,
+    weightage integer NOT NULL,
+    "metrics_Used" character varying(100) NOT NULL,
+    user_rating integer NOT NULL,
+    manager_rating integer NOT NULL,
+    board_rating integer NOT NULL,
+    user_comments character varying(2000) NOT NULL,
+    manager_comments character varying(2000) NOT NULL,
+    board_comments character varying(2000) NOT NULL,
+    tracking_status character varying(50),
+    appraisal_id integer,
+    employee_id integer,
+    goal_category_id integer,
+    "MID_manager_comments" character varying(2000) NOT NULL,
+    "MID_user_comments" character varying(2000) NOT NULL,
+    metrics_evidence character varying(100)
+);
+
+
+ALTER TABLE public."GnC_goals" OWNER TO postgres;
+
+--
+-- Name: GnC_goals_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."GnC_goals_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."GnC_goals_id_seq" OWNER TO postgres;
+
+--
+-- Name: GnC_goals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."GnC_goals_id_seq" OWNED BY public."GnC_goals".id;
+
+
+--
+-- Name: GnC_kpi; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."GnC_kpi" (
+    id integer NOT NULL,
+    description character varying(150) NOT NULL,
+    due date,
+    date_created date,
+    progress character varying(20) NOT NULL,
+    goal_id integer NOT NULL
+);
+
+
+ALTER TABLE public."GnC_kpi" OWNER TO postgres;
+
+--
+-- Name: GnC_kpi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."GnC_kpi_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."GnC_kpi_id_seq" OWNER TO postgres;
+
+--
+-- Name: GnC_kpi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."GnC_kpi_id_seq" OWNED BY public."GnC_kpi".id;
+
+
+--
+-- Name: Profile_departments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Profile_departments" (
+    id integer NOT NULL,
+    name character varying(100),
+    manager_id integer
+);
+
+
+ALTER TABLE public."Profile_departments" OWNER TO postgres;
+
+--
+-- Name: Profile_departments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Profile_departments_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Profile_departments_id_seq" OWNER TO postgres;
+
+--
+-- Name: Profile_departments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Profile_departments_id_seq" OWNED BY public."Profile_departments".id;
+
+
+--
+-- Name: Profile_discard_skills; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Profile_discard_skills" (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL,
+    "course_Attended" character varying(150)
+);
+
+
+ALTER TABLE public."Profile_discard_skills" OWNER TO postgres;
+
+--
+-- Name: Profile_discard_skills_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Profile_discard_skills_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Profile_discard_skills_id_seq" OWNER TO postgres;
+
+--
+-- Name: Profile_discard_skills_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Profile_discard_skills_id_seq" OWNED BY public."Profile_discard_skills".id;
+
+
+--
+-- Name: Profile_profile; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Profile_profile" (
+    id integer NOT NULL,
+    "profile_Picture" character varying(100),
+    name character varying(200) NOT NULL,
+    "employee_ID" character varying(15) NOT NULL,
+    nric character varying(20),
+    "typeOfEmployee" character varying(50) NOT NULL,
+    email character varying(254) NOT NULL,
+    gender character varying(6) NOT NULL,
+    address_1 character varying(250) NOT NULL,
+    address_2 character varying(250) NOT NULL,
+    "date_Of_Passport_Expiry" date,
+    "citizenship_Status" character varying(100) NOT NULL,
+    "date_Of_Hire" date NOT NULL,
+    "job_Title" character varying(100) NOT NULL,
+    "employment_Type" character varying(30) NOT NULL,
+    "second_Reporting_Manager" character varying(200),
+    "division_Centre" character varying(150),
+    phone character varying(128),
+    department_id integer,
+    "first_Reporting_Manager_id" integer,
+    user_id integer,
+    skill1 character varying(50),
+    skill2 character varying(50),
+    skill3 character varying(50)
+);
+
+
+ALTER TABLE public."Profile_profile" OWNER TO postgres;
+
+--
+-- Name: Profile_profile_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Profile_profile_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Profile_profile_id_seq" OWNER TO postgres;
+
+--
+-- Name: Profile_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Profile_profile_id_seq" OWNED BY public."Profile_profile".id;
+
+
+--
+-- Name: Profile_qualifications; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Profile_qualifications" (
+    id integer NOT NULL,
+    institution character varying(150),
+    name character varying(150) NOT NULL,
+    graduation_year integer,
+    employee_id integer
+);
+
+
+ALTER TABLE public."Profile_qualifications" OWNER TO postgres;
+
+--
+-- Name: Profile_qualifications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Profile_qualifications_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Profile_qualifications_id_seq" OWNER TO postgres;
+
+--
+-- Name: Profile_qualifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Profile_qualifications_id_seq" OWNED BY public."Profile_qualifications".id;
+
+
+--
+-- Name: Ticketing_ticket; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Ticketing_ticket" (
+    id integer NOT NULL,
+    category character varying(30) NOT NULL,
+    title character varying(50) NOT NULL,
+    description character varying(5000),
+    status character varying(50) NOT NULL,
+    created_by_id integer NOT NULL
+);
+
+
+ALTER TABLE public."Ticketing_ticket" OWNER TO postgres;
+
+--
+-- Name: Ticketing_ticket_comments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Ticketing_ticket_comments" (
+    id integer NOT NULL,
+    comment character varying(500) NOT NULL,
+    created_on timestamp with time zone NOT NULL,
+    ticket_id integer,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public."Ticketing_ticket_comments" OWNER TO postgres;
+
+--
+-- Name: Ticketing_ticket_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Ticketing_ticket_comments_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Ticketing_ticket_comments_id_seq" OWNER TO postgres;
+
+--
+-- Name: Ticketing_ticket_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Ticketing_ticket_comments_id_seq" OWNED BY public."Ticketing_ticket_comments".id;
+
+
+--
+-- Name: Ticketing_ticket_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Ticketing_ticket_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Ticketing_ticket_id_seq" OWNER TO postgres;
+
+--
+-- Name: Ticketing_ticket_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Ticketing_ticket_id_seq" OWNED BY public."Ticketing_ticket".id;
+
+
+--
+-- Name: Trainings_apply_trainings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Trainings_apply_trainings" (
+    id integer NOT NULL,
+    status character varying(50) NOT NULL,
+    date_start date,
+    date_end date,
+    approved_by character varying(200),
+    employee_id integer,
+    training_id integer
+);
+
+
+ALTER TABLE public."Trainings_apply_trainings" OWNER TO postgres;
+
+--
+-- Name: Trainings_apply_trainings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Trainings_apply_trainings_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Trainings_apply_trainings_id_seq" OWNER TO postgres;
+
+--
+-- Name: Trainings_apply_trainings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Trainings_apply_trainings_id_seq" OWNED BY public."Trainings_apply_trainings".id;
+
+
+--
+-- Name: Trainings_career_discussion; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Trainings_career_discussion" (
+    id integer NOT NULL,
+    "Q1" character varying(5000) NOT NULL,
+    "Q2" character varying(5000) NOT NULL,
+    "Q3" character varying(5000) NOT NULL,
+    "Q4" character varying(5000) NOT NULL,
+    "Q5" character varying(5000) NOT NULL,
+    "Q6" character varying(5000) NOT NULL,
+    "Q7" character varying(5000) NOT NULL,
+    "Q8" character varying(5000) NOT NULL,
+    employee_id integer NOT NULL,
+    user_appraisal_id integer NOT NULL
+);
+
+
+ALTER TABLE public."Trainings_career_discussion" OWNER TO postgres;
+
+--
+-- Name: Trainings_career_discussion_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Trainings_career_discussion_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Trainings_career_discussion_id_seq" OWNER TO postgres;
+
+--
+-- Name: Trainings_career_discussion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Trainings_career_discussion_id_seq" OWNED BY public."Trainings_career_discussion".id;
+
+
+--
+-- Name: Trainings_skill_category; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Trainings_skill_category" (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public."Trainings_skill_category" OWNER TO postgres;
+
+--
+-- Name: Trainings_skill_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Trainings_skill_category_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Trainings_skill_category_id_seq" OWNER TO postgres;
+
+--
+-- Name: Trainings_skill_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Trainings_skill_category_id_seq" OWNED BY public."Trainings_skill_category".id;
+
+
+--
+-- Name: Trainings_skills; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Trainings_skills" (
+    id integer NOT NULL,
+    description character varying(1000),
+    weightage integer NOT NULL,
+    "recommended_Trainings_user" character varying(1000) NOT NULL,
+    "recommended_Trainings_manager" character varying(1000) NOT NULL,
+    "recommended_Trainings_board" character varying(1000) NOT NULL,
+    user_rating integer NOT NULL,
+    manager_rating integer NOT NULL,
+    board_rating integer NOT NULL,
+    user_comments character varying(2000) NOT NULL,
+    manager_comments character varying(2000) NOT NULL,
+    board_comments character varying(2000) NOT NULL,
+    appraisal_id integer,
+    employee_id integer,
+    skill_category_id integer
+);
+
+
+ALTER TABLE public."Trainings_skills" OWNER TO postgres;
+
+--
+-- Name: Trainings_skills_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Trainings_skills_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Trainings_skills_id_seq" OWNER TO postgres;
+
+--
+-- Name: Trainings_skills_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Trainings_skills_id_seq" OWNED BY public."Trainings_skills".id;
+
+
+--
+-- Name: Trainings_survey_trainings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Trainings_survey_trainings" (
+    id integer NOT NULL,
+    objectives_met integer NOT NULL,
+    content_design integer NOT NULL,
+    trainer_knowledge integer NOT NULL,
+    training_relevance integer NOT NULL,
+    recommend_training integer NOT NULL,
+    training_id integer
+);
+
+
+ALTER TABLE public."Trainings_survey_trainings" OWNER TO postgres;
+
+--
+-- Name: Trainings_survey_trainings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Trainings_survey_trainings_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Trainings_survey_trainings_id_seq" OWNER TO postgres;
+
+--
+-- Name: Trainings_survey_trainings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Trainings_survey_trainings_id_seq" OWNED BY public."Trainings_survey_trainings".id;
+
+
+--
+-- Name: Trainings_training_courses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Trainings_training_courses" (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL,
+    provider character varying(150),
+    cost double precision,
+    ratings double precision,
+    skill_category_id integer
+);
+
+
+ALTER TABLE public."Trainings_training_courses" OWNER TO postgres;
+
+--
+-- Name: Trainings_training_courses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Trainings_training_courses_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Trainings_training_courses_id_seq" OWNER TO postgres;
+
+--
+-- Name: Trainings_training_courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Trainings_training_courses_id_seq" OWNED BY public."Trainings_training_courses".id;
+
+
+--
+-- Name: Trainings_trainings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Trainings_trainings" (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL,
+    provider character varying(150),
+    cost double precision,
+    ratings double precision,
+    skill_category_id integer
+);
+
+
+ALTER TABLE public."Trainings_trainings" OWNER TO postgres;
+
+--
+-- Name: Trainings_trainings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Trainings_trainings_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Trainings_trainings_id_seq" OWNER TO postgres;
+
+--
+-- Name: Trainings_trainings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Trainings_trainings_id_seq" OWNED BY public."Trainings_trainings".id;
+
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- Name: thumbnail_kvstore; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.thumbnail_kvstore (
+    key character varying(200) NOT NULL,
+    value text NOT NULL
+);
+
+
+ALTER TABLE public.thumbnail_kvstore OWNER TO postgres;
+
+--
+-- Name: Appraisals_appraisal id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_appraisal" ALTER COLUMN id SET DEFAULT nextval('public."Appraisals_appraisal_id_seq"'::regclass);
+
+
+--
+-- Name: Appraisals_appraisal_category id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_appraisal_category" ALTER COLUMN id SET DEFAULT nextval('public."Appraisals_appraisal_category_id_seq"'::regclass);
+
+
+--
+-- Name: Appraisals_overall_appraisal id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_overall_appraisal" ALTER COLUMN id SET DEFAULT nextval('public."Appraisals_overall_appraisal_id_seq"'::regclass);
+
+
+--
+-- Name: Appraisals_peerappraisal id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_peerappraisal" ALTER COLUMN id SET DEFAULT nextval('public."Appraisals_peerappraisal_id_seq"'::regclass);
+
+
+--
+-- Name: Appraisals_peerappraisalquestion id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_peerappraisalquestion" ALTER COLUMN id SET DEFAULT nextval('public."Appraisals_peerappraisalquestion_id_seq"'::regclass);
+
+
+--
+-- Name: Appraisals_rating_scale id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_rating_scale" ALTER COLUMN id SET DEFAULT nextval('public."Appraisals_rating_scale_id_seq"'::regclass);
+
+
+--
+-- Name: Appraisals_user_appraisal_list id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_user_appraisal_list" ALTER COLUMN id SET DEFAULT nextval('public."Appraisals_user_appraisal_list_id_seq"'::regclass);
+
+
+--
+-- Name: GnC_competencies id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_competencies" ALTER COLUMN id SET DEFAULT nextval('public."GnC_competencies_id_seq"'::regclass);
+
+
+--
+-- Name: GnC_competency_category id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_competency_category" ALTER COLUMN id SET DEFAULT nextval('public."GnC_competency_category_id_seq"'::regclass);
+
+
+--
+-- Name: GnC_competency_comment id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_competency_comment" ALTER COLUMN id SET DEFAULT nextval('public."GnC_competency_comment_id_seq"'::regclass);
+
+
+--
+-- Name: GnC_departmental_competencies id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_competencies" ALTER COLUMN id SET DEFAULT nextval('public."GnC_departmental_competencies_id_seq"'::regclass);
+
+
+--
+-- Name: GnC_departmental_competencies_comment id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_competencies_comment" ALTER COLUMN id SET DEFAULT nextval('public."GnC_departmental_competencies_comment_id_seq"'::regclass);
+
+
+--
+-- Name: GnC_departmental_goal_comment id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_goal_comment" ALTER COLUMN id SET DEFAULT nextval('public."GnC_departmental_goal_comment_id_seq"'::regclass);
+
+
+--
+-- Name: GnC_departmental_goals id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_goals" ALTER COLUMN id SET DEFAULT nextval('public."GnC_departmental_goals_id_seq"'::regclass);
+
+
+--
+-- Name: GnC_goal_category id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_goal_category" ALTER COLUMN id SET DEFAULT nextval('public."GnC_goal_category_id_seq"'::regclass);
+
+
+--
+-- Name: GnC_goal_comment id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_goal_comment" ALTER COLUMN id SET DEFAULT nextval('public."GnC_goal_comment_id_seq"'::regclass);
+
+
+--
+-- Name: GnC_goals id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_goals" ALTER COLUMN id SET DEFAULT nextval('public."GnC_goals_id_seq"'::regclass);
+
+
+--
+-- Name: GnC_kpi id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_kpi" ALTER COLUMN id SET DEFAULT nextval('public."GnC_kpi_id_seq"'::regclass);
+
+
+--
+-- Name: Profile_departments id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_departments" ALTER COLUMN id SET DEFAULT nextval('public."Profile_departments_id_seq"'::regclass);
+
+
+--
+-- Name: Profile_discard_skills id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_discard_skills" ALTER COLUMN id SET DEFAULT nextval('public."Profile_discard_skills_id_seq"'::regclass);
+
+
+--
+-- Name: Profile_profile id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_profile" ALTER COLUMN id SET DEFAULT nextval('public."Profile_profile_id_seq"'::regclass);
+
+
+--
+-- Name: Profile_qualifications id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_qualifications" ALTER COLUMN id SET DEFAULT nextval('public."Profile_qualifications_id_seq"'::regclass);
+
+
+--
+-- Name: Ticketing_ticket id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Ticketing_ticket" ALTER COLUMN id SET DEFAULT nextval('public."Ticketing_ticket_id_seq"'::regclass);
+
+
+--
+-- Name: Ticketing_ticket_comments id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Ticketing_ticket_comments" ALTER COLUMN id SET DEFAULT nextval('public."Ticketing_ticket_comments_id_seq"'::regclass);
+
+
+--
+-- Name: Trainings_apply_trainings id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_apply_trainings" ALTER COLUMN id SET DEFAULT nextval('public."Trainings_apply_trainings_id_seq"'::regclass);
+
+
+--
+-- Name: Trainings_career_discussion id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_career_discussion" ALTER COLUMN id SET DEFAULT nextval('public."Trainings_career_discussion_id_seq"'::regclass);
+
+
+--
+-- Name: Trainings_skill_category id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_skill_category" ALTER COLUMN id SET DEFAULT nextval('public."Trainings_skill_category_id_seq"'::regclass);
+
+
+--
+-- Name: Trainings_skills id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_skills" ALTER COLUMN id SET DEFAULT nextval('public."Trainings_skills_id_seq"'::regclass);
+
+
+--
+-- Name: Trainings_survey_trainings id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_survey_trainings" ALTER COLUMN id SET DEFAULT nextval('public."Trainings_survey_trainings_id_seq"'::regclass);
+
+
+--
+-- Name: Trainings_training_courses id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_training_courses" ALTER COLUMN id SET DEFAULT nextval('public."Trainings_training_courses_id_seq"'::regclass);
+
+
+--
+-- Name: Trainings_trainings id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_trainings" ALTER COLUMN id SET DEFAULT nextval('public."Trainings_trainings_id_seq"'::regclass);
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Data for Name: Appraisals_appraisal; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Appraisals_appraisal" (id, status, created_by_id, employee_list_id, manager_id, rating_scale_id, user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Appraisals_appraisal_category; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Appraisals_appraisal_category" (id, name) FROM stdin;
+7	Probation
+9	End-Year Review
+8	Mid-Year Review
+10	Goal Setting stage
+\.
+
+
+--
+-- Data for Name: Appraisals_overall_appraisal; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Appraisals_overall_appraisal" (id, name, goal_weightage, competency_weightage, skill_weightage, start_date, goals_setting_end_date, mid_year_start_date, mid_year_end_date, end_year_start_date, appraisal_end_date, reports_end_date, calibration_end_date, rating_scale, status, appraisal_category_id) FROM stdin;
+71	Hunet Test	100	0	0	2020-11-11	2020-11-11	2020-11-11	2020-11-11	2020-11-11	2020-11-11	2020-11-11	2020-11-11	Denselight System	Stage 2	10
+61	2020 Performance Appraisal	100	0	0	2020-10-30	2020-10-30	2020-11-13	2020-11-13	2020-10-30	2020-10-30	2020-10-30	2020-10-30	Denselight System	Stage 1B	10
+72	Hunet test2	100	0	0	2020-11-26	2020-11-26	2020-11-26	2020-11-26	2020-11-26	2020-11-26	2020-11-26	2020-11-26	Denselight System	Stage 2	8
+\.
+
+
+--
+-- Data for Name: Appraisals_peerappraisal; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Appraisals_peerappraisal" (id, title1, strength1, weaknessdevelopment1, title2, strength2, weaknessdevelopment2, title3, strength3, weaknessdevelopment3, completion, appraisal_id, created_by_id, manager_id, viewer_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Appraisals_peerappraisalquestion; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Appraisals_peerappraisalquestion" (id, title, answer, completed, appraisal_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Appraisals_rating_scale; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Appraisals_rating_scale" (id, name, description, limiter) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Appraisals_user_appraisal_list; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Appraisals_user_appraisal_list" (id, status, appraisal_name, overall_board_comments, start_date, end_date, completion, "goals_settingM_rejection", "appraisalHR_rejection", mid_year_completion, final_employee_rating, final_manager_rating, final_board_rating, appraisal_category_id, employee_id, manager_id, overall_appraisal_id, "mid_yearM_rejection", "bonusRecommendation", "incrementRecommendation", "recommendationComments") FROM stdin;
+121	S2Employee	2020 Performance Appraisal	No Comments	2020-10-30	2020-10-30	null	Please refine the KPIs	NIL	Completed	\N	\N	\N	10	14	16	61	add in 1 more goal due to project changes	NIL	0	NIL
+124	S2Employee	2020 Performance Appraisal	No Comments	2020-10-30	2020-10-30	null	NIL	NIL	Completed	\N	\N	\N	10	11	14	61	NIL	NIL	0	NIL
+119	S2Employee	2020 Performance Appraisal	No Comments	2020-10-30	2020-10-30	null	NIL	NIL	Completed	\N	\N	\N	10	16	13	61	NIL	NIL	0	NIL
+123	S1BManager	2020 Performance Appraisal	No Comments	2020-10-30	2020-10-30	null	NIL	NIL	Uncompleted	\N	\N	\N	10	13	10	61	NIL	NIL	0	NIL
+134	S2Employee	Hunet Test	No Comments	2020-11-11	2020-11-11	null	NIL	NIL	Completed	\N	\N	\N	10	5	7	71	NIL	NIL	0	NIL
+135	S2Employee	Hunet test2	No Comments	2020-11-26	2020-11-26	null	NIL	NIL	Completed	\N	\N	\N	8	5	7	72	NIL	NIL	0	NIL
+122	S1BEmployee	2020 Performance Appraisal	No Comments	2020-10-30	2020-10-30	null	NIL	NIL	Uncompleted	\N	\N	\N	10	10	11	61	NIL	NIL	0	NIL
+120	S1BManager	2020 Performance Appraisal	No Comments	2020-10-30	2020-10-30	null	NIL	NIL	Completed	\N	\N	\N	10	17	14	61	NIL	NIL	0	NIL
+\.
+
+
+--
+-- Data for Name: GnC_competencies; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GnC_competencies" (id, summary, description, weightage, user_rating, manager_rating, board_rating, user_comments, manager_comments, board_comments, appraisal_id, competency_category_id, employee_id) FROM stdin;
+4	Test	Test	100	1	1	1	NIL	NIL	NIL	\N	6	5
+5	Customer Satisfaction 80%	Ensure that customer satisfaction is at 80%	10	1	1	1	NIL	NIL	NIL	\N	9	5
+6	Think Strategically	Think Strategically	10	1	1	1	NIL	NIL	NIL	\N	6	5
+2	Behaviours 1	Description	100	1	1	1	NIL	NIL	NIL	\N	6	\N
+3	Competency 1	Competency 1	100	1	1	1	NIL	NIL	NIL	\N	6	\N
+7	TEST	TEST	100	1	1	1	NIL	NIL	NIL	\N	6	\N
+\.
+
+
+--
+-- Data for Name: GnC_competency_category; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GnC_competency_category" (id, name, description) FROM stdin;
+6	Think Strategically	
+9	Customer Driven	
+26	\N	think strategically lead improvement doing
+\.
+
+
+--
+-- Data for Name: GnC_competency_comment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GnC_competency_comment" (id, comments, created_on, competency_id, created_by_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: GnC_departmental_competencies; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GnC_departmental_competencies" (id, summary, description, appraisal_id, competency_category_id, department_id, manager_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: GnC_departmental_competencies_comment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GnC_departmental_competencies_comment" (id, comments, created_on, created_by_id, departmental_competencies_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: GnC_departmental_goal_comment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GnC_departmental_goal_comment" (id, comments, created_on, created_by_id, departmental_goal_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: GnC_departmental_goals; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GnC_departmental_goals" (id, summary, description, due, appraisal_id, department_id, goal_category_id, manager_id) FROM stdin;
+21	Partnership	Engage partners effectively through regular events and meetings to support business development, sales, and marketing	2021-12-31	61	2	\N	13
+17	Improve people capability, effectiveness and alignment:	1) 5 year succession planning of VP/Head of Department – Level 1  by 70% by 31 Dec 2021\r\n2) Leadership in Top Quadrant- 95% of VP/head of Department – \r\n3) Reinforce collaboration in our new structure  by Periodical review	2020-12-31	61	2	\N	14
+20	Increase Process Efficiency	Hiring\r\nPerformance Review	2020-12-31	61	2	\N	11
+22	Quality Process Pojects	Implementation of a dashboard to display all monitoring processes.\r\n-\tOpen/in progress NCs/ CAPAs/ PDs\r\nTakeover and revamp of Labelling SOP to Control of Artwork. Inclusive of:\r\n-\tassignment of artwork ID	2020-12-31	61	2	\N	14
+24	Implement Talent Management Program Part 2	1) Sure 5 years succession plan are put in place..\r\n2) Leadership are planned on the  Top Quadrant	2020-12-25	61	7	\N	16
+\.
+
+
+--
+-- Data for Name: GnC_goal_category; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GnC_goal_category" (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: GnC_goal_comment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GnC_goal_comment" (id, comments, created_on, created_by_id, goal_id) FROM stdin;
+1	testing	2020-10-23 06:57:05.901471+00	5	31
+2	test	2020-11-12 03:48:18.030738+00	5	47
+\.
+
+
+--
+-- Data for Name: GnC_goals; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GnC_goals" (id, summary, description, due, weightage, "metrics_Used", user_rating, manager_rating, board_rating, user_comments, manager_comments, board_comments, tracking_status, appraisal_id, employee_id, goal_category_id, "MID_manager_comments", "MID_user_comments", metrics_evidence) FROM stdin;
+43	testing	test	2020-12-12	100	NIL	1	1	1	NIL	NIL	NIL	null	\N	5	\N	NIL	NIL	
+49	Implement Talent Management Program Part 2	1) Implement Succession planning and apply twice a year\r\n2) Design a tool - Idenfity Key Positions to close the cycle of Talent Management	2020-12-31	50	NIL	1	1	1	NIL	NIL	NIL	On Hold	121	14	\N	Need to add in the additional goals for the H2 .....	I will be tasked to take up additional Ad hoc projects which will take up 40% of my time.	
+46	hunet test	test	2020-12-21	100	NIL	1	1	1	NIL	NIL	NIL	On Track	\N	5	\N	NIL	NIL	
+47	test	test	2020-12-31	100	NIL	1	1	1	NIL	NIL	NIL	On Track	134	5	\N	NIL	NIL	
+50	TA Strategy	Have an over-arching TA Strategy for 1H 2021	2021-12-31	50	NIL	1	1	1	NIL	NIL	NIL	null	122	10	\N	NIL	NIL	
+51	TA tracking	Have tracking metrics in place	2021-12-31	50	NIL	1	1	1	NIL	NIL	NIL	null	122	10	\N	NIL	NIL	
+41	Hire more qualified professionals	Probation passed rate\r\nSatisfaction score of manager / requested department head	2020-12-31	50	NIL	1	1	1	NIL	NIL	NIL	On Track	124	11	\N	Proceed to review in year end.	NIL	
+17	test today	test today	2020-12-31	100	NIL	1	1	1	NIL	NIL	NIL	null	\N	5	\N	NIL	NIL	
+40	Ensure brand consistency and message alignment	All employees to be reminded on branding and have regular updates and communication sessions on branding and company messaging.	2021-12-31	50	NIL	1	1	1	NIL	NIL	NIL	On Track	123	13	\N	NIL	NIL	
+18	Test Objective	Test Measures/Milestones	2020-12-31	30	NIL	1	1	1	NIL	NIL	NIL	null	\N	7	\N	NIL	NIL	
+38	Design and Implement the new Performance Management System (PMS)	1) Complete all implementation, testing by 15 Nov 2020\r\n2) Ensure all mid year review data are upload in the PMS\r\n3) Training to be conducted on 20-30 Nov 2020\r\n4) Go live by 1st Dec 2020 - 31 Jan 2020	2020-12-31	50	NIL	1	1	1	NIL	NIL	NIL	On Track	121	14	\N	yes this is well montiored.	NIL	
+42	Process Efficiency	Decrease the lead time of hiring\r\nIncrease internal customer satisfaction	2020-12-31	50	NIL	1	1	1	NIL	NIL	NIL	On Track	124	11	\N	Proceed to review in year end	NIL	
+44	Process	All documents uploaded into eQMS.	2020-12-20	30	NIL	1	1	1	NIL	NIL	NIL	On Track	120	17	\N	proceed to next step	NIL	
+45	Product	Improve on product knowledge.\r\nEvident through the handling of technical aspects of nonconformances, deviations and design controls.	2020-12-20	20	NIL	1	1	1	NIL	NIL	NIL	On Track	120	17	\N	proceed to next step	NIL	
+39	Communicate Scientific Data and Results	2 scientific publications submitted to scientific journals	2021-12-31	50	NIL	1	1	1	NIL	NIL	NIL	Change Of Direction	123	13	\N	NIL	NIL	
+48	Grow the Business	1) Execute MIXES Commerical Strategy\r\n2) Expand MIRXES Portfolio\r\n3) Design account plans for key customers	2020-12-31	100	NIL	1	1	1	NIL	NIL	NIL	On Track	119	16	\N	NIL	NIL	
+52	this	this	2020-12-11	100	NIL	1	1	1	NIL	NIL	NIL	On Track	135	5	\N	NIL is good	NIL	
+20	testing7	test7	2020-09-09	100	NIL	1	1	1	NIL	NIL	NIL	On Track	\N	5	\N	NIL	NIL	
+21	testing	test today	2020-12-31	100	NIL	1	1	1	NIL	NIL	NIL	Change Of Direction	\N	5	\N	NIL	NIL	
+27	Achieve sales target of 30k for the year	Achieve sales target of 8k for every quarter	2020-12-31	100	Sales target report	4	1	1	I think I did a great job!	NIL	NIL	On Track	\N	5	\N	Good job!	I'm on track!	
+22	Test	Test	2020-12-31	100	Test	1	1	1	NIL	NIL	NIL	null	\N	7	\N	NIL	NIL	
+23	testing	testing	2020-12-31	100	NIL	1	1	1	NIL	NIL	NIL	null	\N	5	\N	NIL	NIL	
+28	testing	test today	2020-12-31	100	NIL	1	1	1	NIL	NIL	NIL	On Track	\N	5	\N	NIL	NIL	
+29	test	test	2020-12-21	100	NIL	1	1	1	NIL	NIL	NIL	On Track	\N	5	\N	NIL	NIL	
+37	test	test	2020-12-21	100	NIL	1	3	1	NIL	thats good	NIL	On Track	\N	5	\N	okay noted	ABC	
+26	Achieve sales target of 60k for the year	Achieve 15k for each quarter	2020-12-31	100	Sales target report	4	1	1	I did well	NIL	NIL	On Track	\N	7	\N	Good job!	I'm on track!	
+30	objective1	test	2020-12-21	100	NIL	2	1	1	end year review done	NIL	NIL	On Track	\N	5	\N	yes Mid year is good	Mid year status is good	
+32	objective1	description of objective1	2020-11-29	50	NIL	3	3	1	meets expectations	okay	NIL	Not On Track	\N	5	\N	i am not so happy	i am not on track	
+31	test	test	2022-02-21	100	NIL	4	4	1	NIL123	NIL	NIL	On Hold	\N	5	\N	testing1234	tetsing123	
+33	objective 2	test	2020-12-31	50	NIL	4	3	1	Exceed expectations	okay	NIL	Change Of Direction	\N	5	\N	need training	Direction changed	
+34	test	test	2020-12-21	100	NIL	1	1	1	NIL	NIL	NIL	On Track	\N	5	\N	NIL	NIL	
+35	goal1	testing Measures/Milestones1	2020-12-21	50	NIL	4	3	1	xyz	ABC	NIL	On Hold	\N	5	\N	okay noted	because of covid-19	
+36	goal2	measures2	2020-12-31	50	NIL	3	2	1	xyz	ABC	NIL	On Track	\N	5	\N	okay noted	am on track	
+\.
+
+
+--
+-- Data for Name: GnC_kpi; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GnC_kpi" (id, description, due, date_created, progress, goal_id) FROM stdin;
+2	KPI 1	2020-11-29	2020-10-27	Not Started	32
+3	KPI 2	2020-12-29	2020-10-27	Not Started	32
+4	KPI 1 \r\nDue to covid delayed	2020-12-31	2020-10-28	Working	35
+5	kPI1	2020-12-12	2020-10-28	Not Started	37
+14	Newsletter 3	2021-10-31	2020-11-03	Not Started	40
+15	Newsletter 4	2021-12-31	2020-11-03	Not Started	40
+16	Decrease Hiring Leadtime	2020-12-31	2020-11-03	Not Started	42
+17	Increase internal customer satisfaction by 10%	2020-12-31	2020-11-03	Not Started	42
+20	Satisfaction score of manager after 1 year above 80%	2020-12-31	2020-11-03	Not Started	41
+21	Probation passed rate above 80%	2020-12-31	2020-11-03	Not Started	41
+22	Execute MiRXES Commercial Strategy	2020-12-31	2020-11-11	Not Started	48
+23	Expand our offering to MiRXES Portfolio	2020-12-31	2020-11-11	Not Started	48
+24	Develop account plans for key customer	2020-12-31	2020-11-11	Not Started	48
+25	5-year succession planning	2020-12-31	2020-11-11	Not Started	49
+26	Leadership in Top Quadrant	2020-12-31	2020-11-11	Not Started	38
+12	Newsletter 1	2021-03-31	2020-11-03	Completed	40
+13	Newsletter 2	2021-06-15	2020-11-03	Completed	40
+\.
+
+
+--
+-- Data for Name: Profile_departments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Profile_departments" (id, name, manager_id) FROM stdin;
+1	Employee	\N
+3	Scientific Communication	\N
+4	Scientific Affairs	\N
+2	HUMAN RESOURCE	\N
+5	Quality Department	\N
+6	Project Management	\N
+7	Business Partnership	\N
+\.
+
+
+--
+-- Data for Name: Profile_discard_skills; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Profile_discard_skills" (id, name, "course_Attended") FROM stdin;
+\.
+
+
+--
+-- Data for Name: Profile_profile; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Profile_profile" (id, "profile_Picture", name, "employee_ID", nric, "typeOfEmployee", email, gender, address_1, address_2, "date_Of_Passport_Expiry", "citizenship_Status", "date_Of_Hire", "job_Title", "employment_Type", "second_Reporting_Manager", "division_Centre", phone, department_id, "first_Reporting_Manager_id", user_id, skill1, skill2, skill3) FROM stdin;
+13		yewchung	S123456D	S1234567S	INDIRECT	yewchungtang@mirxes.com	Female	NA	NA	\N	-	2017-08-21	Manager	Full-time	Yu sun	\N	+6590000002	4	10	17	\N	\N	\N
+16		Jeremiah	S123456D	S1234567S	INDIRECT	jeremiah@mirxes.com	Female	NA	NA	2024-09-11	-	2017-08-21	Manager	Full-time	jeremiah	\N	+6590000002	7	13	20	\N	\N	\N
+17		Zoe	S123456D	S1234567S	DIRECT	zoetan@mirxes.com	Male	NA	NA	\N	-	2017-08-21	Employee	Full-time	christinawoon	\N	+6590000001	5	14	21	\N	\N	\N
+11		yusun	S123456D	S1234567A	INDIRECT	sun@mirxes.com	Male	NA	NA	2020-09-11	-	2020-08-10	Employee	Full-time	pauline	\N	+6590000002	6	14	13	\N	\N	\N
+14		christinawoon	S123456D	S1234567X	INDIRECT	christinawoon@mirxes.com	Female	NA	NA	\N	-	2017-08-21	HR Manager	Full-time	Yu sun	\N	+6590000001	2	16	18	\N	\N	\N
+10		paulinekang	S123456D	S1234567S	INDIRECT	paulinekang@mirxes.com	Male	N/A		\N	-	2017-08-21	Manager	Full-time	yew chung	\N	+6590000001	2	11	12	\N	\N	\N
+5		HuNet Employee	employee1	S1234567A	INDIRECT	hremployee@email.com	Female	Blk 140	Paya Lebar Road	\N	Singaporean	2020-08-01	HR Assistant	Full-time	\N	\N	+6590000001	2	7	7	\N	\N	\N
+7		HuNet Manager	hrmanager	S7654321A	INDIRECT	jek@hunet-hr.com	Female	Blk 140	Paya Lebar Road	\N	Singaporean	2020-01-01	HR Manager	Full-time	\N	\N	+6590000004	2	7	9	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: Profile_qualifications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Profile_qualifications" (id, institution, name, graduation_year, employee_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Ticketing_ticket; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Ticketing_ticket" (id, category, title, description, status, created_by_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Ticketing_ticket_comments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Ticketing_ticket_comments" (id, comment, created_on, ticket_id, user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Trainings_apply_trainings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Trainings_apply_trainings" (id, status, date_start, date_end, approved_by, employee_id, training_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Trainings_career_discussion; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Trainings_career_discussion" (id, "Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", employee_id, user_appraisal_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Trainings_skill_category; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Trainings_skill_category" (id, name) FROM stdin;
+2	I recommend this employee
+3	To undergo Performance Improvement Plan(PIP)
+\.
+
+
+--
+-- Data for Name: Trainings_skills; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Trainings_skills" (id, description, weightage, "recommended_Trainings_user", "recommended_Trainings_manager", "recommended_Trainings_board", user_rating, manager_rating, board_rating, user_comments, manager_comments, board_comments, appraisal_id, employee_id, skill_category_id) FROM stdin;
+2	test	100	NIL	NIL	NIL	1	1	1	NIL	NIL	NIL	\N	5	2
+3	test	100	NIL	NIL	NIL	1	1	1	NIL	NIL	NIL	\N	5	2
+4	test	100	NIL	NIL	NIL	1	1	1	NIL	NIL	NIL	\N	5	2
+5	test	100	NIL	NIL	NIL	1	1	1	NIL	NIL	NIL	\N	5	2
+\.
+
+
+--
+-- Data for Name: Trainings_survey_trainings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Trainings_survey_trainings" (id, objectives_met, content_design, trainer_knowledge, training_relevance, recommend_training, training_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Trainings_training_courses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Trainings_training_courses" (id, name, provider, cost, ratings, skill_category_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Trainings_trainings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Trainings_trainings" (id, name, provider, cost, ratings, skill_category_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+1	Employee
+2	Manager
+3	HR
+4	HR manager
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+1	4	1
+2	4	2
+3	4	3
+4	4	4
+5	4	5
+6	4	6
+7	4	7
+8	4	8
+9	4	9
+10	4	10
+11	4	11
+12	4	12
+13	4	13
+14	4	14
+15	4	15
+16	4	16
+17	4	17
+18	4	18
+19	4	19
+20	4	20
+21	4	21
+22	4	22
+23	4	23
+24	4	24
+25	4	25
+26	4	26
+27	4	27
+28	4	28
+29	4	29
+30	4	30
+31	4	31
+32	4	32
+33	4	33
+34	4	34
+35	4	35
+36	4	36
+37	4	37
+38	4	38
+39	4	39
+40	4	40
+41	4	41
+42	4	42
+43	4	43
+44	4	44
+45	4	45
+46	4	46
+47	4	47
+48	4	48
+49	4	49
+50	4	50
+51	4	51
+52	4	52
+53	4	53
+54	4	54
+55	4	55
+56	4	56
+57	4	57
+58	4	58
+59	4	59
+60	4	60
+61	4	61
+62	4	62
+63	4	63
+64	4	64
+65	4	65
+66	4	66
+67	4	67
+68	4	68
+69	4	69
+70	4	70
+71	4	71
+72	4	72
+73	4	73
+74	4	74
+75	4	75
+76	4	76
+77	4	77
+78	4	78
+79	4	79
+80	4	80
+81	4	81
+82	4	82
+83	4	83
+84	4	84
+85	4	85
+86	4	86
+87	4	87
+88	4	88
+89	4	89
+90	4	90
+91	4	91
+92	4	92
+93	4	93
+94	4	94
+95	4	95
+96	4	96
+97	4	97
+98	4	98
+99	4	99
+100	4	100
+101	4	101
+102	4	102
+103	4	103
+104	4	104
+105	4	105
+106	4	106
+107	4	107
+108	4	108
+109	4	109
+110	4	110
+111	4	111
+112	4	112
+113	4	113
+114	4	114
+115	4	115
+116	4	116
+117	4	117
+118	4	118
+119	4	119
+120	4	120
+121	4	121
+122	4	122
+123	4	123
+124	4	124
+125	4	125
+126	4	126
+127	4	127
+128	4	128
+129	4	129
+130	4	130
+131	4	131
+132	4	132
+133	4	133
+134	4	134
+135	4	135
+136	4	136
+137	4	137
+138	4	138
+139	4	139
+140	4	140
+141	4	141
+142	4	142
+143	4	143
+144	4	144
+145	4	145
+146	4	146
+147	4	147
+148	4	148
+149	4	149
+150	4	150
+151	4	151
+152	4	152
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add user	4	add_user
+14	Can change user	4	change_user
+15	Can delete user	4	delete_user
+16	Can view user	4	view_user
+17	Can add content type	5	add_contenttype
+18	Can change content type	5	change_contenttype
+19	Can delete content type	5	delete_contenttype
+20	Can view content type	5	view_contenttype
+21	Can add session	6	add_session
+22	Can change session	6	change_session
+23	Can delete session	6	delete_session
+24	Can view session	6	view_session
+25	Can add competencies	7	add_competencies
+26	Can change competencies	7	change_competencies
+27	Can delete competencies	7	delete_competencies
+28	Can view competencies	7	view_competencies
+29	Can add competency_category	8	add_competency_category
+30	Can change competency_category	8	change_competency_category
+31	Can delete competency_category	8	delete_competency_category
+32	Can view competency_category	8	view_competency_category
+33	Can add departmental_ competencies	9	add_departmental_competencies
+34	Can change departmental_ competencies	9	change_departmental_competencies
+35	Can delete departmental_ competencies	9	delete_departmental_competencies
+36	Can view departmental_ competencies	9	view_departmental_competencies
+37	Can add goal_category	10	add_goal_category
+38	Can change goal_category	10	change_goal_category
+39	Can delete goal_category	10	delete_goal_category
+40	Can view goal_category	10	view_goal_category
+41	Can add goals	11	add_goals
+42	Can change goals	11	change_goals
+43	Can delete goals	11	delete_goals
+44	Can view goals	11	view_goals
+45	Can add kpi	12	add_kpi
+46	Can change kpi	12	change_kpi
+47	Can delete kpi	12	delete_kpi
+48	Can view kpi	12	view_kpi
+49	Can add goal_comment	13	add_goal_comment
+50	Can change goal_comment	13	change_goal_comment
+51	Can delete goal_comment	13	delete_goal_comment
+52	Can view goal_comment	13	view_goal_comment
+53	Can add departmental_ goals	14	add_departmental_goals
+54	Can change departmental_ goals	14	change_departmental_goals
+55	Can delete departmental_ goals	14	delete_departmental_goals
+56	Can view departmental_ goals	14	view_departmental_goals
+57	Can add departmental_goal_comment	15	add_departmental_goal_comment
+58	Can change departmental_goal_comment	15	change_departmental_goal_comment
+59	Can delete departmental_goal_comment	15	delete_departmental_goal_comment
+60	Can view departmental_goal_comment	15	view_departmental_goal_comment
+61	Can add departmental_competencies_comment	16	add_departmental_competencies_comment
+62	Can change departmental_competencies_comment	16	change_departmental_competencies_comment
+63	Can delete departmental_competencies_comment	16	delete_departmental_competencies_comment
+64	Can view departmental_competencies_comment	16	view_departmental_competencies_comment
+65	Can add competency_comment	17	add_competency_comment
+66	Can change competency_comment	17	change_competency_comment
+67	Can delete competency_comment	17	delete_competency_comment
+68	Can view competency_comment	17	view_competency_comment
+69	Can add departments	18	add_departments
+70	Can change departments	18	change_departments
+71	Can delete departments	18	delete_departments
+72	Can view departments	18	view_departments
+73	Can add discard_ skills	19	add_discard_skills
+74	Can change discard_ skills	19	change_discard_skills
+75	Can delete discard_ skills	19	delete_discard_skills
+76	Can view discard_ skills	19	view_discard_skills
+77	Can add profile	20	add_profile
+78	Can change profile	20	change_profile
+79	Can delete profile	20	delete_profile
+80	Can view profile	20	view_profile
+81	Can add qualifications	21	add_qualifications
+82	Can change qualifications	21	change_qualifications
+83	Can delete qualifications	21	delete_qualifications
+84	Can view qualifications	21	view_qualifications
+85	Can add skill_category	22	add_skill_category
+86	Can change skill_category	22	change_skill_category
+87	Can delete skill_category	22	delete_skill_category
+88	Can view skill_category	22	view_skill_category
+89	Can add trainings	23	add_trainings
+90	Can change trainings	23	change_trainings
+91	Can delete trainings	23	delete_trainings
+92	Can view trainings	23	view_trainings
+93	Can add training_ courses	24	add_training_courses
+94	Can change training_ courses	24	change_training_courses
+95	Can delete training_ courses	24	delete_training_courses
+96	Can view training_ courses	24	view_training_courses
+97	Can add survey_ trainings	25	add_survey_trainings
+98	Can change survey_ trainings	25	change_survey_trainings
+99	Can delete survey_ trainings	25	delete_survey_trainings
+100	Can view survey_ trainings	25	view_survey_trainings
+101	Can add skills	26	add_skills
+102	Can change skills	26	change_skills
+103	Can delete skills	26	delete_skills
+104	Can view skills	26	view_skills
+105	Can add career_ discussion	27	add_career_discussion
+106	Can change career_ discussion	27	change_career_discussion
+107	Can delete career_ discussion	27	delete_career_discussion
+108	Can view career_ discussion	27	view_career_discussion
+109	Can add apply_ trainings	28	add_apply_trainings
+110	Can change apply_ trainings	28	change_apply_trainings
+111	Can delete apply_ trainings	28	delete_apply_trainings
+112	Can view apply_ trainings	28	view_apply_trainings
+113	Can add ticket	29	add_ticket
+114	Can change ticket	29	change_ticket
+115	Can delete ticket	29	delete_ticket
+116	Can view ticket	29	view_ticket
+117	Can add ticket_ comments	30	add_ticket_comments
+118	Can change ticket_ comments	30	change_ticket_comments
+119	Can delete ticket_ comments	30	delete_ticket_comments
+120	Can view ticket_ comments	30	view_ticket_comments
+121	Can add appraisal_ category	31	add_appraisal_category
+122	Can change appraisal_ category	31	change_appraisal_category
+123	Can delete appraisal_ category	31	delete_appraisal_category
+124	Can view appraisal_ category	31	view_appraisal_category
+125	Can add overall_ appraisal	32	add_overall_appraisal
+126	Can change overall_ appraisal	32	change_overall_appraisal
+127	Can delete overall_ appraisal	32	delete_overall_appraisal
+128	Can view overall_ appraisal	32	view_overall_appraisal
+129	Can add peer appraisal	33	add_peerappraisal
+130	Can change peer appraisal	33	change_peerappraisal
+131	Can delete peer appraisal	33	delete_peerappraisal
+132	Can view peer appraisal	33	view_peerappraisal
+133	Can add rating_ scale	34	add_rating_scale
+134	Can change rating_ scale	34	change_rating_scale
+135	Can delete rating_ scale	34	delete_rating_scale
+136	Can view rating_ scale	34	view_rating_scale
+137	Can add user_ appraisal_ list	35	add_user_appraisal_list
+138	Can change user_ appraisal_ list	35	change_user_appraisal_list
+139	Can delete user_ appraisal_ list	35	delete_user_appraisal_list
+140	Can view user_ appraisal_ list	35	view_user_appraisal_list
+141	Can add peer appraisal question	36	add_peerappraisalquestion
+142	Can change peer appraisal question	36	change_peerappraisalquestion
+143	Can delete peer appraisal question	36	delete_peerappraisalquestion
+144	Can view peer appraisal question	36	view_peerappraisalquestion
+145	Can add appraisal	37	add_appraisal
+146	Can change appraisal	37	change_appraisal
+147	Can delete appraisal	37	delete_appraisal
+148	Can view appraisal	37	view_appraisal
+149	Can add kv store	38	add_kvstore
+150	Can change kv store	38	change_kvstore
+151	Can delete kv store	38	delete_kvstore
+152	Can view kv store	38	view_kvstore
+\.
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+17	pbkdf2_sha256$180000$GxjkBLlWvuQp$bHAeBakrcwkWAHuisYppdMB8B20f9AzJc5w1v5QQ1cQ=	2020-11-23 04:17:39.287034+00	f	yewchung			yewchungtang@mirxes.com	f	t	2020-10-27 07:18:07.509134+00
+1	pbkdf2_sha256$180000$YjOSscbSEb2U$ZWgrolU5TWLpOXOh6I1W5Ufkp0sfpzX+8EjBFyt1UHo=	\N	t	admin			priyadharshinidsn@gmail.com	t	f	2020-08-27 19:06:29+00
+9	pbkdf2_sha256$180000$d1w1EA478xeX$BhCRMWb49Qo0gmV4iwlzz8IGeUEnGFupHo3ztr+gzIs=	2020-11-26 12:44:08.951572+00	f	hrmanager			hrmanager@email.com	f	t	2020-09-09 10:08:03.891401+00
+7	pbkdf2_sha256$180000$s91z4oHnm4F0$xIv1KzVoF++XLzO+dDvrn44e35DiLTwoIoB5JBzsRkY=	2020-11-28 06:17:38.479464+00	f	employee1			employee@email.com	f	t	2020-09-09 09:30:03.842488+00
+8	pbkdf2_sha256$180000$wHNa6CfuHtSn$mZ7Co7PQq2nXXBJJZ3yTIEXfsR97PN3faXCL5N/ibHU=	2020-09-09 09:54:32.979971+00	f	hr1			hr@email.com	f	t	2020-09-09 09:38:58.292311+00
+14	pbkdf2_sha256$180000$IP86aUJi9n9C$JE8f1RCll43Ea/22hFW/qD4jpPtvZ8Ns9GyMmwfclAQ=	2020-11-03 02:55:44.56308+00	f	yewchungtang			yewchungtang@mirxes.com	f	t	2020-10-27 07:16:32.627136+00
+19	pbkdf2_sha256$180000$IVShpXicIKwf$2+PsnXEMA7VRpf2LDv8Kc/pBBSeDc1215qpr+1dDBZo=	2020-10-29 04:15:29.434493+00	f	jeremiah1			jeremiah@mirxes.com	f	t	2020-10-27 07:27:27.857657+00
+3	pbkdf2_sha256$180000$LQF8PsusdaH4$chX0imqcke1fS7kXoSN5A5UlF7WB6qUS5JbEJoqoPko=	2020-08-31 05:54:10.50234+00	f	admin3			priya@email.com	f	t	2020-08-29 06:26:04+00
+11	pbkdf2_sha256$180000$y2bCWMnvvn7B$BYRjjo7pdgktse0SbLZIZBKYmfrFN1kjP9V1r+K8Pzw=	\N	f	jeremiah@mirxes.com			jeremiah@mirxes.com	f	t	2020-10-27 06:37:52.840362+00
+2	pbkdf2_sha256$180000$liOdjkn1rvSK$U3/KHj8eonwrEM9XbflYOypv6NX1bPxJdKSasL8wciU=	2020-11-10 02:43:01.386953+00	t	admin1			priyadharshinidsn@gmail.com	t	t	2020-08-28 05:23:54+00
+10	pbkdf2_sha256$180000$mWlVSkkwE3SS$QRbdoJybFIiOWN9bCsvEqOsy2jmZhy8k+6jnbKPcu48=	2020-10-13 05:13:29.974882+00	f	hrsupervisor			hrsup@email.com	f	t	2020-09-09 10:11:43.166942+00
+4	pbkdf2_sha256$180000$L4bgTfWbdL4Z$KIiQcB4U0FWxoxFEzfKFy0+zyPjIRgq58mlOyLEjMtc=	2020-09-09 03:55:10.99378+00	f	helenvincent			helen@denselight.com	f	t	2020-08-31 07:02:23.249363+00
+13	pbkdf2_sha256$180000$uwLCGhOMM82c$K7t7fVTTPUoxsGMoOBrZmPv6VNifm3xvJkj5AGL9CaI=	2020-11-06 05:57:43.903267+00	f	yusun			sun@mirxes.com	f	t	2020-10-27 07:13:52.89987+00
+5	pbkdf2_sha256$180000$jz2WQPa8BTem$cEUAofMdr3anwfyjkbtFnvplWNHOHlILF9bftPwXeOw=	2020-09-16 08:06:28.970115+00	t	leelayhoon			layhoon.lee@denselight.com	t	t	2020-08-31 07:06:56+00
+6	pbkdf2_sha256$180000$WLlIIQk59WRj$jof4Wgv359hJXHjxjVAQ430ZRAs3A3LuAeqQzNasThU=	\N	f	hunetadmin			hunetadmin@email.com	f	t	2020-09-01 06:24:48.822793+00
+20	pbkdf2_sha256$180000$XygV0Wnk3x5n$AwsnQ7M7+tHOpBuMvtCwpP4hjbJe3Tu6uf3bjW0sTMY=	2020-11-23 03:52:59.906527+00	f	jeremiah	Jeremiah		jeremiah@mirxes.com	f	t	2020-10-29 04:16:48+00
+12	pbkdf2_sha256$180000$iOHEq4Z85xEN$3VIt7MMMu0zNKl+r9vrPye6e1WSEXoEEL+cB0PmMXhk=	2020-11-23 03:55:32.518476+00	f	paulinekang			paulinekang@mirxes.com	f	t	2020-10-27 07:05:09.185973+00
+21	pbkdf2_sha256$180000$0ysBn3WT69BC$nQ8MIUe8f3t3v2S3GgmXi6W8SpL47Sntmv17mGNgstw=	2020-11-23 03:59:34.448679+00	f	zoe				f	t	2020-10-30 06:24:20+00
+18	pbkdf2_sha256$180000$19TbeY7eEGiA$Aig6RJgSNGQywjptzwjZWteAObMzVtEhZFuwD1Gu7Kw=	2020-11-23 04:01:08.122144+00	f	christinawoon			christinawoon@mirxes.com	f	t	2020-10-27 07:20:48.033896+00
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+1	1	3
+3	3	3
+4	4	1
+5	5	3
+20	6	2
+23	2	4
+26	8	2
+29	10	2
+40	9	4
+41	7	1
+48	14	1
+51	11	1
+52	19	1
+57	18	4
+62	20	2
+63	12	2
+64	17	2
+65	13	2
+67	21	1
+\.
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+1	5	1
+2	5	2
+3	5	3
+4	5	4
+5	5	5
+6	5	6
+7	5	7
+8	5	8
+9	5	9
+10	5	10
+11	5	11
+12	5	12
+13	5	13
+14	5	14
+15	5	15
+16	5	16
+17	5	17
+18	5	18
+19	5	19
+20	5	20
+21	5	21
+22	5	22
+23	5	23
+24	5	24
+25	5	25
+26	5	26
+27	5	27
+28	5	28
+29	5	29
+30	5	30
+31	5	31
+32	5	32
+33	5	33
+34	5	34
+35	5	35
+36	5	36
+37	5	37
+38	5	38
+39	5	39
+40	5	40
+41	5	41
+42	5	42
+43	5	43
+44	5	44
+45	5	45
+46	5	46
+47	5	47
+48	5	48
+49	5	49
+50	5	50
+51	5	51
+52	5	52
+53	5	53
+54	5	54
+55	5	55
+56	5	56
+57	5	57
+58	5	58
+59	5	59
+60	5	60
+61	5	61
+62	5	62
+63	5	63
+64	5	64
+65	5	65
+66	5	66
+67	5	67
+68	5	68
+69	5	69
+70	5	70
+71	5	71
+72	5	72
+73	5	73
+74	5	74
+75	5	75
+76	5	76
+77	5	77
+78	5	78
+79	5	79
+80	5	80
+81	5	81
+82	5	82
+83	5	83
+84	5	84
+85	5	85
+86	5	86
+87	5	87
+88	5	88
+89	5	89
+90	5	90
+91	5	91
+92	5	92
+93	5	93
+94	5	94
+95	5	95
+96	5	96
+97	5	97
+98	5	98
+99	5	99
+100	5	100
+101	5	101
+102	5	102
+103	5	103
+104	5	104
+105	5	105
+106	5	106
+107	5	107
+108	5	108
+109	5	109
+110	5	110
+111	5	111
+112	5	112
+113	5	113
+114	5	114
+115	5	115
+116	5	116
+117	5	117
+118	5	118
+119	5	119
+120	5	120
+121	5	121
+122	5	122
+123	5	123
+124	5	124
+125	5	125
+126	5	126
+127	5	127
+128	5	128
+129	5	129
+130	5	130
+131	5	131
+132	5	132
+133	5	133
+134	5	134
+135	5	135
+136	5	136
+137	5	137
+138	5	138
+139	5	139
+140	5	140
+141	5	141
+142	5	142
+143	5	143
+144	5	144
+145	5	145
+146	5	146
+147	5	147
+148	5	148
+149	5	149
+150	5	150
+151	5	151
+152	5	152
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2020-08-29 07:16:52.630197+00	1	Employee	1	[{"added": {}}]	18	2
+2	2020-08-29 07:17:33.261741+00	1	admin	1	[{"added": {}}]	20	2
+3	2020-08-29 07:17:49.905194+00	1	admin	2	[]	20	2
+4	2020-08-29 07:18:32.536596+00	1	Employee	1	[{"added": {}}]	3	2
+5	2020-08-29 07:18:38.06073+00	2	Manager	1	[{"added": {}}]	3	2
+6	2020-08-29 07:18:43.901753+00	3	HR	1	[{"added": {}}]	3	2
+7	2020-08-29 07:18:49.574635+00	4	HR manager	1	[{"added": {}}]	3	2
+8	2020-08-29 07:19:04.708573+00	4	HR manager	2	[{"changed": {"fields": ["Permissions"]}}]	3	2
+9	2020-08-29 07:20:24.517855+00	1	admin: priyadharshinidsn@gmail.com	2	[{"changed": {"fields": ["Groups"]}}]	4	2
+10	2020-08-29 07:20:35.652106+00	2	admin1: priyadharshinidsn@gmail.com	2	[{"changed": {"fields": ["Groups"]}}]	4	2
+11	2020-08-29 07:20:46.978915+00	3	admin3: priya@email.com	2	[{"changed": {"fields": ["Groups"]}}]	4	2
+12	2020-08-31 07:06:56.415552+00	5	leelayhoon: 	1	[{"added": {}}]	4	2
+13	2020-08-31 07:09:28.0743+00	5	leelayhoon: 	2	[{"changed": {"fields": ["Groups", "User permissions"]}}]	4	2
+14	2020-08-31 07:09:43.630823+00	5	leelayhoon: 	2	[]	4	2
+15	2020-08-31 07:11:19.895576+00	5	leelayhoon: layhoon.lee@denselight.com	2	[{"changed": {"fields": ["First name", "Last name", "Email address"]}}]	4	2
+16	2020-08-31 07:35:19.89272+00	5	leelayhoon: layhoon.lee@denselight.com	2	[{"changed": {"fields": ["First name", "Last name"]}}]	4	2
+17	2020-08-31 07:35:25.630946+00	5	leelayhoon: layhoon.lee@denselight.com	2	[]	4	2
+18	2020-08-31 07:38:13.361976+00	5	leelayhoon: layhoon.lee@denselight.com	2	[{"changed": {"fields": ["Staff status", "Superuser status"]}}]	4	2
+19	2020-08-31 07:44:47.985271+00	2	HUMAN RESOURCE	1	[{"added": {}}]	18	5
+20	2020-08-31 07:49:07.143337+00	3	LEE LAY HOON	1	[{"added": {}}]	20	5
+21	2020-09-01 06:28:20.480187+00	3	LEE LAY HOON	3		20	2
+22	2020-09-04 03:25:37.24553+00	1	1st Quarter	1	[{"added": {}}]	31	2
+23	2020-09-04 03:25:43.389566+00	2	2nd Quarter	1	[{"added": {}}]	31	2
+24	2020-09-04 03:25:50.452464+00	3	3rd Quarter	1	[{"added": {}}]	31	2
+25	2020-09-04 03:25:55.970554+00	4	4th Quarter	1	[{"added": {}}]	31	2
+26	2020-09-04 03:26:03.821165+00	5	End Of Year	1	[{"added": {}}]	31	2
+27	2020-09-04 03:26:09.145682+00	6	Start Of Year	1	[{"added": {}}]	31	2
+28	2020-09-04 03:30:49.095495+00	1	Customer focused - Demonstrate commitment to put customers first by striving to provide them with superior innovative products and continuously improve on quality	1	[{"added": {}}]	8	2
+29	2020-09-04 03:32:33.321756+00	2	Commitment to You - Committed to achieve excellence by doing what was said, behaving with integrity at all times and always upholding the ethical standards of the company.	1	[{"added": {}}]	8	2
+30	2020-09-04 03:35:07.596158+00	3	People Development(For Leaders) - Ability to transfer expertise and build the long-term leadership capability of others by teaching, coaching and/or mentoring	1	[{"added": {}}]	8	2
+31	2020-09-04 03:35:59.296645+00	4	Demonstrate Leaderships(For Leaders) - Ensures that the team is focused, motivated and inspired to achieve organizational objectives	1	[{"added": {}}]	8	2
+32	2020-09-04 03:36:50.517282+00	5	Integrity with Passion & Tenacity - Take pride in every job assigned by displaying highest level of honesty and openness. Cultivates entrepreneurial drive as a means to remain flexible, agile and will	1	[{"added": {}}]	8	2
+33	2020-09-04 03:38:36.459724+00	1	Customer Engagement	1	[{"added": {}}]	10	2
+34	2020-09-04 03:38:59.751656+00	2	New Product Introduction	1	[{"added": {}}]	10	2
+35	2020-09-04 03:39:19.641554+00	3	Operation Efficiency/Cost Reduction	1	[{"added": {}}]	10	2
+36	2020-09-04 03:39:38.69923+00	4	Organization Effectivness	1	[{"added": {}}]	10	2
+37	2020-09-04 03:39:48.215808+00	5	Others	1	[{"added": {}}]	10	2
+38	2020-09-15 07:28:18.992216+00	6	Think Strategically - 	1	[{"added": {}}]	8	2
+39	2020-09-15 07:28:53.793123+00	7	None - Drive Innovation	1	[{"added": {}}]	8	2
+40	2020-09-15 07:29:15.603347+00	8	Drive Innovation - 	1	[{"added": {}}]	8	2
+41	2020-09-15 07:29:32.285161+00	9	Customer Driven - 	1	[{"added": {}}]	8	2
+42	2020-09-15 07:33:46.237323+00	10	Can Do-Will Do - 	1	[{"added": {}}]	8	2
+43	2020-09-15 07:34:25.542082+00	11	- - Lead with Integrity	1	[{"added": {}}]	8	2
+44	2020-09-15 07:34:42.435071+00	11	- - Lead with Integrity	3		8	2
+45	2020-09-15 07:35:31.442747+00	12	Lead With Integrity - 	1	[{"added": {}}]	8	2
+46	2020-09-15 07:35:50.527626+00	13	Deliver Results - 	1	[{"added": {}}]	8	2
+47	2020-09-15 07:36:06.14328+00	14	Connect - 	1	[{"added": {}}]	8	2
+48	2020-09-15 07:36:14.923391+00	15	Learn - 	1	[{"added": {}}]	8	2
+49	2020-09-15 07:36:22.997671+00	16	Improve - 	1	[{"added": {}}]	8	2
+50	2020-09-15 07:36:35.402946+00	17	Leadership - 	1	[{"added": {}}]	8	2
+51	2020-09-15 07:36:43.706914+00	18	None - 	1	[{"added": {}}]	8	2
+52	2020-09-15 07:37:44.414572+00	18	None - 	3		8	2
+53	2020-09-15 07:37:44.418047+00	7	None - Drive Innovation	3		8	2
+54	2020-09-15 07:37:44.42014+00	5	Integrity with Passion & Tenacity - Take pride in every job assigned by displaying highest level of honesty and openness. Cultivates entrepreneurial drive as a means to remain flexible, agile and will	3		8	2
+55	2020-09-15 07:37:44.422079+00	4	Demonstrate Leaderships(For Leaders) - Ensures that the team is focused, motivated and inspired to achieve organizational objectives	3		8	2
+56	2020-09-15 07:37:44.423907+00	3	People Development(For Leaders) - Ability to transfer expertise and build the long-term leadership capability of others by teaching, coaching and/or mentoring	3		8	2
+57	2020-09-15 07:37:44.425776+00	2	Commitment to You - Committed to achieve excellence by doing what was said, behaving with integrity at all times and always upholding the ethical standards of the company.	3		8	2
+58	2020-09-15 07:37:44.42767+00	1	Customer focused - Demonstrate commitment to put customers first by striving to provide them with superior innovative products and continuously improve on quality	3		8	2
+59	2020-09-15 07:59:14.340709+00	7	Probation	1	[{"added": {}}]	31	2
+60	2020-09-15 07:59:27.393803+00	8	Mid-Year Review	1	[{"added": {}}]	31	2
+61	2020-09-15 08:02:49.111343+00	9	End-Year Review	1	[{"added": {}}]	31	2
+62	2020-09-15 08:03:11.243556+00	6	Start Of Year	3		31	2
+63	2020-09-15 08:03:11.245884+00	5	End Of Year	3		31	2
+64	2020-09-15 08:03:11.2475+00	4	4th Quarter	3		31	2
+65	2020-09-15 08:03:11.249102+00	3	3rd Quarter	3		31	2
+66	2020-09-15 08:03:11.251152+00	2	2nd Quarter	3		31	2
+67	2020-09-15 08:03:11.253077+00	1	1st Quarter	3		31	2
+68	2020-09-16 07:30:30.658476+00	3	Goal 1	2	[{"changed": {"fields": ["Employee"]}}]	11	2
+69	2020-09-16 07:31:02.277695+00	2	Behaviours 1	2	[{"changed": {"fields": ["Employee"]}}]	7	2
+70	2020-09-16 07:35:35.501513+00	5	testing1	2	[]	14	2
+71	2020-09-16 07:37:10.351039+00	7	Test	1	[{"added": {}}]	9	2
+72	2020-09-16 07:59:05.43618+00	4	Test123	1	[{"added": {}}]	11	2
+73	2020-09-16 07:59:58.065855+00	5	testing1	2	[]	14	2
+74	2020-09-16 08:00:05.773889+00	6	testing2	2	[]	14	2
+75	2020-09-16 08:06:35.110556+00	6	testing2	2	[]	14	5
+76	2020-09-16 08:07:55.074898+00	7	testing3	2	[]	14	5
+77	2020-09-17 03:26:18.806606+00	19	Achievement of operational targets including lean - 	1	[{"added": {}}]	8	2
+78	2020-09-17 03:26:33.306945+00	20	Achievement of financial targets including forecasting accuracy - 	1	[{"added": {}}]	8	2
+79	2020-09-17 03:26:44.892697+00	21	People related issues including diversity - 	1	[{"added": {}}]	8	2
+80	2020-09-17 03:26:55.563448+00	22	Implementation of PM (project management) processes - 	1	[{"added": {}}]	8	2
+81	2020-09-17 03:27:06.543833+00	23	Progress to achieve operational best practice - 	1	[{"added": {}}]	8	2
+82	2020-09-18 02:43:19.681534+00	8	Mid-Year Review	2	[]	31	2
+83	2020-09-18 02:43:40.071757+00	17	Mid-Year Review: Test Appraisal 20200917	2	[{"changed": {"fields": ["Start date", "Goals setting end date", "Mid year start date", "Mid year end date", "End year start date", "Appraisal end date", "Reports end date", "Calibration end date"]}}]	32	2
+84	2020-09-24 03:30:13.310977+00	23	Progress to achieve operational best practice - 	3		8	2
+85	2020-09-24 03:30:13.313624+00	22	Implementation of PM (project management) processes - 	3		8	2
+86	2020-09-24 03:30:13.315229+00	21	People related issues including diversity - 	3		8	2
+87	2020-09-24 03:30:13.316698+00	20	Achievement of financial targets including forecasting accuracy - 	3		8	2
+88	2020-09-24 03:30:13.318148+00	19	Achievement of operational targets including lean - 	3		8	2
+89	2020-09-24 03:30:13.31967+00	17	Leadership - 	3		8	2
+90	2020-09-24 03:30:13.320983+00	16	Improve - 	3		8	2
+91	2020-09-24 03:30:13.322075+00	15	Learn - 	3		8	2
+92	2020-09-24 03:30:13.323137+00	14	Connect - 	3		8	2
+93	2020-09-24 03:30:13.32424+00	13	Deliver Results - 	3		8	2
+94	2020-09-24 03:30:13.325337+00	12	Lead With Integrity - 	3		8	2
+95	2020-09-24 03:30:13.326382+00	10	Can Do-Will Do - 	3		8	2
+96	2020-09-24 03:30:13.327378+00	9	Customer Driven - 	3		8	2
+97	2020-09-24 03:30:13.328269+00	8	Drive Innovation - 	3		8	2
+98	2020-09-24 03:30:13.32921+00	6	Think Strategically - 	3		8	2
+99	2020-09-24 03:30:58.668306+00	24	HR - Hr	1	[{"added": {}}]	8	2
+100	2020-09-24 03:31:12.937178+00	24	HR - Hr	3		8	2
+101	2020-09-24 03:31:21.404142+00	23	Progress to achieve operational best practice - 	3		8	2
+102	2020-09-24 03:31:30.357938+00	22	Implementation of PM (project management) processes - 	3		8	2
+103	2020-09-24 03:31:30.360445+00	21	People related issues including diversity - 	3		8	2
+104	2020-09-24 03:31:39.860141+00	20	Achievement of financial targets including forecasting accuracy - 	3		8	2
+105	2020-09-24 03:31:39.863252+00	19	Achievement of operational targets including lean - 	3		8	2
+106	2020-09-24 03:31:47.900744+00	17	Leadership - 	3		8	2
+107	2020-09-24 03:32:02.873421+00	16	Improve - 	3		8	2
+108	2020-09-24 03:32:02.87561+00	15	Learn - 	3		8	2
+109	2020-09-24 03:32:02.877004+00	14	Connect - 	3		8	2
+110	2020-09-24 03:32:15.488677+00	13	Deliver Results - 	3		8	2
+111	2020-09-24 03:32:15.490879+00	12	Lead With Integrity - 	3		8	2
+112	2020-09-24 03:32:15.49245+00	10	Can Do-Will Do - 	3		8	2
+113	2020-09-24 03:32:27.691036+00	9	Customer Driven - 	3		8	2
+114	2020-09-24 03:32:27.693252+00	8	Drive Innovation - 	3		8	2
+115	2020-09-24 03:32:27.694684+00	6	Think Strategically - 	3		8	2
+116	2020-09-24 03:32:52.651985+00	9	Customer Driven - 	3		8	2
+117	2020-09-24 03:33:06.540174+00	8	Drive Innovation - 	3		8	2
+118	2020-09-24 03:33:16.168919+00	6	Think Strategically - 	3		8	2
+119	2020-09-24 16:57:52.531225+00	25	1.Think Strategically\r\n2.lead\r\n3.improvement	1	[{"added": {}}]	8	2
+120	2020-09-24 16:58:10.93359+00	25	1.Think Strategically\r\n2.lead\r\n3.improvement	2	[]	8	2
+121	2020-09-24 17:37:55.959372+00	26	think strategically	1	[{"added": {}}]	8	2
+122	2020-09-24 17:38:08.160762+00	27	lead improvement	1	[{"added": {}}]	8	2
+123	2020-09-24 17:57:10.841429+00	25	1.Think Strategically\r\n2.lead\r\n3.improvement	2	[]	8	2
+124	2020-09-24 17:57:22.521806+00	28	56677	1	[{"added": {}}]	8	2
+125	2020-09-25 02:50:18.452888+00	28	56677	3		8	2
+126	2020-09-25 04:09:51.562295+00	27	lead improvement	2	[]	8	2
+127	2020-09-25 04:21:33.765768+00	25	1.Think Strategically\r\n2.lead\r\n3.improvement	3		8	2
+128	2020-09-25 04:21:42.036667+00	26	think strategically	2	[]	8	2
+129	2020-09-25 04:28:31.272892+00	29	123	1	[{"added": {}}]	8	2
+130	2020-09-25 04:49:42.410403+00	26	think strategically lead improvement doing	2	[{"changed": {"fields": ["Description"]}}]	8	2
+131	2020-09-25 05:08:49.790529+00	26	think strategically lead improvement doing	2	[]	8	2
+132	2020-09-25 05:09:00.089967+00	29	123	3		8	2
+133	2020-09-25 05:09:00.093042+00	27	lead improvement	3		8	2
+134	2020-10-13 05:28:46.787069+00	1	skill1	1	[{"added": {}}]	22	2
+135	2020-10-22 06:17:06.994755+00	1	skill1	3		22	2
+136	2020-10-22 06:17:28.85839+00	2	I recommend this employee	1	[{"added": {}}]	22	2
+137	2020-10-22 06:17:52.836236+00	3	To undergo Performance Improvement Plan(PIP)	1	[{"added": {}}]	22	2
+138	2020-10-28 03:41:00.286314+00	10	Goal Setting stage	1	[{"added": {}}]	31	2
+139	2020-10-29 03:54:24.825034+00	12	yewchungtang	3		20	2
+140	2020-10-29 03:54:24.827106+00	9	Jeremiah	3		20	2
+141	2020-10-29 03:54:24.82825+00	6	supervisor2	3		20	2
+142	2020-10-29 03:54:24.829276+00	4	supervisor1	3		20	2
+143	2020-10-29 03:54:24.83026+00	1	hradmin	3		20	2
+144	2020-10-29 03:59:16.961096+00	5	HunetEmployee	2	[{"changed": {"fields": ["Name"]}}]	20	2
+145	2020-10-29 03:59:35.290418+00	7	HunetManager	2	[{"changed": {"fields": ["Name"]}}]	20	2
+146	2020-10-29 03:59:51.676896+00	8	hrsupervisor	3		20	2
+147	2020-10-29 04:03:19.956242+00	5	HuNet Employee	2	[{"changed": {"fields": ["Name"]}}]	20	2
+148	2020-10-29 04:03:30.303756+00	7	HuNetManager	2	[{"changed": {"fields": ["Name"]}}]	20	2
+149	2020-10-29 04:03:43.668543+00	7	HuNet Manager	2	[{"changed": {"fields": ["Name"]}}]	20	2
+150	2020-10-29 04:11:54.112473+00	15	Jeremiah	2	[{"changed": {"fields": ["Name", "First Reporting Manager"]}}]	20	2
+151	2020-10-29 04:12:34.754059+00	15	Jeremiah	2	[]	20	2
+152	2020-10-29 04:14:18.39854+00	15	Jeremiah	2	[{"changed": {"fields": ["User"]}}]	20	2
+153	2020-10-29 04:15:51.646997+00	15	Jeremiah	3		20	2
+154	2020-10-29 04:16:48.500689+00	20	jeremiah: 	1	[{"added": {}}]	4	2
+155	2020-10-29 04:17:45.646937+00	16	Jeremiah	1	[{"added": {}}]	20	2
+156	2020-10-29 04:19:35.723858+00	20	jeremiah: jeremiah@mirxes.com	2	[{"changed": {"fields": ["First name", "Email address", "Groups"]}}]	4	2
+157	2020-10-30 05:16:25.392498+00	13	yewchung	2	[{"changed": {"fields": ["First Reporting Manager"]}}]	20	2
+158	2020-10-30 05:17:00.58366+00	14	christinawoon	2	[{"changed": {"fields": ["First Reporting Manager"]}}]	20	2
+159	2020-10-30 05:27:11.23354+00	16	Jeremiah	2	[]	20	2
+160	2020-10-30 05:27:39.38591+00	14	christinawoon	2	[]	20	2
+161	2020-10-30 05:27:51.663477+00	13	yewchung	2	[]	20	2
+162	2020-10-30 05:28:08.575263+00	11	yusun	2	[]	20	2
+163	2020-10-30 05:28:27.60506+00	10	paulinekang	2	[]	20	2
+164	2020-10-30 06:10:35.213459+00	16	Jeremiah	2	[]	20	2
+165	2020-10-30 06:20:25.745155+00	16	Jeremiah	2	[{"changed": {"fields": ["Second Reporting Manager"]}}]	20	2
+166	2020-10-30 06:20:44.784952+00	14	christinawoon	2	[{"changed": {"fields": ["Second Reporting Manager"]}}]	20	2
+167	2020-10-30 06:21:02.431041+00	13	yewchung	2	[{"changed": {"fields": ["Second Reporting Manager"]}}]	20	2
+168	2020-10-30 06:21:33.290522+00	11	yusun	2	[{"changed": {"fields": ["Second Reporting Manager"]}}]	20	2
+169	2020-10-30 06:21:44.455485+00	11	yusun	2	[]	20	2
+170	2020-10-30 06:21:50.071799+00	16	Jeremiah	2	[]	20	2
+171	2020-10-30 06:21:56.095055+00	14	christinawoon	2	[]	20	2
+172	2020-10-30 06:22:02.456578+00	13	yewchung	2	[]	20	2
+173	2020-10-30 06:22:08.744932+00	11	yusun	2	[]	20	2
+174	2020-10-30 06:22:26.192439+00	10	paulinekang	2	[{"changed": {"fields": ["Second Reporting Manager"]}}]	20	2
+175	2020-10-30 06:24:20.544773+00	21	zoe: 	1	[{"added": {}}]	4	2
+176	2020-10-30 06:24:32.348902+00	21	zoe: 	2	[{"changed": {"fields": ["Groups"]}}]	4	2
+177	2020-10-30 06:26:02.742113+00	17	Zoe	1	[{"added": {}}]	20	2
+178	2020-11-06 02:49:13.624095+00	120	Zoe:'s Appraisal	2	[{"changed": {"fields": ["Manager"]}}]	35	2
+179	2020-11-06 03:00:54.672001+00	3	Scientific Communication	1	[{"added": {}}]	18	2
+180	2020-11-06 03:01:10.136267+00	4	Scientific Affairs	1	[{"added": {}}]	18	2
+181	2020-11-06 03:01:18.278402+00	2	HUMAN RESOURCE	2	[]	18	2
+182	2020-11-06 03:02:00.781724+00	10	paulinekang	2	[{"changed": {"fields": ["Department"]}}]	20	2
+183	2020-11-06 03:02:37.789782+00	5	Quality Department	1	[{"added": {}}]	18	2
+184	2020-11-06 03:02:57.889609+00	6	Project Management	1	[{"added": {}}]	18	2
+185	2020-11-06 03:03:32.510779+00	11	yusun	2	[{"changed": {"fields": ["Department"]}}]	20	2
+186	2020-11-06 03:03:58.813276+00	17	Zoe	2	[{"changed": {"fields": ["Department"]}}]	20	2
+187	2020-11-06 03:04:00.538992+00	17	Zoe	2	[]	20	2
+188	2020-11-06 03:10:04.514201+00	19	Scientific Affairs	2	[{"changed": {"fields": ["Department", "Goal category"]}}]	14	2
+189	2020-11-06 03:10:04.874246+00	19	Scientific Affairs	2	[]	14	2
+190	2020-11-06 03:10:46.959409+00	18	Scientific Communications	2	[{"changed": {"fields": ["Department", "Goal category"]}}]	14	2
+191	2020-11-06 03:12:06.210877+00	10	paulinekang	2	[{"changed": {"fields": ["Department"]}}]	20	2
+192	2020-11-06 03:44:22.934244+00	13	yewchung	2	[{"changed": {"fields": ["Department"]}}]	20	2
+193	2020-11-06 03:44:41.911534+00	16	Jeremiah	2	[]	20	2
+194	2020-11-06 03:45:02.294395+00	7	Business Partnership	1	[{"added": {}}]	18	2
+195	2020-11-06 03:45:33.684289+00	16	Jeremiah	2	[{"changed": {"fields": ["Department"]}}]	20	2
+196	2020-11-06 03:45:46.554269+00	17	Zoe	2	[]	20	2
+197	2020-11-06 03:45:54.978896+00	11	yusun	2	[]	20	2
+198	2020-11-06 03:46:05.318981+00	14	christinawoon	2	[]	20	2
+199	2020-11-06 03:46:18.940347+00	10	paulinekang	2	[{"changed": {"fields": ["Department"]}}]	20	2
+200	2020-11-06 07:40:13.373294+00	5	Others	3		10	2
+201	2020-11-06 07:40:13.375831+00	4	Organization Effectivness	3		10	2
+202	2020-11-06 07:40:13.377308+00	3	Operation Efficiency/Cost Reduction	3		10	2
+203	2020-11-06 07:40:13.378856+00	2	New Product Introduction	3		10	2
+204	2020-11-06 07:40:13.380158+00	1	Customer Engagement	3		10	2
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	GnC	competencies
+8	GnC	competency_category
+9	GnC	departmental_competencies
+10	GnC	goal_category
+11	GnC	goals
+12	GnC	kpi
+13	GnC	goal_comment
+14	GnC	departmental_goals
+15	GnC	departmental_goal_comment
+16	GnC	departmental_competencies_comment
+17	GnC	competency_comment
+18	Profile	departments
+19	Profile	discard_skills
+20	Profile	profile
+21	Profile	qualifications
+22	Trainings	skill_category
+23	Trainings	trainings
+24	Trainings	training_courses
+25	Trainings	survey_trainings
+26	Trainings	skills
+27	Trainings	career_discussion
+28	Trainings	apply_trainings
+29	Ticketing	ticket
+30	Ticketing	ticket_comments
+31	Appraisals	appraisal_category
+32	Appraisals	overall_appraisal
+33	Appraisals	peerappraisal
+34	Appraisals	rating_scale
+35	Appraisals	user_appraisal_list
+36	Appraisals	peerappraisalquestion
+37	Appraisals	appraisal
+38	thumbnail	kvstore
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2020-08-27 19:01:06.719029+00
+2	auth	0001_initial	2020-08-27 19:01:06.758964+00
+3	Profile	0001_initial	2020-08-27 19:01:06.843027+00
+4	Appraisals	0001_initial	2020-08-27 19:01:06.989111+00
+5	Appraisals	0002_auto_20200802_0212	2020-08-27 19:01:07.05564+00
+6	Appraisals	0003_auto_20200803_0830	2020-08-27 19:01:07.069181+00
+7	Appraisals	0004_user_appraisal_list_mid_yearm_rejection	2020-08-27 19:01:07.084676+00
+8	Appraisals	0005_auto_20200805_0301	2020-08-27 19:01:07.110946+00
+9	Appraisals	0006_user_appraisal_list_recommendationcomments	2020-08-27 19:01:07.124247+00
+10	Appraisals	0007_auto_20200807_0416	2020-08-27 19:01:07.144505+00
+11	Appraisals	0008_auto_20200809_1644	2020-08-27 19:01:07.274388+00
+12	Appraisals	0009_auto_20200809_1647	2020-08-27 19:01:07.363356+00
+13	Appraisals	0010_auto_20200809_2107	2020-08-27 19:01:07.3722+00
+14	GnC	0001_initial	2020-08-27 19:01:07.692315+00
+15	GnC	0002_auto_20200803_0830	2020-08-27 19:01:07.787044+00
+16	GnC	0003_auto_20200806_0145	2020-08-27 19:01:07.795354+00
+17	GnC	0004_competency_category_description	2020-08-27 19:01:07.802274+00
+18	GnC	0005_goals_metrics_evidence	2020-08-27 19:01:07.910488+00
+19	GnC	0006_auto_20200807_1129	2020-08-27 19:01:07.921633+00
+20	GnC	0007_auto_20200817_0743	2020-08-27 19:01:07.977303+00
+21	Profile	0002_auto_20200806_0145	2020-08-27 19:01:07.998622+00
+22	Profile	0003_qualifications	2020-08-27 19:01:08.025102+00
+23	Profile	0004_delete_qualification	2020-08-27 19:01:08.032597+00
+24	Profile	0005_auto_20200809_0913	2020-08-27 19:01:08.093449+00
+25	Profile	0006_auto_20200815_1433	2020-08-27 19:01:08.113133+00
+26	Ticketing	0001_initial	2020-08-27 19:01:08.165723+00
+27	Trainings	0001_initial	2020-08-27 19:01:08.29296+00
+28	admin	0001_initial	2020-08-27 19:01:08.354764+00
+29	admin	0002_logentry_remove_auto_add	2020-08-27 19:01:08.371717+00
+30	admin	0003_logentry_add_action_flag_choices	2020-08-27 19:01:08.383648+00
+31	contenttypes	0002_remove_content_type_name	2020-08-27 19:01:08.427509+00
+32	auth	0002_alter_permission_name_max_length	2020-08-27 19:01:08.435036+00
+33	auth	0003_alter_user_email_max_length	2020-08-27 19:01:08.4494+00
+34	auth	0004_alter_user_username_opts	2020-08-27 19:01:08.467315+00
+35	auth	0005_alter_user_last_login_null	2020-08-27 19:01:08.480756+00
+36	auth	0006_require_contenttypes_0002	2020-08-27 19:01:08.483623+00
+37	auth	0007_alter_validators_add_error_messages	2020-08-27 19:01:08.495978+00
+38	auth	0008_alter_user_username_max_length	2020-08-27 19:01:08.513998+00
+39	auth	0009_alter_user_last_name_max_length	2020-08-27 19:01:08.53169+00
+40	auth	0010_alter_group_name_max_length	2020-08-27 19:01:08.551727+00
+41	auth	0011_update_proxy_permissions	2020-08-27 19:01:08.698805+00
+42	sessions	0001_initial	2020-08-27 19:01:08.710453+00
+43	thumbnail	0001_initial	2020-08-27 19:01:08.724713+00
+44	GnC	0008_auto_20200914_0622	2020-09-14 06:22:24.275877+00
+45	GnC	0009_auto_20200914_0639	2020-09-14 06:40:04.360719+00
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+l3vkmnbft5gjk6tgjd0bsvygbzkdfgg1	NTQzMDA4NDFjYzNiMTI4ZTBmMWVmYjI1NzFlYzBlZjFmNDFmNmRiYjp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI2ODljNGI3YmZmZmEyNWY1MjBmNzEwOGM4YzRkYTEyYmJhN2UzYTU1In0=	2020-09-12 05:58:15.401874+00
+mpp2r2d4xhsyv4mw1o08f1nrm3uvnop2	YzI2NzMyYjM4ZjUzODM2NjhhZmVjMmRjMjMyM2YyNGE1ZjQwOWU5OTp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNDRlYjYwMzc1Yzg5ZGIwMDE0ZjllNzZjOWU0Mjk4YjAyZjRiNzFjIn0=	2020-09-23 09:00:32.121171+00
+u1enogn0ljwlauxz4lbt5hpznzojwcpo	NjM1YWE3ZGY5YjZiNzU3MzkwZTIxOWY3MDQwNGRhOTRiYmQ4ZmEzMTp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJmMzdkMWYyYjhiNzk4NzczOWFjNDM1MTIwZWRjMzY4ZTY5Yzk3NmE3In0=	2020-10-08 05:51:00.838352+00
+uojz8u6wwdykmljex00x5654r9ciai70	N2E3NTU5MTdiY2FmZDQyMjIxNTQ0YTgyOGYxMGU1M2U1ZTk3OTBhYTp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI1YmE3M2Y3ZjBkZWE2NTIyODIwMmI4ZTg5ZGVjOTkwMWFmNjBlZmNlIn0=	2020-10-12 05:07:46.733994+00
+nmbrfgi8mv06aukmik5ks1o6nk6g34lm	NmI4NTFiN2NkZTdjNzFlYzUyY2NiMjBlOTU0OGVhNzdhZDdkM2Q2MDp7Il9hdXRoX3VzZXJfaWQiOiIxNCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMTkwZDU2NGI4MGQ1NGVhMDA0Nzg1MjIwMDc1Zjg3ZGRlNThiNDNmZSJ9	2020-11-17 02:55:44.566221+00
+ids58widevyehb3a9qbwhw446xm1hmp8	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-10-02 02:59:08.479167+00
+zarf295jjfdvflpyd6vzcg6ldet1gy6x	ZDlhNTM4MmZiZDExZTdmNWU4YmUwZWE2MmVjNDI2NTQ0MWMxZTgzYTp7Il9hdXRoX3VzZXJfaWQiOiIxNyIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiOWFkN2IxZDJkZjYyYzk1MDllMzkwNTVkMTkxODkzYmJmZGZkZmQ4ZCJ9	2020-11-17 03:15:11.785026+00
+yzj28rvir6u69fim9b791674g0nj0x27	NjM1YWE3ZGY5YjZiNzU3MzkwZTIxOWY3MDQwNGRhOTRiYmQ4ZmEzMTp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJmMzdkMWYyYjhiNzk4NzczOWFjNDM1MTIwZWRjMzY4ZTY5Yzk3NmE3In0=	2020-10-05 06:49:48.882822+00
+rb60zhwcb485aovhxlp8f9szbnzfuvzj	N2E3NTU5MTdiY2FmZDQyMjIxNTQ0YTgyOGYxMGU1M2U1ZTk3OTBhYTp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI1YmE3M2Y3ZjBkZWE2NTIyODIwMmI4ZTg5ZGVjOTkwMWFmNjBlZmNlIn0=	2020-10-14 08:46:56.91224+00
+508jr6glpvlu68a38o7qy90lww0a8a7r	M2FiY2U1ZGZjY2QzNjBjMDk2MGYwZTQ2MjI5OTNjNDMyNGI5MGNkODp7Il9hdXRoX3VzZXJfaWQiOiI1IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkZjBiNGQxODExMTY4ZTA5N2I2NDI2ZjcwOTk2YTliY2IxMGNmMzRkIn0=	2020-09-30 07:30:26.736194+00
+9qd2m1oq3rcszc0p59n320fqpje7z521	YzI2NzMyYjM4ZjUzODM2NjhhZmVjMmRjMjMyM2YyNGE1ZjQwOWU5OTp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNDRlYjYwMzc1Yzg5ZGIwMDE0ZjllNzZjOWU0Mjk4YjAyZjRiNzFjIn0=	2020-09-25 02:32:55.013302+00
+k2fhl0bmomjlhyw5ts6rwra4eyqfm89w	NTQzMDA4NDFjYzNiMTI4ZTBmMWVmYjI1NzFlYzBlZjFmNDFmNmRiYjp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI2ODljNGI3YmZmZmEyNWY1MjBmNzEwOGM4YzRkYTEyYmJhN2UzYTU1In0=	2020-09-21 06:42:51.229354+00
+tc1c8sifxetf0d7r7509saeechs4lvir	NjM1YWE3ZGY5YjZiNzU3MzkwZTIxOWY3MDQwNGRhOTRiYmQ4ZmEzMTp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJmMzdkMWYyYjhiNzk4NzczOWFjNDM1MTIwZWRjMzY4ZTY5Yzk3NmE3In0=	2020-09-25 02:36:28.392543+00
+nnlokxnhd00v3hnklbn034xcemtxc3p1	N2E3NTU5MTdiY2FmZDQyMjIxNTQ0YTgyOGYxMGU1M2U1ZTk3OTBhYTp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI1YmE3M2Y3ZjBkZWE2NTIyODIwMmI4ZTg5ZGVjOTkwMWFmNjBlZmNlIn0=	2020-10-27 05:38:35.478234+00
+hwdyqga0ez5npbvrdtrbsabvvdsqnnku	YzI2NzMyYjM4ZjUzODM2NjhhZmVjMmRjMjMyM2YyNGE1ZjQwOWU5OTp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNDRlYjYwMzc1Yzg5ZGIwMDE0ZjllNzZjOWU0Mjk4YjAyZjRiNzFjIn0=	2020-10-08 17:56:57.438208+00
+wklury3wlf4e09rkom99s7z35fmzh8ek	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-11-05 06:00:50.480318+00
+z96y04dwoluy4ndwgbosi7w0pz3bo8qx	N2E3NTU5MTdiY2FmZDQyMjIxNTQ0YTgyOGYxMGU1M2U1ZTk3OTBhYTp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI1YmE3M2Y3ZjBkZWE2NTIyODIwMmI4ZTg5ZGVjOTkwMWFmNjBlZmNlIn0=	2020-11-10 08:22:17.016048+00
+focx9rk0b0x9w0xy7nty78h0yh4ejr23	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-11-10 08:46:36.161302+00
+l2m3nin2dv52miujzh0y8jb18gnsnhmn	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-10-27 02:57:26.021816+00
+s3p1lc16nwrzj7ey5xiwvuq3ibp5be16	YzI2NzMyYjM4ZjUzODM2NjhhZmVjMmRjMjMyM2YyNGE1ZjQwOWU5OTp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNDRlYjYwMzc1Yzg5ZGIwMDE0ZjllNzZjOWU0Mjk4YjAyZjRiNzFjIn0=	2020-10-09 02:07:56.137068+00
+rwtotry7przadaoqz5o3ar88sd6uymll	N2E3NTU5MTdiY2FmZDQyMjIxNTQ0YTgyOGYxMGU1M2U1ZTk3OTBhYTp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI1YmE3M2Y3ZjBkZWE2NTIyODIwMmI4ZTg5ZGVjOTkwMWFmNjBlZmNlIn0=	2020-10-16 07:23:15.069877+00
+j1jb0lp6ag8rtczmstqjuh8foqdvrhuc	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-11-06 06:59:04.577742+00
+7j5h4pe3wdfzhh8ickjwbmn7x8wu45vz	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-11-09 06:41:12.782274+00
+mbyjj23q4dm8gaom7z7gngk9qjokihte	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-11-25 05:26:22.33772+00
+ji59tdj9zk6apxcrwgw0rwjimokzf9n5	MDM4ZmVmZGQxNDk1MmI1YzM4ODAzZTljNDJiOWMxNTNjY2ZhMDI4Mzp7Il9hdXRoX3VzZXJfaWQiOiIxOCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiNTZjYTBiZDg1ZWEwMTE4MWEzYzBiMGVjYjEzOTg3Yzg4YmY1YTVlMSJ9	2020-11-13 07:51:04.308585+00
+cg8cbkqbwd5jrxghapkhsw74q9f0dv9l	MTEzMjJmYzZlMWNlMWI0ZjFhZTkzOTU2YTkyZWZjMjdmNWZiMGJiNDp7Il9hdXRoX3VzZXJfaWQiOiIxMyIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMTkxMWJlMGY1YjgyMjJiODJlN2Y0NzlhMTE0NWU1YWU0MzFjMWE2MiJ9	2020-11-17 11:08:50.843915+00
+sdi9lbsn20ldjpx6sbl0ns89lnzklop3	OWRmYzE1YWM1MjAxYWI3NDAzZDViNDZjZGYyMGRlMjRkYzUzNzg2Mjp7Il9hdXRoX3VzZXJfaWQiOiIxMiIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiOTE4NzMzZTQ1MTFiNWExM2EwMDZmZDRiMmMxMmM3OTA0Njg1MDc2MiJ9	2020-11-18 03:29:11.199029+00
+djfaovwv65exq3k7s3nxwz00if1ou77d	ZDlhNTM4MmZiZDExZTdmNWU4YmUwZWE2MmVjNDI2NTQ0MWMxZTgzYTp7Il9hdXRoX3VzZXJfaWQiOiIxNyIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiOWFkN2IxZDJkZjYyYzk1MDllMzkwNTVkMTkxODkzYmJmZGZkZmQ4ZCJ9	2020-11-18 04:25:11.473721+00
+9fbj8ihbjpg80qysmk229ir8zqntx6we	OWIzZWVjMjlhZmRlOGFhYzliYmQxMTRjYTRmYTBhNDAwZTJkMzZhYzp7Il9hdXRoX3VzZXJfaWQiOiIyMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZWRmMjRkYzI3MzY4NTZkZDhlNzhjYWZiOTk3OWNhYjg2YjdhNzkyMyJ9	2020-11-23 02:33:25.991383+00
+ocniui2li94o6pttxytn456tm0xgm1jc	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-11-26 03:46:43.967092+00
+supz0bkmr0vokaopua115l8991latbzt	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-11-23 14:20:41.524778+00
+2milp50pz102zp2t7qc48tnora82b5im	NzY4ZDFmMDU3ZjBlNTFmNmVlNmNmZTAxYmI5NTYwYzY5ZGE5OGMxYjp7Il9hdXRoX3VzZXJfaWQiOiIyMCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZGNmYTJkMDU1NmU5MTQwYTI0NmUyNjVhOTRiMjkyMGIzOGU2YjcyNyJ9	2020-11-27 01:20:29.920562+00
+gax6fuckxw2kiczpl2ongin3preyssd3	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-11-24 04:17:27.986911+00
+uufqd1hcbfxs6huaxbq40ncd2hi65cl9	MDM4ZmVmZGQxNDk1MmI1YzM4ODAzZTljNDJiOWMxNTNjY2ZhMDI4Mzp7Il9hdXRoX3VzZXJfaWQiOiIxOCIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiNTZjYTBiZDg1ZWEwMTE4MWEzYzBiMGVjYjEzOTg3Yzg4YmY1YTVlMSJ9	2020-12-07 04:01:08.123785+00
+pdtd5az934cicroae2b3lt4oad9jw7w8	ZDlhNTM4MmZiZDExZTdmNWU4YmUwZWE2MmVjNDI2NTQ0MWMxZTgzYTp7Il9hdXRoX3VzZXJfaWQiOiIxNyIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiOWFkN2IxZDJkZjYyYzk1MDllMzkwNTVkMTkxODkzYmJmZGZkZmQ4ZCJ9	2020-12-07 04:17:39.288702+00
+5qm24hfy1cqek8fdsql0m8jbsbk8k0lq	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-12-07 13:55:27.606889+00
+s372a9d1ayxlhicc2ku9lrw86lm90xom	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-12-10 12:42:09.043967+00
+f986vqjek0lqznkedhb6r2hawbc88ptf	N2E3NTU5MTdiY2FmZDQyMjIxNTQ0YTgyOGYxMGU1M2U1ZTk3OTBhYTp7Il9hdXRoX3VzZXJfaWQiOiI5IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI1YmE3M2Y3ZjBkZWE2NTIyODIwMmI4ZTg5ZGVjOTkwMWFmNjBlZmNlIn0=	2020-12-10 12:44:08.953137+00
+ptk95uybvgwfin1vbagse0zpyhfmv0tl	MmQyMGQwOTcwZmRhZjM5NzUyNzg0OGY0NDkxY2NiNjBlMzczOTg0Njp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiMmI3NjAwYmE3MzYxZjAxZmE3MGZmNTk2YmM2NGU4MmFjN2I0N2FiIn0=	2020-12-12 06:17:38.481533+00
+\.
+
+
+--
+-- Data for Name: thumbnail_kvstore; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.thumbnail_kvstore (key, value) FROM stdin;
+\.
+
+
+--
+-- Name: Appraisals_appraisal_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Appraisals_appraisal_category_id_seq"', 10, true);
+
+
+--
+-- Name: Appraisals_appraisal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Appraisals_appraisal_id_seq"', 1, false);
+
+
+--
+-- Name: Appraisals_overall_appraisal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Appraisals_overall_appraisal_id_seq"', 72, true);
+
+
+--
+-- Name: Appraisals_peerappraisal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Appraisals_peerappraisal_id_seq"', 2, true);
+
+
+--
+-- Name: Appraisals_peerappraisalquestion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Appraisals_peerappraisalquestion_id_seq"', 1, false);
+
+
+--
+-- Name: Appraisals_rating_scale_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Appraisals_rating_scale_id_seq"', 1, false);
+
+
+--
+-- Name: Appraisals_user_appraisal_list_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Appraisals_user_appraisal_list_id_seq"', 135, true);
+
+
+--
+-- Name: GnC_competencies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."GnC_competencies_id_seq"', 8, true);
+
+
+--
+-- Name: GnC_competency_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."GnC_competency_category_id_seq"', 29, true);
+
+
+--
+-- Name: GnC_competency_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."GnC_competency_comment_id_seq"', 1, false);
+
+
+--
+-- Name: GnC_departmental_competencies_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."GnC_departmental_competencies_comment_id_seq"', 1, false);
+
+
+--
+-- Name: GnC_departmental_competencies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."GnC_departmental_competencies_id_seq"', 7, true);
+
+
+--
+-- Name: GnC_departmental_goal_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."GnC_departmental_goal_comment_id_seq"', 1, false);
+
+
+--
+-- Name: GnC_departmental_goals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."GnC_departmental_goals_id_seq"', 24, true);
+
+
+--
+-- Name: GnC_goal_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."GnC_goal_category_id_seq"', 5, true);
+
+
+--
+-- Name: GnC_goal_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."GnC_goal_comment_id_seq"', 2, true);
+
+
+--
+-- Name: GnC_goals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."GnC_goals_id_seq"', 52, true);
+
+
+--
+-- Name: GnC_kpi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."GnC_kpi_id_seq"', 26, true);
+
+
+--
+-- Name: Profile_departments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Profile_departments_id_seq"', 7, true);
+
+
+--
+-- Name: Profile_discard_skills_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Profile_discard_skills_id_seq"', 1, false);
+
+
+--
+-- Name: Profile_profile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Profile_profile_id_seq"', 17, true);
+
+
+--
+-- Name: Profile_qualifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Profile_qualifications_id_seq"', 1, false);
+
+
+--
+-- Name: Ticketing_ticket_comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Ticketing_ticket_comments_id_seq"', 1, false);
+
+
+--
+-- Name: Ticketing_ticket_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Ticketing_ticket_id_seq"', 1, false);
+
+
+--
+-- Name: Trainings_apply_trainings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Trainings_apply_trainings_id_seq"', 1, false);
+
+
+--
+-- Name: Trainings_career_discussion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Trainings_career_discussion_id_seq"', 13, true);
+
+
+--
+-- Name: Trainings_skill_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Trainings_skill_category_id_seq"', 3, true);
+
+
+--
+-- Name: Trainings_skills_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Trainings_skills_id_seq"', 5, true);
+
+
+--
+-- Name: Trainings_survey_trainings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Trainings_survey_trainings_id_seq"', 1, false);
+
+
+--
+-- Name: Trainings_training_courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Trainings_training_courses_id_seq"', 1, false);
+
+
+--
+-- Name: Trainings_trainings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Trainings_trainings_id_seq"', 1, false);
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 4, true);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 152, true);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 152, true);
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 67, true);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 21, true);
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 152, true);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 204, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 38, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 45, true);
+
+
+--
+-- Name: Appraisals_appraisal_category Appraisals_appraisal_category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_appraisal_category"
+    ADD CONSTRAINT "Appraisals_appraisal_category_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Appraisals_appraisal Appraisals_appraisal_employee_list_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_appraisal"
+    ADD CONSTRAINT "Appraisals_appraisal_employee_list_id_key" UNIQUE (employee_list_id);
+
+
+--
+-- Name: Appraisals_appraisal Appraisals_appraisal_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_appraisal"
+    ADD CONSTRAINT "Appraisals_appraisal_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Appraisals_overall_appraisal Appraisals_overall_appraisal_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_overall_appraisal"
+    ADD CONSTRAINT "Appraisals_overall_appraisal_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Appraisals_peerappraisal Appraisals_peerappraisal_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_peerappraisal"
+    ADD CONSTRAINT "Appraisals_peerappraisal_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Appraisals_peerappraisalquestion Appraisals_peerappraisalquestion_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_peerappraisalquestion"
+    ADD CONSTRAINT "Appraisals_peerappraisalquestion_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Appraisals_rating_scale Appraisals_rating_scale_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_rating_scale"
+    ADD CONSTRAINT "Appraisals_rating_scale_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Appraisals_user_appraisal_list Appraisals_user_appraisal_list_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_user_appraisal_list"
+    ADD CONSTRAINT "Appraisals_user_appraisal_list_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: GnC_competencies GnC_competencies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_competencies"
+    ADD CONSTRAINT "GnC_competencies_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: GnC_competency_category GnC_competency_category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_competency_category"
+    ADD CONSTRAINT "GnC_competency_category_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: GnC_competency_comment GnC_competency_comment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_competency_comment"
+    ADD CONSTRAINT "GnC_competency_comment_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: GnC_departmental_competencies_comment GnC_departmental_competencies_comment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_competencies_comment"
+    ADD CONSTRAINT "GnC_departmental_competencies_comment_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: GnC_departmental_competencies GnC_departmental_competencies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_competencies"
+    ADD CONSTRAINT "GnC_departmental_competencies_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: GnC_departmental_goal_comment GnC_departmental_goal_comment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_goal_comment"
+    ADD CONSTRAINT "GnC_departmental_goal_comment_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: GnC_departmental_goals GnC_departmental_goals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_goals"
+    ADD CONSTRAINT "GnC_departmental_goals_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: GnC_goal_category GnC_goal_category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_goal_category"
+    ADD CONSTRAINT "GnC_goal_category_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: GnC_goal_comment GnC_goal_comment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_goal_comment"
+    ADD CONSTRAINT "GnC_goal_comment_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: GnC_goals GnC_goals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_goals"
+    ADD CONSTRAINT "GnC_goals_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: GnC_kpi GnC_kpi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_kpi"
+    ADD CONSTRAINT "GnC_kpi_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Profile_departments Profile_departments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_departments"
+    ADD CONSTRAINT "Profile_departments_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Profile_discard_skills Profile_discard_skills_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_discard_skills"
+    ADD CONSTRAINT "Profile_discard_skills_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Profile_profile Profile_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_profile"
+    ADD CONSTRAINT "Profile_profile_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Profile_profile Profile_profile_user_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_profile"
+    ADD CONSTRAINT "Profile_profile_user_id_key" UNIQUE (user_id);
+
+
+--
+-- Name: Profile_qualifications Profile_qualifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_qualifications"
+    ADD CONSTRAINT "Profile_qualifications_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Ticketing_ticket_comments Ticketing_ticket_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Ticketing_ticket_comments"
+    ADD CONSTRAINT "Ticketing_ticket_comments_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Ticketing_ticket Ticketing_ticket_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Ticketing_ticket"
+    ADD CONSTRAINT "Ticketing_ticket_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Trainings_apply_trainings Trainings_apply_trainings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_apply_trainings"
+    ADD CONSTRAINT "Trainings_apply_trainings_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Trainings_career_discussion Trainings_career_discussion_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_career_discussion"
+    ADD CONSTRAINT "Trainings_career_discussion_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Trainings_skill_category Trainings_skill_category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_skill_category"
+    ADD CONSTRAINT "Trainings_skill_category_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Trainings_skills Trainings_skills_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_skills"
+    ADD CONSTRAINT "Trainings_skills_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Trainings_survey_trainings Trainings_survey_trainings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_survey_trainings"
+    ADD CONSTRAINT "Trainings_survey_trainings_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Trainings_training_courses Trainings_training_courses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_training_courses"
+    ADD CONSTRAINT "Trainings_training_courses_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Trainings_trainings Trainings_trainings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_trainings"
+    ADD CONSTRAINT "Trainings_trainings_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: thumbnail_kvstore thumbnail_kvstore_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.thumbnail_kvstore
+    ADD CONSTRAINT thumbnail_kvstore_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: Appraisals_appraisal_created_by_id_3e175c99; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_appraisal_created_by_id_3e175c99" ON public."Appraisals_appraisal" USING btree (created_by_id);
+
+
+--
+-- Name: Appraisals_appraisal_manager_id_a46f0385; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_appraisal_manager_id_a46f0385" ON public."Appraisals_appraisal" USING btree (manager_id);
+
+
+--
+-- Name: Appraisals_appraisal_rating_scale_id_9524c390; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_appraisal_rating_scale_id_9524c390" ON public."Appraisals_appraisal" USING btree (rating_scale_id);
+
+
+--
+-- Name: Appraisals_appraisal_user_id_d49ce642; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_appraisal_user_id_d49ce642" ON public."Appraisals_appraisal" USING btree (user_id);
+
+
+--
+-- Name: Appraisals_overall_appraisal_appraisal_category_id_a8a548aa; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_overall_appraisal_appraisal_category_id_a8a548aa" ON public."Appraisals_overall_appraisal" USING btree (appraisal_category_id);
+
+
+--
+-- Name: Appraisals_peerappraisal_appraisal_id_28d7ec5a; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_peerappraisal_appraisal_id_28d7ec5a" ON public."Appraisals_peerappraisal" USING btree (appraisal_id);
+
+
+--
+-- Name: Appraisals_peerappraisal_created_by_id_5d13bf1c; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_peerappraisal_created_by_id_5d13bf1c" ON public."Appraisals_peerappraisal" USING btree (created_by_id);
+
+
+--
+-- Name: Appraisals_peerappraisal_manager_id_a1f5a6f1; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_peerappraisal_manager_id_a1f5a6f1" ON public."Appraisals_peerappraisal" USING btree (manager_id);
+
+
+--
+-- Name: Appraisals_peerappraisal_viewer_id_e8b84916; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_peerappraisal_viewer_id_e8b84916" ON public."Appraisals_peerappraisal" USING btree (viewer_id);
+
+
+--
+-- Name: Appraisals_peerappraisalquestion_appraisal_id_2b7db054; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_peerappraisalquestion_appraisal_id_2b7db054" ON public."Appraisals_peerappraisalquestion" USING btree (appraisal_id);
+
+
+--
+-- Name: Appraisals_user_appraisal_list_appraisal_category_id_6c4ae8cd; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_user_appraisal_list_appraisal_category_id_6c4ae8cd" ON public."Appraisals_user_appraisal_list" USING btree (appraisal_category_id);
+
+
+--
+-- Name: Appraisals_user_appraisal_list_employee_id_da7a4baa; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_user_appraisal_list_employee_id_da7a4baa" ON public."Appraisals_user_appraisal_list" USING btree (employee_id);
+
+
+--
+-- Name: Appraisals_user_appraisal_list_manager_id_ecd68e59; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_user_appraisal_list_manager_id_ecd68e59" ON public."Appraisals_user_appraisal_list" USING btree (manager_id);
+
+
+--
+-- Name: Appraisals_user_appraisal_list_overall_appraisal_id_ba7766ac; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Appraisals_user_appraisal_list_overall_appraisal_id_ba7766ac" ON public."Appraisals_user_appraisal_list" USING btree (overall_appraisal_id);
+
+
+--
+-- Name: GnC_competencies_appraisal_id_4538b174; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_competencies_appraisal_id_4538b174" ON public."GnC_competencies" USING btree (appraisal_id);
+
+
+--
+-- Name: GnC_competencies_competency_category_id_307d3c08; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_competencies_competency_category_id_307d3c08" ON public."GnC_competencies" USING btree (competency_category_id);
+
+
+--
+-- Name: GnC_competencies_employee_id_82fd6ae3; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_competencies_employee_id_82fd6ae3" ON public."GnC_competencies" USING btree (employee_id);
+
+
+--
+-- Name: GnC_competency_comment_competency_id_66c3fc44; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_competency_comment_competency_id_66c3fc44" ON public."GnC_competency_comment" USING btree (competency_id);
+
+
+--
+-- Name: GnC_competency_comment_created_by_id_b6295ed5; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_competency_comment_created_by_id_b6295ed5" ON public."GnC_competency_comment" USING btree (created_by_id);
+
+
+--
+-- Name: GnC_departmental_competenc_departmental_competencies__cdc829d6; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_competenc_departmental_competencies__cdc829d6" ON public."GnC_departmental_competencies_comment" USING btree (departmental_competencies_id);
+
+
+--
+-- Name: GnC_departmental_competencies_appraisal_id_a82557cf; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_competencies_appraisal_id_a82557cf" ON public."GnC_departmental_competencies" USING btree (appraisal_id);
+
+
+--
+-- Name: GnC_departmental_competencies_comment_created_by_id_588e99d3; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_competencies_comment_created_by_id_588e99d3" ON public."GnC_departmental_competencies_comment" USING btree (created_by_id);
+
+
+--
+-- Name: GnC_departmental_competencies_competency_category_id_0a050889; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_competencies_competency_category_id_0a050889" ON public."GnC_departmental_competencies" USING btree (competency_category_id);
+
+
+--
+-- Name: GnC_departmental_competencies_department_id_7cbe1345; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_competencies_department_id_7cbe1345" ON public."GnC_departmental_competencies" USING btree (department_id);
+
+
+--
+-- Name: GnC_departmental_competencies_manager_id_90ca0401; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_competencies_manager_id_90ca0401" ON public."GnC_departmental_competencies" USING btree (manager_id);
+
+
+--
+-- Name: GnC_departmental_goal_comment_created_by_id_5debfbed; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_goal_comment_created_by_id_5debfbed" ON public."GnC_departmental_goal_comment" USING btree (created_by_id);
+
+
+--
+-- Name: GnC_departmental_goal_comment_departmental_goal_id_a50df18e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_goal_comment_departmental_goal_id_a50df18e" ON public."GnC_departmental_goal_comment" USING btree (departmental_goal_id);
+
+
+--
+-- Name: GnC_departmental_goals_appraisal_id_622e3b20; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_goals_appraisal_id_622e3b20" ON public."GnC_departmental_goals" USING btree (appraisal_id);
+
+
+--
+-- Name: GnC_departmental_goals_department_id_435bc3fd; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_goals_department_id_435bc3fd" ON public."GnC_departmental_goals" USING btree (department_id);
+
+
+--
+-- Name: GnC_departmental_goals_goal_category_id_1e2af518; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_goals_goal_category_id_1e2af518" ON public."GnC_departmental_goals" USING btree (goal_category_id);
+
+
+--
+-- Name: GnC_departmental_goals_manager_id_3a87871e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_departmental_goals_manager_id_3a87871e" ON public."GnC_departmental_goals" USING btree (manager_id);
+
+
+--
+-- Name: GnC_goal_comment_created_by_id_7bb27831; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_goal_comment_created_by_id_7bb27831" ON public."GnC_goal_comment" USING btree (created_by_id);
+
+
+--
+-- Name: GnC_goal_comment_goal_id_d65b24f7; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_goal_comment_goal_id_d65b24f7" ON public."GnC_goal_comment" USING btree (goal_id);
+
+
+--
+-- Name: GnC_goals_appraisal_id_f27b997d; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_goals_appraisal_id_f27b997d" ON public."GnC_goals" USING btree (appraisal_id);
+
+
+--
+-- Name: GnC_goals_employee_id_13965219; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_goals_employee_id_13965219" ON public."GnC_goals" USING btree (employee_id);
+
+
+--
+-- Name: GnC_goals_goal_category_id_a9e9cdc9; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_goals_goal_category_id_a9e9cdc9" ON public."GnC_goals" USING btree (goal_category_id);
+
+
+--
+-- Name: GnC_kpi_goal_id_4121a0f5; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "GnC_kpi_goal_id_4121a0f5" ON public."GnC_kpi" USING btree (goal_id);
+
+
+--
+-- Name: Profile_departments_manager_id_e97442f4; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Profile_departments_manager_id_e97442f4" ON public."Profile_departments" USING btree (manager_id);
+
+
+--
+-- Name: Profile_profile_department_id_eee178e7; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Profile_profile_department_id_eee178e7" ON public."Profile_profile" USING btree (department_id);
+
+
+--
+-- Name: Profile_profile_first_Reporting_Manager_id_64f9df34; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Profile_profile_first_Reporting_Manager_id_64f9df34" ON public."Profile_profile" USING btree ("first_Reporting_Manager_id");
+
+
+--
+-- Name: Profile_qualifications_employee_id_c375f548; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Profile_qualifications_employee_id_c375f548" ON public."Profile_qualifications" USING btree (employee_id);
+
+
+--
+-- Name: Ticketing_ticket_comments_ticket_id_3e9811ca; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Ticketing_ticket_comments_ticket_id_3e9811ca" ON public."Ticketing_ticket_comments" USING btree (ticket_id);
+
+
+--
+-- Name: Ticketing_ticket_comments_user_id_2376d04a; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Ticketing_ticket_comments_user_id_2376d04a" ON public."Ticketing_ticket_comments" USING btree (user_id);
+
+
+--
+-- Name: Ticketing_ticket_created_by_id_a8b998fe; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Ticketing_ticket_created_by_id_a8b998fe" ON public."Ticketing_ticket" USING btree (created_by_id);
+
+
+--
+-- Name: Trainings_apply_trainings_employee_id_01b3fb06; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Trainings_apply_trainings_employee_id_01b3fb06" ON public."Trainings_apply_trainings" USING btree (employee_id);
+
+
+--
+-- Name: Trainings_apply_trainings_training_id_be7f02b3; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Trainings_apply_trainings_training_id_be7f02b3" ON public."Trainings_apply_trainings" USING btree (training_id);
+
+
+--
+-- Name: Trainings_career_discussion_employee_id_3f0de8f9; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Trainings_career_discussion_employee_id_3f0de8f9" ON public."Trainings_career_discussion" USING btree (employee_id);
+
+
+--
+-- Name: Trainings_career_discussion_user_appraisal_id_d3022616; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Trainings_career_discussion_user_appraisal_id_d3022616" ON public."Trainings_career_discussion" USING btree (user_appraisal_id);
+
+
+--
+-- Name: Trainings_skills_appraisal_id_cd1ae658; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Trainings_skills_appraisal_id_cd1ae658" ON public."Trainings_skills" USING btree (appraisal_id);
+
+
+--
+-- Name: Trainings_skills_employee_id_3fda8559; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Trainings_skills_employee_id_3fda8559" ON public."Trainings_skills" USING btree (employee_id);
+
+
+--
+-- Name: Trainings_skills_skill_category_id_8fa3e7c9; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Trainings_skills_skill_category_id_8fa3e7c9" ON public."Trainings_skills" USING btree (skill_category_id);
+
+
+--
+-- Name: Trainings_survey_trainings_training_id_316c804a; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Trainings_survey_trainings_training_id_316c804a" ON public."Trainings_survey_trainings" USING btree (training_id);
+
+
+--
+-- Name: Trainings_training_courses_skill_category_id_46a04102; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Trainings_training_courses_skill_category_id_46a04102" ON public."Trainings_training_courses" USING btree (skill_category_id);
+
+
+--
+-- Name: Trainings_trainings_skill_category_id_2d85711f; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "Trainings_trainings_skill_category_id_2d85711f" ON public."Trainings_trainings" USING btree (skill_category_id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: thumbnail_kvstore_key_3f850178_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX thumbnail_kvstore_key_3f850178_like ON public.thumbnail_kvstore USING btree (key varchar_pattern_ops);
+
+
+--
+-- Name: Appraisals_appraisal Appraisals_appraisal_created_by_id_3e175c99_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_appraisal"
+    ADD CONSTRAINT "Appraisals_appraisal_created_by_id_3e175c99_fk_Profile_p" FOREIGN KEY (created_by_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_appraisal Appraisals_appraisal_employee_list_id_68c88d6d_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_appraisal"
+    ADD CONSTRAINT "Appraisals_appraisal_employee_list_id_68c88d6d_fk_Appraisal" FOREIGN KEY (employee_list_id) REFERENCES public."Appraisals_user_appraisal_list"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_appraisal Appraisals_appraisal_manager_id_a46f0385_fk_Profile_profile_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_appraisal"
+    ADD CONSTRAINT "Appraisals_appraisal_manager_id_a46f0385_fk_Profile_profile_id" FOREIGN KEY (manager_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_appraisal Appraisals_appraisal_rating_scale_id_9524c390_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_appraisal"
+    ADD CONSTRAINT "Appraisals_appraisal_rating_scale_id_9524c390_fk_Appraisal" FOREIGN KEY (rating_scale_id) REFERENCES public."Appraisals_rating_scale"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_appraisal Appraisals_appraisal_user_id_d49ce642_fk_Profile_profile_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_appraisal"
+    ADD CONSTRAINT "Appraisals_appraisal_user_id_d49ce642_fk_Profile_profile_id" FOREIGN KEY (user_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_overall_appraisal Appraisals_overall_a_appraisal_category_i_a8a548aa_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_overall_appraisal"
+    ADD CONSTRAINT "Appraisals_overall_a_appraisal_category_i_a8a548aa_fk_Appraisal" FOREIGN KEY (appraisal_category_id) REFERENCES public."Appraisals_appraisal_category"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_peerappraisal Appraisals_peerappra_appraisal_id_28d7ec5a_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_peerappraisal"
+    ADD CONSTRAINT "Appraisals_peerappra_appraisal_id_28d7ec5a_fk_Appraisal" FOREIGN KEY (appraisal_id) REFERENCES public."Appraisals_user_appraisal_list"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_peerappraisalquestion Appraisals_peerappra_appraisal_id_2b7db054_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_peerappraisalquestion"
+    ADD CONSTRAINT "Appraisals_peerappra_appraisal_id_2b7db054_fk_Appraisal" FOREIGN KEY (appraisal_id) REFERENCES public."Appraisals_peerappraisal"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_peerappraisal Appraisals_peerappra_created_by_id_5d13bf1c_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_peerappraisal"
+    ADD CONSTRAINT "Appraisals_peerappra_created_by_id_5d13bf1c_fk_Profile_p" FOREIGN KEY (created_by_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_peerappraisal Appraisals_peerappra_manager_id_a1f5a6f1_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_peerappraisal"
+    ADD CONSTRAINT "Appraisals_peerappra_manager_id_a1f5a6f1_fk_Profile_p" FOREIGN KEY (manager_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_peerappraisal Appraisals_peerappra_viewer_id_e8b84916_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_peerappraisal"
+    ADD CONSTRAINT "Appraisals_peerappra_viewer_id_e8b84916_fk_Profile_p" FOREIGN KEY (viewer_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_user_appraisal_list Appraisals_user_appr_appraisal_category_i_6c4ae8cd_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_user_appraisal_list"
+    ADD CONSTRAINT "Appraisals_user_appr_appraisal_category_i_6c4ae8cd_fk_Appraisal" FOREIGN KEY (appraisal_category_id) REFERENCES public."Appraisals_appraisal_category"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_user_appraisal_list Appraisals_user_appr_employee_id_da7a4baa_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_user_appraisal_list"
+    ADD CONSTRAINT "Appraisals_user_appr_employee_id_da7a4baa_fk_Profile_p" FOREIGN KEY (employee_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_user_appraisal_list Appraisals_user_appr_manager_id_ecd68e59_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_user_appraisal_list"
+    ADD CONSTRAINT "Appraisals_user_appr_manager_id_ecd68e59_fk_Profile_p" FOREIGN KEY (manager_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Appraisals_user_appraisal_list Appraisals_user_appr_overall_appraisal_id_ba7766ac_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Appraisals_user_appraisal_list"
+    ADD CONSTRAINT "Appraisals_user_appr_overall_appraisal_id_ba7766ac_fk_Appraisal" FOREIGN KEY (overall_appraisal_id) REFERENCES public."Appraisals_overall_appraisal"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_competencies GnC_competencies_appraisal_id_4538b174_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_competencies"
+    ADD CONSTRAINT "GnC_competencies_appraisal_id_4538b174_fk_Appraisal" FOREIGN KEY (appraisal_id) REFERENCES public."Appraisals_user_appraisal_list"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_competencies GnC_competencies_competency_category__307d3c08_fk_GnC_compe; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_competencies"
+    ADD CONSTRAINT "GnC_competencies_competency_category__307d3c08_fk_GnC_compe" FOREIGN KEY (competency_category_id) REFERENCES public."GnC_competency_category"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_competencies GnC_competencies_employee_id_82fd6ae3_fk_Profile_profile_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_competencies"
+    ADD CONSTRAINT "GnC_competencies_employee_id_82fd6ae3_fk_Profile_profile_id" FOREIGN KEY (employee_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_competency_comment GnC_competency_comme_competency_id_66c3fc44_fk_GnC_compe; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_competency_comment"
+    ADD CONSTRAINT "GnC_competency_comme_competency_id_66c3fc44_fk_GnC_compe" FOREIGN KEY (competency_id) REFERENCES public."GnC_competencies"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_competency_comment GnC_competency_comme_created_by_id_b6295ed5_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_competency_comment"
+    ADD CONSTRAINT "GnC_competency_comme_created_by_id_b6295ed5_fk_Profile_p" FOREIGN KEY (created_by_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_competencies GnC_departmental_com_appraisal_id_a82557cf_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_competencies"
+    ADD CONSTRAINT "GnC_departmental_com_appraisal_id_a82557cf_fk_Appraisal" FOREIGN KEY (appraisal_id) REFERENCES public."Appraisals_overall_appraisal"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_competencies GnC_departmental_com_competency_category__0a050889_fk_GnC_compe; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_competencies"
+    ADD CONSTRAINT "GnC_departmental_com_competency_category__0a050889_fk_GnC_compe" FOREIGN KEY (competency_category_id) REFERENCES public."GnC_competency_category"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_competencies_comment GnC_departmental_com_created_by_id_588e99d3_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_competencies_comment"
+    ADD CONSTRAINT "GnC_departmental_com_created_by_id_588e99d3_fk_Profile_p" FOREIGN KEY (created_by_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_competencies GnC_departmental_com_department_id_7cbe1345_fk_Profile_d; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_competencies"
+    ADD CONSTRAINT "GnC_departmental_com_department_id_7cbe1345_fk_Profile_d" FOREIGN KEY (department_id) REFERENCES public."Profile_departments"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_competencies_comment GnC_departmental_com_departmental_compete_cdc829d6_fk_GnC_depar; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_competencies_comment"
+    ADD CONSTRAINT "GnC_departmental_com_departmental_compete_cdc829d6_fk_GnC_depar" FOREIGN KEY (departmental_competencies_id) REFERENCES public."GnC_departmental_competencies"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_competencies GnC_departmental_com_manager_id_90ca0401_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_competencies"
+    ADD CONSTRAINT "GnC_departmental_com_manager_id_90ca0401_fk_Profile_p" FOREIGN KEY (manager_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_goals GnC_departmental_goa_appraisal_id_622e3b20_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_goals"
+    ADD CONSTRAINT "GnC_departmental_goa_appraisal_id_622e3b20_fk_Appraisal" FOREIGN KEY (appraisal_id) REFERENCES public."Appraisals_overall_appraisal"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_goal_comment GnC_departmental_goa_created_by_id_5debfbed_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_goal_comment"
+    ADD CONSTRAINT "GnC_departmental_goa_created_by_id_5debfbed_fk_Profile_p" FOREIGN KEY (created_by_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_goals GnC_departmental_goa_department_id_435bc3fd_fk_Profile_d; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_goals"
+    ADD CONSTRAINT "GnC_departmental_goa_department_id_435bc3fd_fk_Profile_d" FOREIGN KEY (department_id) REFERENCES public."Profile_departments"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_goal_comment GnC_departmental_goa_departmental_goal_id_a50df18e_fk_GnC_depar; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_goal_comment"
+    ADD CONSTRAINT "GnC_departmental_goa_departmental_goal_id_a50df18e_fk_GnC_depar" FOREIGN KEY (departmental_goal_id) REFERENCES public."GnC_departmental_goals"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_goals GnC_departmental_goa_goal_category_id_1e2af518_fk_GnC_goal_; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_goals"
+    ADD CONSTRAINT "GnC_departmental_goa_goal_category_id_1e2af518_fk_GnC_goal_" FOREIGN KEY (goal_category_id) REFERENCES public."GnC_goal_category"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_departmental_goals GnC_departmental_goa_manager_id_3a87871e_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_departmental_goals"
+    ADD CONSTRAINT "GnC_departmental_goa_manager_id_3a87871e_fk_Profile_p" FOREIGN KEY (manager_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_goal_comment GnC_goal_comment_created_by_id_7bb27831_fk_Profile_profile_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_goal_comment"
+    ADD CONSTRAINT "GnC_goal_comment_created_by_id_7bb27831_fk_Profile_profile_id" FOREIGN KEY (created_by_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_goal_comment GnC_goal_comment_goal_id_d65b24f7_fk_GnC_goals_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_goal_comment"
+    ADD CONSTRAINT "GnC_goal_comment_goal_id_d65b24f7_fk_GnC_goals_id" FOREIGN KEY (goal_id) REFERENCES public."GnC_goals"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_goals GnC_goals_appraisal_id_f27b997d_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_goals"
+    ADD CONSTRAINT "GnC_goals_appraisal_id_f27b997d_fk_Appraisal" FOREIGN KEY (appraisal_id) REFERENCES public."Appraisals_user_appraisal_list"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_goals GnC_goals_employee_id_13965219_fk_Profile_profile_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_goals"
+    ADD CONSTRAINT "GnC_goals_employee_id_13965219_fk_Profile_profile_id" FOREIGN KEY (employee_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_goals GnC_goals_goal_category_id_a9e9cdc9_fk_GnC_goal_category_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_goals"
+    ADD CONSTRAINT "GnC_goals_goal_category_id_a9e9cdc9_fk_GnC_goal_category_id" FOREIGN KEY (goal_category_id) REFERENCES public."GnC_goal_category"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: GnC_kpi GnC_kpi_goal_id_4121a0f5_fk_GnC_goals_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."GnC_kpi"
+    ADD CONSTRAINT "GnC_kpi_goal_id_4121a0f5_fk_GnC_goals_id" FOREIGN KEY (goal_id) REFERENCES public."GnC_goals"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Profile_departments Profile_departments_manager_id_e97442f4_fk_Profile_profile_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_departments"
+    ADD CONSTRAINT "Profile_departments_manager_id_e97442f4_fk_Profile_profile_id" FOREIGN KEY (manager_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Profile_profile Profile_profile_department_id_eee178e7_fk_Profile_d; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_profile"
+    ADD CONSTRAINT "Profile_profile_department_id_eee178e7_fk_Profile_d" FOREIGN KEY (department_id) REFERENCES public."Profile_departments"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Profile_profile Profile_profile_first_Reporting_Mana_64f9df34_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_profile"
+    ADD CONSTRAINT "Profile_profile_first_Reporting_Mana_64f9df34_fk_Profile_p" FOREIGN KEY ("first_Reporting_Manager_id") REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Profile_profile Profile_profile_user_id_957ea2e4_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_profile"
+    ADD CONSTRAINT "Profile_profile_user_id_957ea2e4_fk_auth_user_id" FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Profile_qualifications Profile_qualificatio_employee_id_c375f548_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Profile_qualifications"
+    ADD CONSTRAINT "Profile_qualificatio_employee_id_c375f548_fk_Profile_p" FOREIGN KEY (employee_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Ticketing_ticket_comments Ticketing_ticket_com_ticket_id_3e9811ca_fk_Ticketing; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Ticketing_ticket_comments"
+    ADD CONSTRAINT "Ticketing_ticket_com_ticket_id_3e9811ca_fk_Ticketing" FOREIGN KEY (ticket_id) REFERENCES public."Ticketing_ticket"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Ticketing_ticket_comments Ticketing_ticket_com_user_id_2376d04a_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Ticketing_ticket_comments"
+    ADD CONSTRAINT "Ticketing_ticket_com_user_id_2376d04a_fk_Profile_p" FOREIGN KEY (user_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Ticketing_ticket Ticketing_ticket_created_by_id_a8b998fe_fk_Profile_profile_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Ticketing_ticket"
+    ADD CONSTRAINT "Ticketing_ticket_created_by_id_a8b998fe_fk_Profile_profile_id" FOREIGN KEY (created_by_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Trainings_apply_trainings Trainings_apply_trai_employee_id_01b3fb06_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_apply_trainings"
+    ADD CONSTRAINT "Trainings_apply_trai_employee_id_01b3fb06_fk_Profile_p" FOREIGN KEY (employee_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Trainings_apply_trainings Trainings_apply_trai_training_id_be7f02b3_fk_Trainings; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_apply_trainings"
+    ADD CONSTRAINT "Trainings_apply_trai_training_id_be7f02b3_fk_Trainings" FOREIGN KEY (training_id) REFERENCES public."Trainings_trainings"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Trainings_career_discussion Trainings_career_dis_employee_id_3f0de8f9_fk_Profile_p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_career_discussion"
+    ADD CONSTRAINT "Trainings_career_dis_employee_id_3f0de8f9_fk_Profile_p" FOREIGN KEY (employee_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Trainings_career_discussion Trainings_career_dis_user_appraisal_id_d3022616_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_career_discussion"
+    ADD CONSTRAINT "Trainings_career_dis_user_appraisal_id_d3022616_fk_Appraisal" FOREIGN KEY (user_appraisal_id) REFERENCES public."Appraisals_user_appraisal_list"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Trainings_skills Trainings_skills_appraisal_id_cd1ae658_fk_Appraisal; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_skills"
+    ADD CONSTRAINT "Trainings_skills_appraisal_id_cd1ae658_fk_Appraisal" FOREIGN KEY (appraisal_id) REFERENCES public."Appraisals_user_appraisal_list"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Trainings_skills Trainings_skills_employee_id_3fda8559_fk_Profile_profile_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_skills"
+    ADD CONSTRAINT "Trainings_skills_employee_id_3fda8559_fk_Profile_profile_id" FOREIGN KEY (employee_id) REFERENCES public."Profile_profile"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Trainings_skills Trainings_skills_skill_category_id_8fa3e7c9_fk_Trainings; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_skills"
+    ADD CONSTRAINT "Trainings_skills_skill_category_id_8fa3e7c9_fk_Trainings" FOREIGN KEY (skill_category_id) REFERENCES public."Trainings_skill_category"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Trainings_survey_trainings Trainings_survey_tra_training_id_316c804a_fk_Trainings; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_survey_trainings"
+    ADD CONSTRAINT "Trainings_survey_tra_training_id_316c804a_fk_Trainings" FOREIGN KEY (training_id) REFERENCES public."Trainings_trainings"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Trainings_training_courses Trainings_training_c_skill_category_id_46a04102_fk_Trainings; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_training_courses"
+    ADD CONSTRAINT "Trainings_training_c_skill_category_id_46a04102_fk_Trainings" FOREIGN KEY (skill_category_id) REFERENCES public."Trainings_skill_category"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Trainings_trainings Trainings_trainings_skill_category_id_2d85711f_fk_Trainings; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Trainings_trainings"
+    ADD CONSTRAINT "Trainings_trainings_skill_category_id_2d85711f_fk_Trainings" FOREIGN KEY (skill_category_id) REFERENCES public."Trainings_skill_category"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

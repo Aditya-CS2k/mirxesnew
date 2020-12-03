@@ -1,0 +1,37 @@
+{%extends 'Appraisals/HuNet_CreateOverallApp_Stage1.html'%}
+
+{%block instructions%}
+<!--bubble url-->
+<div id="line"></div>
+<div class = "row button-row m-0">
+    <a href=""><button type = "button" class = "btn">1</button></a>
+    <a href=""><button type = "button" class = "btn">2</button></a>
+    <a href=""><button type = "button" class = "btn activebtn">3</button></a>
+<!--    <a href=""><button type = "button" class = "btn" title = "Coming Soon">4</button></a>-->
+</div>
+<div class = "row button-name-row justify-content-between m-0">
+    <span>Define Appraisal Group</span>
+    <span>Set Appraisal Milestone Dates</span>
+    <span>Define Score Appraisal Weightages</span>
+<!--    <span>Summary<br>(Coming Soon)</span>-->
+</div>
+<!--end of bubble url-->
+
+<br>
+
+<div class = "card card-body mb-0 pb-0">
+    <ol>
+        <strong>Instructions:</strong>
+        <li>Assign the weightages for Business Objectives, MiRXES Behaviours Blueprint & Skills respectively</li>
+        <li>Click "Submit"</li>
+    </ol>
+</div>
+
+<br>
+{%endblock%}
+{%block selectemployee %}
+{%endblock%}
+
+<a href = "{% url 'user_homepage'%}" class = "btn btn-danger mr-2" type = "button" value = "Cancel">Cancel</a>
+                        <input class = "btn btn-primary" type = 'submit' value = "Submit">
+

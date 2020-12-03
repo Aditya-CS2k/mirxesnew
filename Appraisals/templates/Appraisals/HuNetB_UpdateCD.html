@@ -1,0 +1,44 @@
+{%extends 'Appraisals/HuNet_UpdateCD.html'%}
+{%block bubbleurl%}
+    <div id="line"></div>
+    <div class = "row button-row"  style = "margin: 0">
+    <a href="{% url 'Appraisals:Update_AppraisalG_B' user_app.id %}"><button type = "button" class = "btn">1</button></a>
+    <a href="{% url 'Appraisals:Update_AppraisalC_B' user_app.id %}"><button type = "button" class = "btn">2</button></a>
+    <a href="{% url 'Appraisals:Update_AppraisalCareer_B' user_app.id %}"><button type = "button" class = "btn activebtn">3</button></a>
+    <a href="{% url 'Appraisals:Update_AppraisalS_B' user_app.id %}"><button type = "button" class = "btn">4</button></a>
+    <a href="{% url 'Appraisals:Update_Appraisal_B' user_app.id %}"><button type = "button" class = "btn">5</button></a>
+    </div> 
+    <div class = "row button-name-row justify-content-between m-0">
+        <span>Personal Business Objectives Rating</span>
+        <span>MiRXES Behaviours Blueprint Rating</span>
+        <span>Performance Summary</span>
+        <span>Recommendations by HR</span>
+        <span>Summary</span>
+    </div>
+{%endblock%}
+
+
+{%block careerquestions%}
+Summarize the employee's achievement against objectives<br>
+<div class = "card card-body col-10">
+{{user_career_discussion.Q1}} <br><br>
+</div><br>
+Summary on Strengths<br>
+<div class = "card card-body col-10">
+{{user_career_discussion.Q2}} <br><br>
+</div><br>
+Developmental Plan/ Needs(Actions and Timing)<br>
+<div class = "card card-body col-10">
+{{user_career_discussion.Q3}} <br><br>
+</div><br>
+Potential next moves
+<p>The Purpose of the Performance Appraisal Summary is to aid in the assessment of your performance and the development of your career at MiRXES.It is not a promise or contract,expressed or implied, of continued employment or promotion</p>
+<p>Short Term: 0-2 years</p><br>
+<div class = "card card-body col-10">
+{{user_career_discussion.Q4}} <br><br>
+</div><br>
+Longer Term: 3-5 years<br>
+<div class = "card card-body col-10">
+{{user_career_discussion.Q5}} <br><br>
+</div><br>
+{%endblock%}

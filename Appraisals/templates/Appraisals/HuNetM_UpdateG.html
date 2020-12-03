@@ -1,0 +1,43 @@
+{%extends 'Appraisals/HuNet_UpdateG.html'%}
+{%load static%}
+{%block heading%}<h4 class = "heading"> Supervisor/Manager-Rating: Personal Business Objectives</h4>
+<p>The line manager should identify objectives for the employee during the probationary period.
+		   These will be statements of what should be achieved during this period,including indicators of success and timescales for achievement.
+                        Ensure they are specific, measurable, achievable, realistic,timed and prioritised</p>{%endblock%}
+
+{%block bubbleurl%}
+    <div id="line"></div>
+    <div class = "row button-row"  style = "margin: 0">
+    <a href="{% url 'Appraisals:Update_AppraisalG_M' employee_appraisal.id %}"><button type = "button" class = "btn activebtn">1</button></a>
+    <a href="{% url 'Appraisals:Update_AppraisalC_M' employee_appraisal.id %}"><button type = "button" class = "btn">2</button></a>
+    <a href="{% url 'Appraisals:Update_AppraisalCareer_M' employee_appraisal.id %}"><button type = "button" class = "btn">3</button></a>
+        <a href="{% url 'Appraisals:Update_AppraisalS_M' employee_appraisal.id %}"><button type = "button" class = "btn">4</button></a>
+    <a href="{% url 'Appraisals:Update_Appraisal_M' employee_appraisal.id %}"><button type = "button" class = "btn">5</button></a>
+    </div>
+    <div class = "row button-name-row justify-content-between m-0">
+        <span>Personal Business Objectives Rating</span>
+        <span>MiRXES Behaviours Blueprint Rating</span>
+        <span>Performance Summary</span>
+        <span>Recommendations by HR</span>
+        <span>Summary</span>
+
+    </div>
+{%endblock%}
+
+{%block rejectioncomments%}
+<br>
+
+<div class = "alert alert-warning">
+    <h6 class = "alert-heading">
+        HR Comments: 
+    </h6>   
+    <hr>
+    {%if employee_appraisal.appraisalHR_rejection == 'NIL' %}
+    {%else%}
+
+    {{employee_appraisal.appraisalHR_rejection}}
+    {%endif%}
+</div>
+{%endblock%}
+
+

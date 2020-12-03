@@ -1,0 +1,277 @@
+
+<!--Inherit HTML from parent class 'sidenav'-->
+{%extends 'homepage.html'%}
+
+<!--Load static is to load static files (HTML/CSS/Js)-->
+{%load static%}
+{% load crispy_forms_tags %}
+<!--To inform website version of HTML-->
+<!DOCTYPE html>
+<!--Inform website of language of HTML-->
+<html lang="en">
+<!--Header-->
+<head>
+    <!--HTML inheritance: overriding parent class title block(Django exclusive)-->
+    <title>{%block title%}Rating - Behavioural Competencies{%endblock%}</title>
+
+    {%block script1%}
+    <link rel = "stylesheet" type="text/css" href = "{% static 'Appraisals/HuNet_UpdateGCS.css' %}">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--font-->
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@600&display=swap" rel="stylesheet"> <!--hind-->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> <!--open sans-->
+
+    {%endblock%}
+</head>
+<body>
+    {%block content%}
+
+    <div class = "container col-10">
+        <br>
+        <div class = "card">
+
+            <div class = "card-body">
+                {%block bubbleurl%}
+                <div id="line"></div>
+                <div class = "row button-row"  style = "margin: 0">
+                    <a href="{% url 'Appraisals:Update_AppraisalG' employee_appraisal.id %}"><button type = "button" class = "btn">1</button></a>
+                    <a href="{% url 'Appraisals:Update_AppraisalC' employee_appraisal.id %}"><button type = "button" class = "btn activebtn">2</button></a>
+                    <a href="{% url 'Appraisals:Update_AppraisalCareer' employee_appraisal.id %}"><button type = "button" class = "btn">3</button></a>
+
+                    <a href="{% url 'Appraisals:Update_Appraisal' employee_appraisal.id %}"><button type = "button" class = "btn">4</button></a>
+<!--                    <a href="{% url 'Appraisals:Update_Appraisal' employee_appraisal.id %}"><button type = "button" class = "btn">6</button></a>-->
+                </div>
+                <div class = "row button-name-row justify-content-between m-0">
+                    <span>Business Objectives Rating</span>
+                    <span>MiRXES Behaviours Rating</span>
+                    <span>Performance Summary</span>
+                    
+                    <span>Summary</span>
+                </div>
+
+
+                <br>
+                <p class="mirxes">MiRXES Behaviours Blueprint</p>
+              	<form action='' method = "POST" enctype= "multipart/form-data">
+              		{%csrf_token%}
+              	<table class="table table-bordered ">
+              		<thead>
+              			<th>Behaviours</th>
+              			<th>1</th>
+              			<th>2</th>
+              			<th>3</th>
+              			<th>4</th>
+              			<th>5</th>
+              		</thead>
+              		<tbody>
+              			<tr >
+              				<td>Think Strategically</td>
+              				<td><input type="radio" class="radio" value="1" name = 'f1'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f1'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f1'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f1'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f1'/>    &nbsp;   </td>
+              			</tr>
+
+
+              			<tr>
+              				<td>Drive Innovation</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f2' />    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f2'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3"  name = 'f2'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4"  name = 'f2'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f2'/>    &nbsp;   </td>
+              			</tr>
+
+                          <tr>
+              				<td>Customer Driven</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f3'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f3'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f3'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f3'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f3'/>    &nbsp;   </td>
+              			</tr>
+
+                           <tr>
+              				<td>Can Do – Will Do</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f4'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f4'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f4'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f4'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f4'/>    &nbsp;   </td>
+              			</tr>
+
+                           <tr>
+              				<td>Lead with Integrity</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f5'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f5'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f5'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f5'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f5'/>    &nbsp;   </td>
+              			</tr>
+
+                           <tr>
+              				<td>Deliver Results</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f6'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f6'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f6'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f6'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f6'/>    &nbsp;   </td>
+              			</tr>
+
+                           <tr>
+              				<td>Connect</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f7'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f7'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f7'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f7'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f7'/>    &nbsp;   </td>
+              			</tr>
+
+                           <tr>
+              				<td>Learn</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f8'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f8'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f8'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f8'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f8'/>    &nbsp;   </td>
+              			</tr>
+
+                           <tr>
+              				<td>Improve</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f9'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f9'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f9'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f9'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f9'/>    &nbsp;   </td>
+              			</tr>
+
+                            <tr>
+              				<td>Leadership</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f10'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f10'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f10'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f10'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f10'/>    &nbsp;   </td>
+              			</tr>
+
+                            <tr>
+              				<td class="newbold"><b>Performance vs Behaviours</b></td>
+              				<td colspan="5"></td>
+              			</tr>
+              			  <tr>
+              				<td>Achievement of operational targets including lean</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f11'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f11'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f11'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f11'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f11'/>    &nbsp;   </td>
+              			</tr>
+              			 <tr>
+              				<td>Achievement of financial targets including forecasting accuracy</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f12'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f12'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f12'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f12'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f12'/>    &nbsp;   </td>
+              			</tr>
+                           <tr>
+              				<td>People related issues including diversity </td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f13'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f13'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f13'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f13'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f13'/>    &nbsp;   </td>
+              			</tr>
+                            <tr>
+              				<td>Achievement of operational targets including lean</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f14'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f14'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f14'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f14'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f14'/>    &nbsp;   </td>
+              			</tr>
+                           <tr>
+              				<td>Implementation of PM (project management) processes</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f15'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f15'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f15'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f15'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f15'/>    &nbsp;   </td>
+              			</tr>
+              			  <tr>
+              				<td>Progress to achieve operational best practice</td>
+              				<td><input type="radio" class="radio" value="1"  name = 'f16'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="2" name = 'f16'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="3" name = 'f16'/>    &nbsp;   </td>
+                              <td><input type="radio" class="radio" value="4" name = 'f16'/>    &nbsp;   </td>
+              				<td><input type="radio" class="radio" value="5" name = 'f16'/>    &nbsp;   </td>
+              			</tr>
+
+
+
+
+
+
+
+
+              		</tbody>
+              	</table>
+                <div class = "row m-0 justify-content-end">
+                    <input class = "btn btn-warning mr-2" type = 'submit' value = "Calculate" name= 'calculate'>
+                    <input class = "btn btn-primary" type = 'submit' value = "Next" name= 'send'>
+                </div>
+              </form>
+
+                <!-- <tr>{{ request.path }}</tr>
+                <form  method="POST" class="post-form">
+                  {% csrf_token %}
+
+                  {{form|crispy}}
+
+                  <div class = "row m-0 justify-content-end">
+                      <input class = "btn btn-warning mr-2" type = 'submit' value = "Calculate" name= 'calculate'>
+                      <input class = "btn btn-primary" type = 'submit' value = "Next" name= 'send'>
+                  </div>
+
+                </form> -->
+                <!--HTML form, action on current page, use 'POST' method (secure)-->
+                <!-- <form method = "POST" enctype= "multipart/form-data">
+
+                    {{ competencies_formset.management_form }}
+                    {%csrf_token%}
+                    <h4 class = "heading"> Employee's Rating: MiRXES Behaviours </h4>
+
+
+
+
+                        {% for form in competencies_formset %}
+                        <div class = "card card-body form-card">
+                            {{form.as_p}}
+
+                        </div>
+
+                        <br><br>
+                        {%endfor%}
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class = "row m-0 justify-content-end">
+                        <input class = "btn btn-warning mr-2" type = 'submit' value = "Calculate" name= 'calculate'>
+                        <input class = "btn btn-primary" type = 'submit' value = "Next" name= 'send'>
+                    </div>
+                </form> -->
+            </div>
+        </div>
+    </div>
+    {%endblock%}
+    {%endblock%}
+</body>
+</html>
